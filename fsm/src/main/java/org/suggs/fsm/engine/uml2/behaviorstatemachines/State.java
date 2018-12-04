@@ -1,9 +1,7 @@
 package org.suggs.fsm.engine.uml2.behaviorstatemachines;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.suggs.fsm.common.StringStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.engine.uml2.kernel.Namespace;
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
 import org.suggs.fsm.uml2.behaviorstatemachines.IPseudoState;
@@ -24,11 +22,9 @@ import org.suggs.fsm.uml2.scribe.runtime.IStateMachineContext;
 
 import java.util.*;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 public class State extends Vertex implements IState {
 
-    private static final Log LOG = LogFactory.getLog(State.class);
+    private static final Logger LOG = LoggerFactory.getLogger(State.class);
 
     private INamespace namespaceFacet_;
 
@@ -233,7 +229,7 @@ public class State extends Vertex implements IState {
                     .append(eventContext.getEvent().getType()).append("], in state [")
                     .append(this.getName()).append("]");
 
-            LOG.info(msg);
+            LOG.info(msg.toString());
             throw new UnprocessableEventException(msg.toString());
         } else {
             /*
@@ -280,7 +276,7 @@ public class State extends Vertex implements IState {
                             }
                             msg.append("]");
 
-                            LOG.error(msg);
+                            LOG.error(msg.toString());
                             throw new ConflictingTransitionsException(msg.toString());
                         }
                     }
@@ -846,13 +842,17 @@ public class State extends Vertex implements IState {
      * Returns a String representation of this object using the
      * default toString style.
      */
-    public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).appendSuper(super.toString())
-                .append("entryBehavior", getEntryBehavior())
-                .append("exitBehavior", getExitBehavior())
-                .append("stateEntryListeners", stateEntryListeners_)
-                .append("namespaceFacet", namespaceFacet_)
-                .toString();
-    }
+//    @Override
+//    public String toString() {
+//        return "State{" +
+//                "namespaceFacet_=" + namespaceFacet_ +
+//                ", entryBehavior_=" + entryBehavior_ +
+//                ", exitBehavior_=" + exitBehavior_ +
+//                ", region_=" + region_ +
+//                ", deferrableTriggers_=" + deferrableTriggers_ +
+//                ", stateBehaviour_=" + stateBehaviour_ +
+//                ", stateEntryListeners_=" + stateEntryListeners_ +
+//                '}';
+//    }
 
 }

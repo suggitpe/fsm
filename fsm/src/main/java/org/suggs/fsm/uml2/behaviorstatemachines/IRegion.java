@@ -23,24 +23,24 @@ public interface IRegion extends INamespace, IOptimisable, IEntryReporter {
      * transitions to the owned memebers of this region and also sets
      * the namespace and container of the vertices to be this region.
      */
-    void setTransitions(Set transitions);
+    void setTransitions(Set<ITransition> transitions);
 
     /**
      * @return The transitions owned by this region.
      */
-    Set getTransitions();
+    Set<ITransition> getTransitions();
 
     /**
      * Sets the vertices owned by this region. The method adds the
      * vertices to the owned memebers of this region and also sets the
      * namespace and container of the vertices to be this region.
      */
-    void setSubVertices(Set vertices);
+    void setSubVertices(Set<IState> vertices);
 
     /**
      * @return The vertices owned by this region
      */
-    Set getSubVertices();
+    Set<IState> getSubVertices();
 
     /**
      * Sets the state machine that owns this region.

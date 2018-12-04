@@ -1,8 +1,7 @@
 package org.suggs.fsm.engine.uml2.behaviorstatemachines;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.engine.uml2.basicbehaviors.Behavior;
 import org.suggs.fsm.uml2.behaviorstatemachines.IPseudoState;
 import org.suggs.fsm.uml2.behaviorstatemachines.IRegion;
@@ -15,13 +14,11 @@ import org.suggs.fsm.uml2.scribe.optimisation.IModelOptimiser;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 public class StateMachine extends Behavior implements IStateMachine {
 
     private IRegion ownedRegion_ = null;
 
-    private static final Log LOG = LogFactory.getLog(StateMachine.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StateMachine.class);
 
     public IRegion getOwnedRegion() {
         return ownedRegion_;
@@ -85,7 +82,10 @@ public class StateMachine extends Behavior implements IStateMachine {
      * Returns a String representation of this object using the
      * default toString style.
      */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).appendSuper(super.toString()).toString();
+        return "StateMachine{" +
+                "ownedRegion_=" + ownedRegion_.getState() +
+                '}';
     }
 }

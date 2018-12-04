@@ -1,0 +1,25 @@
+@startuml
+
+class BehavioredClassifier
+interface IBehavior
+interface IStateMachine
+class StateMachine
+interface IRegion
+class Region
+interface IVertex
+class Vertex
+interface ITransition
+class Transition
+
+BehavioredClassifier *- IBehavior
+IBehavior <.. IStateMachine
+IStateMachine <.. StateMachine
+StateMachine *- IRegion
+IRegion <.. Region
+Region *- IVertex
+IVertex <.. Vertex
+Region *- ITransition
+ITransition <.. Transition
+
+
+@enduml

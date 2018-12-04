@@ -3,6 +3,7 @@ package org.suggs.fsm.uml2.behaviorstatemachines;
 import org.suggs.fsm.engine.IEventProcessor;
 import org.suggs.fsm.event.IEvent;
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
+import org.suggs.fsm.uml2.communications.ITrigger;
 import org.suggs.fsm.uml2.kernel.INamespace;
 import org.suggs.fsm.uml2.scribe.runtime.IEnterable;
 import org.suggs.fsm.uml2.scribe.runtime.IEntryReporter;
@@ -114,13 +115,13 @@ public interface IState extends INamespace, IVertex, IEnterable, IExitable, IEnt
      * candidates to be retained by the state machine if they
      * trigger no transitions out of this state.
      */
-    Set getDeferrableTriggers();
+    Set<ITrigger> getDeferrableTriggers();
 
     /**
      * Sets the set of triggers for the events which are deferrable by
      * this state.
      */
-    void setDeferrableTriggers(Set triggerList);
+    void setDeferrableTriggers(Set<ITrigger> triggerList);
 
     /**
      * Returns true if the passed event is a deferrable event by this

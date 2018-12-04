@@ -1,8 +1,7 @@
 package org.suggs.fsm.engine.uml2.behaviorstatemachines;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.uml2.behaviorstatemachines.IPseudoState;
 import org.suggs.fsm.uml2.behaviorstatemachines.IState;
 import org.suggs.fsm.uml2.behaviorstatemachines.ITransition;
@@ -18,8 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 /**
  * Implemenation of the UML PseudoState class as per UML Modeling
  * Language: Superstructure Version 2.0 formal/05-07-04. Pseudostates
@@ -28,7 +25,7 @@ import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
  */
 public class PseudoState extends Vertex implements IPseudoState {
 
-    private static final Log LOG = LogFactory.getLog(PseudoState.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PseudoState.class);
 
     /**
      * The behavior provider for this pseudostate.
@@ -288,9 +285,10 @@ public class PseudoState extends Vertex implements IPseudoState {
      * Returns a String representation of this object using the
      * default toString style.
      */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).appendSuper(super.toString())
-                .append("pseudoStateKind", getPseudoStateKind())
-                .toString();
+        return "PseudoState{" +
+                "pseudoStateBehaviour_=" + pseudoStateBehaviour_ +
+                '}';
     }
 }

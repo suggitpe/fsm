@@ -5,11 +5,9 @@
  */
 package org.suggs.fsm.engine.uml2.kernel;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.common.Assert;
-import org.suggs.fsm.common.StringStyle;
 import org.suggs.fsm.uml2.kernel.INamedElement;
 import org.suggs.fsm.uml2.kernel.INamespace;
 
@@ -17,11 +15,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 public class Namespace extends NamedElement implements INamespace {
 
-    private static final Log LOG = LogFactory.getLog(Namespace.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Namespace.class);
 
     /**
      * The objects owned by this namespace
@@ -34,8 +30,8 @@ public class Namespace extends NamedElement implements INamespace {
 
     public void setOwnedMembers(Set ownedMembers) {
 
-        for (Iterator it = ownedMembers.iterator(); it.hasNext(); ) {
-            INamedElement e = (INamedElement) it.next();
+        for (Object ownedMember : ownedMembers) {
+            INamedElement e = (INamedElement) ownedMember;
 
             addOwnedMember(e);
         }
@@ -69,12 +65,15 @@ public class Namespace extends NamedElement implements INamespace {
 
     }
 
-    /**
-     * Returns a String representation of this object using the
-     * default toString style.
-     */
-    public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).appendSuper(super.toString()).toString();
-    }
+//    /**
+//     * Returns a String representation of this object using the
+//     * default toString style.
+//     */
+//    @Override
+//    public String toString() {
+//        return "Namespace{" +
+//                "ownedMembers_=" + ownedMembers_ +
+//                '}';
+//    }
 
 }

@@ -1,13 +1,13 @@
 package org.suggs.fsm.engine.uml2.behaviorstatemachines;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.uml2.behaviorstatemachines.IState;
 import org.suggs.fsm.uml2.communications.IEvent;
 import org.suggs.fsm.uml2.scribe.constraints.IConstraintVisitor;
 import org.suggs.fsm.uml2.scribe.runtime.IEventContext;
 import org.suggs.fsm.uml2.scribe.runtime.INamespaceContext;
 import org.suggs.fsm.uml2.scribe.runtime.IStateMachineContext;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.util.Set;
 
@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class FinalState extends State implements IState {
 
-    private static final Log LOG = LogFactory.getLog(FinalState.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FinalState.class);
 
     /**
      * Default constructor. The constructor sets the state kind to SIMPLE.

@@ -1,8 +1,7 @@
 package org.suggs.fsm.engine.impl;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.event.IEventFactory;
 import org.suggs.fsm.framework.spi.IFsmEventInterceptor;
 import org.suggs.fsm.framework.spi.IStateManager;
@@ -10,11 +9,9 @@ import org.suggs.fsm.uml2.scribe.runtime.IStateMachineContext;
 
 import java.util.Map;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 public class StateMachineContext implements IStateMachineContext {
 
-    private static final Log LOG = LogFactory.getLog(StateMachineContext.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StateMachineContext.class);
 
     private IFsmEventInterceptor fsmEventInterceptor_ = null;
 
@@ -62,10 +59,13 @@ public class StateMachineContext implements IStateMachineContext {
      * Returns a String representation of this object using the
      * default toString style.
      */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).append("fsmEventInterceptor", fsmEventInterceptor_)
-                .append("stateManager", stateManager_)
-                .toString();
+        return "StateMachineContext{" +
+                "fsmEventInterceptor_=" + fsmEventInterceptor_ +
+                ", eventFactory_=" + eventFactory_ +
+                ", stateManager_=" + stateManager_ +
+                '}';
     }
 
 }

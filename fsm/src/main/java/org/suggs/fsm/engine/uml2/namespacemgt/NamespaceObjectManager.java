@@ -5,9 +5,8 @@
  */
 package org.suggs.fsm.engine.uml2.namespacemgt;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
 import org.suggs.fsm.uml2.basicbehaviors.IBehavioredClassifier;
 import org.suggs.fsm.uml2.behaviorstatemachines.*;
@@ -18,11 +17,9 @@ import org.suggs.fsm.uml2.scribe.namespacemgt.INamespaceObjectManager;
 
 import java.util.*;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 public class NamespaceObjectManager implements INamespaceObjectManager {
 
-    private static final Log LOG = LogFactory.getLog(NamespaceObjectManager.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NamespaceObjectManager.class);
 
     private Map objectMap_ = new HashMap();
 
@@ -144,7 +141,10 @@ public class NamespaceObjectManager implements INamespaceObjectManager {
      * Returns a String representation of this object using the
      * default toString style.
      */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).append("objectMap", objectMap_).toString();
+        return "NamespaceObjectManager{" +
+                "objectMap_=" + objectMap_ +
+                '}';
     }
 }

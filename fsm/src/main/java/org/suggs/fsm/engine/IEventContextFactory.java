@@ -16,6 +16,6 @@ public interface IEventContextFactory
     /**
      * Creates an IEventContext.
      */
-    IEventContext createEventContext(IEvent event, Map context, IEventFactory factory );
+    IEventContext createEventContext(IEvent event, Map<String, String> context, IEventFactory factory );
 
 }

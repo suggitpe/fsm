@@ -1,6 +1,6 @@
 package org.suggs.fsm.framework.spi.impl;
 
-import org.springframework.util.Assert;
+import org.suggs.fsm.common.Assert;
 import org.suggs.fsm.framework.spi.IBehavioredClassifierBuilder;
 import org.suggs.fsm.uml2.basicbehaviors.IBehavioredClassifier;
 
@@ -22,11 +22,11 @@ public class CachingBehavioredClassifierBuilder implements IBehavioredClassifier
      */
     public IBehavioredClassifier createBehavioredClassifier(String stateModelId) {
 
-        Assert.notNull(stateModelId, "stateModelId can not be null");
+        Assert.checkNotNull(stateModelId, "stateModelId can not be null");
 
         IBehavioredClassifier ret = (IBehavioredClassifier) behaviouredClassifiers_.get(stateModelId);
         if (ret == null) {
-            throw new GeneralRuntimeException("No FSM definition for stateModelId: " + stateModelId);
+            throw new RuntimeException("No FSM definition for stateModelId: " + stateModelId);
         }
         return ret;
 

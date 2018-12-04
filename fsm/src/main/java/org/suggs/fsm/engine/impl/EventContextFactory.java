@@ -1,7 +1,7 @@
 package org.suggs.fsm.engine.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.engine.IEventContextFactory;
 import org.suggs.fsm.event.IEvent;
 import org.suggs.fsm.event.IEventFactory;
@@ -11,9 +11,9 @@ import java.util.Map;
 
 public class EventContextFactory implements IEventContextFactory {
 
-    private static final Log LOG = LogFactory.getLog(EventContextFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EventContextFactory.class);
 
-    public IEventContext createEventContext(IEvent event, Map context, IEventFactory factory) {
+    public IEventContext createEventContext(IEvent event, Map<String, String> context, IEventFactory factory) {
 
         EventContext context_ = new EventContext();
 

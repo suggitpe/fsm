@@ -5,6 +5,8 @@
  */
 package org.suggs.fsm.uml2.behaviorstatemachines;
 
+import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
+import org.suggs.fsm.uml2.communications.ITrigger;
 import org.suggs.fsm.uml2.kernel.IConstraint;
 import org.suggs.fsm.uml2.kernel.INamedElement;
 import org.suggs.fsm.uml2.scribe.optimisation.IOptimisable;
@@ -40,7 +42,7 @@ public interface ITransition extends INamedElement, IFirable, IEnableable, IOpti
     /**
      * Gets the triggers that can fire this transition.
      */
-    List getTriggers();
+    List<ITrigger> getTriggers();
 
     /**
      * Sets the triggers that can fire this transition. The ordering
@@ -48,7 +50,7 @@ public interface ITransition extends INamedElement, IFirable, IEnableable, IOpti
      * positioned at the start of the list and will be matched to
      * events more quickly.
      */
-    void setTriggers(List triggers);
+    void setTriggers(List<ITrigger> triggers);
 
     /**
      * Returns the target vertex for this transition.
@@ -73,12 +75,12 @@ public interface ITransition extends INamedElement, IFirable, IEnableable, IOpti
     /**
      * Gets the transition actions for this transition.
      */
-    List getEffects();
+    List<IBehavior> getEffects();
 
     /**
      * Sets the transition actions for this transition.
      */
-    void setEffects(List effects);
+    void setEffects(List<IBehavior> effects);
 
     /**
      * Gets the kind of this transition, such as internal, external or

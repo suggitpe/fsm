@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean id="context" class="org.suggs.fsm.engine.uml2.basicbehaviors.BehavioredClassifier">
+        <property name="ownedBehavior">
+            <bean class="org.suggs.fsm.engine.uml2.behaviorstatemachines.StateMachine">
+                <property name="name" value="State Machine"/>
+                <property name="namespace" ref="context"/>
+                <property name="ownedRegion">
+                    <bean class="org.suggs.fsm.engine.uml2.behaviorstatemachines.Region">
+                        <property name="name" value="region0"/>
+                        <property name="transitions">
+                            <set>
+                                <ref bean="R0_T1"/>
+                                <ref bean="R0_T2"/>
+                                <ref bean="R0_T3"/>
+                                <ref bean="R0_T4"/>
+                                <ref bean="R0_T5"/>
+                                <ref bean="R0_T6"/>
+                                <ref bean="R0_T7"/>
+                            </set>
+                        </property>
+                        <property name="subVertices">
+                            <set>
+                                <ref bean="R0_IS"/>
+                                <ref bean="R0_S1"/>
+                                <ref bean="R0_S2"/>
+                                <ref bean="R0_S3"/>
+                                <ref bean="R0_S4"/>
+                                <ref bean="R0_S5"/>
+                                <ref bean="R0_FS"/>
+                            </set>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="name" value="context"/>
+    </bean>
+
+    <!--  Region 0 states -->
+    <bean id="R0_IS" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.PseudoState">
+        <constructor-arg>
+            <value>INITIAL</value>
+        </constructor-arg>
+        <property name="name">
+            <value>R0_IS</value>
+        </property>
+    </bean>
+
+    <bean id="R0_S1" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.State">
+        <constructor-arg value="SIMPLE"/>
+        <property name="name" value="R0_S1"/>
+        <property name="deferrableTriggers">
+            <set>
+                <bean class="org.suggs.fsm.engine.uml2.communications.Trigger">
+                    <property name="name" value="R0_S1_DE1"/>
+                    <property name="event" ref="e1"/>
+                </bean>
+                <bean class="org.suggs.fsm.engine.uml2.communications.Trigger">
+                    <property name="name" value="R0_S1_DE2"/>
+                    <property name="event" ref="e2"/>
+                </bean>
+                <bean class="org.suggs.fsm.engine.uml2.communications.Trigger">
+                    <property name="name" value="R0_S1_DE3"/>
+                    <property name="event" ref="e3"/>
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="R0_S2" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.State">
+        <constructor-arg value="SIMPLE"/>
+        <property name="name" value="R0_S2"/>
+        <property name="deferrableTriggers">
+            <set>
+                <bean class="org.suggs.fsm.engine.uml2.communications.Trigger">
+                    <property name="name" value="R0_S2_DE1"/>
+                    <property name="event" ref="e1"/>
+                </bean>
+                <bean class="org.suggs.fsm.engine.uml2.communications.Trigger">
+                    <property name="name" value="R0_S2_DE2"/>
+                    <property name="event" ref="e3"/>
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="R0_S3" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.State">
+        <constructor-arg value="SIMPLE"/>
+        <property name="name" value="R0_S3"/>
+    </bean>
+
+    <bean id="R0_S4" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.State">
+        <constructor-arg value="SIMPLE"/>
+        <property name="name" value="R0_S4"/>
+    </bean>
+
+    <bean id="R0_S5" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.State">
+        <constructor-arg value="SIMPLE"/>
+        <property name="name" value="R0_S5"/>
+    </bean>
+
+    <bean id="R0_FS" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.FinalState">
+        <property name="name" value="R0_FS"/>
+    </bean>
+
+    <!--  region 0 transitions -->
+    <bean id="R0_T1" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.Transition">
+        <constructor-arg value="EXTERNAL"/>
+        <property name="name" value="R0_T1"/>
+        <property name="incomingVertex" ref="R0_IS"/>
+        <property name="outgoingVertex" ref="R0_S1"/>
+    </bean>
+
+    <bean id="R0_T2" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.Transition">
+        <constructor-arg value="EXTERNAL"/>
+        <property name="name" value="R0_T2"/>
+        <property name="triggers">
+            <set>
+                <bean class="org.suggs.fsm.engine.uml2.communications.Trigger">
+                    <property name="name" value="R0_T2_TG1"/>
+                    <property name="event" ref="e10"/>
+                </bean>
+            </set>
+        </property>
+        <property name="effects">
+            <list>
+                <bean class="org.suggs.fsm.engine.uml2.basicbehaviors.Behavior">
+                    <property name="name" value="R0_T2_B1"/>
+                    <property name="namespace" ref="context"/>
+                    <property name="actionExecutor" ref="a4"/>
+                </bean>
+            </list>
+        </property>
+        <property name="incomingVertex" ref="R0_S1"/>
+        <property name="outgoingVertex" ref="R0_S2"/>
+    </bean>
+
+    <bean id="R0_T3" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.Transition">
+        <constructor-arg value="EXTERNAL"/>
+        <property name="name" value="R0_T3"/>
+        <property name="effects">
+            <list>
+                <bean class="org.suggs.fsm.engine.uml2.basicbehaviors.Behavior">
+                    <property name="name" value="R0_T3_B1"/>
+                    <property name="namespace" ref="context"/>
+                    <property name="actionExecutor" ref="a5"/>
+                </bean>
+            </list>
+        </property>
+        <property name="incomingVertex" ref="R0_S2"/>
+        <property name="outgoingVertex" ref="R0_S3"/>
+    </bean>
+
+    <bean id="R0_T4" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.Transition">
+        <constructor-arg value="EXTERNAL"/>
+        <property name="name" value="R0_T4"/>
+        <property name="triggers">
+            <set>
+                <bean class="org.suggs.fsm.engine.uml2.communications.Trigger">
+                    <property name="name" value="R0_T4_TG1"/>
+                    <property name="event" ref="e1"/>
+                </bean>
+            </set>
+        </property>
+        <property name="effects">
+            <list>
+                <bean class="org.suggs.fsm.engine.uml2.basicbehaviors.Behavior">
+                    <property name="name" value="R0_T4_B1"/>
+                    <property name="namespace" ref="context"/>
+                    <property name="actionExecutor" ref="a1"/>
+                </bean>
+            </list>
+        </property>
+        <property name="incomingVertex" ref="R0_S3"/>
+        <property name="outgoingVertex" ref="R0_S4"/>
+    </bean>
+
+    <bean id="R0_T5" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.Transition">
+        <constructor-arg value="EXTERNAL"/>
+        <property name="name" value="R0_T5"/>
+        <property name="triggers">
+            <set>
+                <bean class="org.suggs.fsm.engine.uml2.communications.Trigger">
+                    <property name="name" value="R0_T5_TG1"/>
+                    <property name="event" ref="e2"/>
+                </bean>
+            </set>
+        </property>
+        <property name="effects">
+            <list>
+                <bean
+                        class="org.suggs.fsm.engine.uml2.basicbehaviors.Behavior">
+                    <property name="name" value="R0_T5_B1"/>
+                    <property name="namespace" ref="context"/>
+                    <property name="actionExecutor" ref="a2"/>
+                </bean>
+            </list>
+        </property>
+        <property name="incomingVertex" ref="R0_S3"/>
+        <property name="outgoingVertex" ref="R0_S5"/>
+    </bean>
+
+    <bean id="R0_T6" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.Transition">
+        <constructor-arg value="EXTERNAL"/>
+        <property name="name" value="R0_T6"/>
+        <property name="triggers">
+            <set>
+                <bean class="org.suggs.fsm.engine.uml2.communications.Trigger">
+                    <property name="name" value="R0_T6_TG1"/>
+                    <property name="event" ref="e3"/>
+                </bean>
+            </set>
+        </property>
+        <property name="effects">
+            <list>
+                <bean class="org.suggs.fsm.engine.uml2.basicbehaviors.Behavior">
+                    <property name="name" value="R0_T6_B1"/>
+                    <property name="namespace" ref="context"/>
+                    <property name="actionExecutor" ref="a2"/>
+                </bean>
+            </list>
+        </property>
+        <property name="incomingVertex" ref="R0_S4"/>
+        <property name="outgoingVertex" ref="R0_FS"/>
+    </bean>
+
+    <bean id="R0_T7" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.Transition">
+        <constructor-arg value="EXTERNAL"/>
+        <property name="name" value="R0_T7"/>
+        <property name="triggers">
+            <set>
+                <bean class="org.suggs.fsm.engine.uml2.communications.Trigger">
+                    <property name="name" value="R0_T7_TG1"/>
+                    <property name="event" ref="e3"/>
+                </bean>
+            </set>
+        </property>
+        <property name="effects">
+            <list>
+                <bean class="org.suggs.fsm.engine.uml2.basicbehaviors.Behavior">
+                    <property name="name" value="R0_T7_B1"/>
+                    <property name="namespace" ref="context"/>
+                    <property name="actionExecutor" ref="a1"/>
+                </bean>
+            </list>
+        </property>
+        <property name="incomingVertex" ref="R0_S5"/>
+        <property name="outgoingVertex" ref="R0_FS"/>
+    </bean>
+
+    <!-- Events -->
+
+    <bean id="e1" class="org.suggs.fsm.engine.uml2.communications.Event">
+        <constructor-arg index="0" value="e1"/>
+        <constructor-arg index="1" ref="context"/>
+    </bean>
+
+    <bean id="e2" class="org.suggs.fsm.engine.uml2.communications.Event">
+        <constructor-arg index="0" value="e2"/>
+        <constructor-arg index="1" ref="context"/>
+    </bean>
+
+    <bean id="e3" class="org.suggs.fsm.engine.uml2.communications.Event">
+        <constructor-arg index="0" value="e3"/>
+        <constructor-arg index="1" ref="context"/>
+    </bean>
+
+    <bean id="e10" class="org.suggs.fsm.engine.uml2.communications.Event">
+        <constructor-arg index="0" value="e10"/>
+        <constructor-arg index="1" ref="context"/>
+    </bean>
+
+    <!-- Actions -->
+    <bean id="a1" class="org.suggs.fsm.MockActionExecutor">
+        <constructor-arg value="a1"/>
+    </bean>
+
+    <bean id="a2" class="org.suggs.fsm.MockActionExecutor">
+        <constructor-arg value="a2"/>
+    </bean>
+
+    <bean id="a4" class="org.suggs.fsm.MockActionExecutor">
+        <constructor-arg value="a4"/>
+    </bean>
+
+    <bean id="a5" class="org.suggs.fsm.MockActionExecutor">
+        <constructor-arg value="a5"/>
+    </bean>
+
+
+</beans>	
+	

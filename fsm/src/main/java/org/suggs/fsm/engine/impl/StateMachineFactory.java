@@ -1,7 +1,7 @@
 package org.suggs.fsm.engine.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.engine.IEventContextFactory;
 import org.suggs.fsm.engine.IFsmEventInterceptorManager;
 import org.suggs.fsm.engine.IScribeStateMachineFactory;
@@ -17,7 +17,7 @@ public class StateMachineFactory implements IScribeStateMachineFactory {
 
     private IBehavioredClassifierBuilder behavioredClassifierBuilder_;
 
-    private static final Log LOG = LogFactory.getLog(StateMachineFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StateMachineFactory.class);
 
     private IEventContextFactory eventContextFactory_;
 

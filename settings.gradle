@@ -1,2 +1,1 @@
-include 'fsm',
-        'test'
+include 'fsm'

@@ -1,8 +1,7 @@
 package org.suggs.fsm.framework.spi.impl;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.framework.spi.IActionExecutor;
 import org.suggs.fsm.uml2.scribe.runtime.IEventContext;
 
@@ -14,7 +13,7 @@ import org.suggs.fsm.uml2.scribe.runtime.IEventContext;
 
 public class ActionExecutorProxy implements IActionExecutor {
 
-    private static final Log LOG = LogFactory.getLog(ActionExecutorProxy.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ActionExecutorProxy.class);
 
     private String name_;
 
@@ -22,7 +21,7 @@ public class ActionExecutorProxy implements IActionExecutor {
 
         String msg = "ActionExecutorProxy " + name_ + " has not been mapped to an implementation";
         LOG.error(msg);
-        throw new GeneralRuntimeException(msg);
+        throw new RuntimeException(msg);
     }
 
     public String getName() {
@@ -37,7 +36,10 @@ public class ActionExecutorProxy implements IActionExecutor {
      * Returns a String representation of this object using the
      * default toString style.
      */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, StringStyle.DEFAULT_TO_STRING_STYLE).append("name", name_).toString();
+        return "ActionExecutorProxy{" +
+                "name_='" + name_ + '\'' +
+                '}';
     }
 }

@@ -1,5 +1,7 @@
 package org.suggs.fsm.framework.spi;
 
+import org.suggs.fsm.uml2.scribe.runtime.IEventContext;
+
 import java.util.List;
 import java.util.Map;
 
@@ -31,21 +33,21 @@ public interface IStateManager {
      * Stores the state that each history state in the a state machine
      * currently references.
      */
-    void storeHistoryStates(Map historyStateMap);
+    void storeHistoryStates(Map<String, String> historyStateMap);
 
     /**
      * Retrieves the hsitory state mappings.
      */
-    Map getHistoryStates();
+    Map<String, String> getHistoryStates();
 
     /**
      * Stores the list of deferred events for a state machine.
      */
-    void storeDeferredEvents(List eventList);
+    void storeDeferredEvents(List<IEventContext> eventList);
 
     /**
      * Retrieves the list of deferred events for a state machine.
      */
-    List getDeferredEvents();
+    List<IEventContext> getDeferredEvents();
 
 }

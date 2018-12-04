@@ -1,8 +1,7 @@
 package org.suggs.fsm.engine.uml2.behaviorstatemachines;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.engine.uml2.communications.Trigger;
 import org.suggs.fsm.engine.uml2.kernel.NamedElement;
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
@@ -22,24 +21,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 public class Transition extends NamedElement implements ITransition {
 
-    private static final Log LOG = LogFactory.getLog(Transition.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Transition.class);
 
     private List effects_ = new ArrayList();
-
     private IConstraint guard_;
-
     private IVertex incomingVertex_;
-
     private IVertex outgoingVertex_;
-
     private List triggers_ = new DefaultTriggerSet();
-
     private IRegion container_;
-
     private ITransitionBehaviour transitionBehaviour_;
 
     public Transition(String transitionKind) {
@@ -64,7 +55,6 @@ public class Transition extends NamedElement implements ITransition {
     }
 
     public void setIncomingVertex(IVertex incomingVertex) {
-        //        incomingVertex.addOutgoingTransition(this);
         incomingVertex_ = incomingVertex;
     }
 
@@ -73,7 +63,6 @@ public class Transition extends NamedElement implements ITransition {
     }
 
     public void setOutgoingVertex(IVertex outgoingVertex) {
-        //        outgoingVertex.addIncomingTransition(this);
         outgoingVertex_ = outgoingVertex;
     }
 
@@ -117,9 +106,7 @@ public class Transition extends NamedElement implements ITransition {
     }
 
     public void acceptNamespaceObjectManager(INamespaceObjectManager namespaceObjectManager) {
-
         super.acceptNamespaceObjectManager(namespaceObjectManager);
-
         namespaceObjectManager.visitTransition(this);
     }
 
@@ -141,32 +128,27 @@ public class Transition extends NamedElement implements ITransition {
     }
 
     public ITransition createShallowCopy() {
-
-        try {
-            return (ITransition) clone();
-        } catch (CloneNotSupportedException e) {
-            LOG.error(e.getMessage());
-            throw new RuntimeException(e);
-        }
-
+        return (ITransition) clone();
     }
 
     /**
      * Returns a String representation of this object using the
      * default toString style.
      */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).appendSuper(super.toString())
-                .append("guard", getGuard())
-                .append("effects", getEffects())
-                .append("incomingVertex", getIncomingVertex())
-                .append("triggers", getTriggers())
-                .append("outgoingVertex", getOutgoingVertex())
-                .append("transitionKind", getTransitionKind())
-                .toString();
+        return "Transition{" +
+                "effects_=" + effects_ +
+                ", guard_=" + guard_ +
+                ", incomingVertex_=" + incomingVertex_ +
+                ", outgoingVertex_=" + outgoingVertex_ +
+                ", triggers_=" + triggers_ +
+                ", container_=" + container_ +
+                ", transitionBehaviour_=" + transitionBehaviour_ +
+                '}';
     }
 
-    protected Object clone() throws CloneNotSupportedException {
+    protected Object clone() {
 
         Transition clonedTransition = new Transition(getTransitionKind());
 
@@ -204,11 +186,6 @@ public class Transition extends NamedElement implements ITransition {
      */
     private class InternalTransitionBehaviour implements ITransitionBehaviour {
 
-        /*
-         * Internal transitions occur without exiting or entering the
-         * source state. It does not cause a state change.
-         */
-
         public void fire(ITransition transition, IEventContext eventContext, INamespaceContext namespaceContext,
                          IStateMachineContext stateMachinecontext) {
 
@@ -238,11 +215,6 @@ public class Transition extends NamedElement implements ITransition {
      */
     private class ExternalTransitionBehaviour implements ITransitionBehaviour {
 
-        /*
-         * External transitions will exit the source state (or
-         * composite state), triggering entry and exit actions
-         */
-
         public void fire(ITransition transition, IEventContext eventContext, INamespaceContext namespaceContext,
                          IStateMachineContext stateMachinecontext) {
 
@@ -269,7 +241,7 @@ public class Transition extends NamedElement implements ITransition {
                 // Exit the states in sequence
                 boolean leastCommonAncestorReached = false;
 
-                for (Iterator iter = exitList.iterator(); leastCommonAncestorReached == false && iter.hasNext(); ) {
+                for (Iterator iter = exitList.iterator(); !leastCommonAncestorReached && iter.hasNext(); ) {
                     IRegion region = (IRegion) iter.next();
                     if (region != leastCommonAncestor) {
                         region.getState().doExitAction(eventContext, namespaceContext, stateMachinecontext);
@@ -281,8 +253,8 @@ public class Transition extends NamedElement implements ITransition {
 
             // Do transition actions
             List effects = getEffects();
-            for (Iterator iter = effects.iterator(); iter.hasNext(); ) {
-                IBehavior behavior = (IBehavior) iter.next();
+            for (Object effect : effects) {
+                IBehavior behavior = (IBehavior) effect;
                 behavior.execute(eventContext, namespaceContext, stateMachinecontext);
             }
 
@@ -325,7 +297,7 @@ public class Transition extends NamedElement implements ITransition {
      */
     protected class DefaultTriggerSet extends Vector implements List {
 
-        public DefaultTriggerSet() {
+        DefaultTriggerSet() {
             // Add a single default trigger
             this.add(new Trigger());
         }

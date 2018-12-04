@@ -5,9 +5,8 @@
  */
 package org.suggs.fsm.engine.uml2.kernel;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.framework.spi.IGuardEvaluator;
 import org.suggs.fsm.uml2.kernel.IConstraint;
 import org.suggs.fsm.uml2.scribe.namespacemgt.INamespaceObjectManager;
@@ -15,11 +14,9 @@ import org.suggs.fsm.uml2.scribe.runtime.IEventContext;
 import org.suggs.fsm.uml2.scribe.runtime.INamespaceContext;
 import org.suggs.fsm.uml2.scribe.runtime.IStateMachineContext;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 public class Constraint extends NamedElement implements IConstraint {
 
-    private static final Log LOG = LogFactory.getLog(Constraint.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Constraint.class);
 
     private IGuardEvaluator guardEvaluator_ = null;
 
@@ -80,9 +77,10 @@ public class Constraint extends NamedElement implements IConstraint {
      * Returns a String representation of this object using the
      * default toString style.
      */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).appendSuper(super.toString())
-                .append("guardEvaluator", guardEvaluator_)
-                .toString();
+        return "Constraint{" +
+                "guardEvaluator_=" + guardEvaluator_ +
+                '}';
     }
 }

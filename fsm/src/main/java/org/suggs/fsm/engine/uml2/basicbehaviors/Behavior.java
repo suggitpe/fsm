@@ -1,8 +1,7 @@
 package org.suggs.fsm.engine.uml2.basicbehaviors;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.engine.uml2.kernel.Namespace;
 import org.suggs.fsm.framework.spi.IActionExecutor;
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
@@ -14,11 +13,9 @@ import org.suggs.fsm.uml2.scribe.runtime.IEventContext;
 import org.suggs.fsm.uml2.scribe.runtime.INamespaceContext;
 import org.suggs.fsm.uml2.scribe.runtime.IStateMachineContext;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 public class Behavior extends Namespace implements IBehavior {
 
-    private static final Log LOG = LogFactory.getLog(Behavior.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Behavior.class);
 
     /**
      * The behaviored classifier that owns this behavior.
@@ -90,13 +87,6 @@ public class Behavior extends Namespace implements IBehavior {
         actionExecutor_ = actionExecutor;
     }
 
-    public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).appendSuper(super.toString())
-                .append("context", context_)
-                .append("actionExecutor", actionExecutor_)
-                .toString();
-    }
-
     public void acceptNamespaceObjectManager(INamespaceObjectManager namespaceObjectManager) {
 
         super.acceptNamespaceObjectManager(namespaceObjectManager);
@@ -107,4 +97,12 @@ public class Behavior extends Namespace implements IBehavior {
         }
 
     }
+
+//    @Override
+//    public String toString() {
+//        return "Behavior{" +
+//                "context_=" + context_ +
+//                ", actionExecutor_=" + actionExecutor_ +
+//                '}';
+//    }
 }

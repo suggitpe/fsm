@@ -1,8 +1,7 @@
 package org.suggs.fsm.engine.uml2.behaviorstatemachines;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.engine.uml2.kernel.Namespace;
 import org.suggs.fsm.uml2.behaviorstatemachines.*;
 import org.suggs.fsm.uml2.kernel.INamespace;
@@ -13,11 +12,9 @@ import org.suggs.fsm.uml2.scribe.runtime.IStateEntryListener;
 
 import java.util.*;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 public class Region extends Namespace implements IRegion {
 
-    private static final Log LOG = LogFactory.getLog(Region.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Region.class);
 
     private IStateMachine stateMachine_;
 
@@ -189,18 +186,18 @@ public class Region extends Namespace implements IRegion {
 
     }
 
-    /**
-     * Returns a String representation of this object using the
-     * default toString style.
-     */
-    public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).appendSuper(super.toString())
-                .append("qualifiedName", getQualifiedName())
-                .append("owner", owner_)
-                .append("state", state_)
-                .append("stateMachine", stateMachine_)
-                .append("subVertices", subVertices_)
-                .append("transitions", transitions_)
-                .toString();
-    }
+//    /**
+//     * Returns a String representation of this object using the
+//     * default toString style.
+//     */
+//    @Override
+//    public String toString() {
+//        return "Region{" +
+//                "stateMachine_=" + stateMachine_ +
+//                ", state_=" + state_ +
+//                ", transitions_=" + Arrays.toString(transitions_) +
+//                ", subVertices_=" + Arrays.toString(subVertices_) +
+//                ", owner_=" + owner_ +
+//                '}';
+//    }
 }

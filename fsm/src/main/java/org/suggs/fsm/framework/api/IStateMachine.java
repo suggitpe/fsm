@@ -40,5 +40,5 @@ public interface IStateMachine extends IFsmEventInterceptorManager {
      * consistent should event processing fail to complete
      * successfully.
      */
-    void handleEvent(IEvent event, IStateManager stateManager, Map context);
+    void handleEvent(IEvent event, IStateManager stateManager, Map<String, String> context);
 }

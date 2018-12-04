@@ -26,15 +26,11 @@ public class BehavioredClassifier extends Namespace implements IBehavioredClassi
     }
 
     public void acceptOptimiser(IModelOptimiser modelOptimiser) {
-
         getOwnedBehavior().acceptOptimiser(modelOptimiser);
-
     }
 
     public void acceptNamespaceObjectManager(INamespaceObjectManager namespaceObjectManager) {
-
         super.acceptNamespaceObjectManager(namespaceObjectManager);
-
         // Visit the owned behavior
         ownedBehavior_.acceptNamespaceObjectManager(namespaceObjectManager);
     }

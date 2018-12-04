@@ -29,7 +29,7 @@ public interface IFsmEventInterceptor {
      * Called when an event is received by the FSM and before it is
      * handled.
      */
-    void onEventReceived(IEvent event, Map context);
+    void onEventReceived(IEvent event, Map<String, String> context);
 
     /**
      * Called after an action has successfully executed.

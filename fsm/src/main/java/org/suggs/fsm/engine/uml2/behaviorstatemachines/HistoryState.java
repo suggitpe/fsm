@@ -1,13 +1,13 @@
 package org.suggs.fsm.engine.uml2.behaviorstatemachines;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.suggs.fsm.uml2.behaviorstatemachines.*;
 import org.suggs.fsm.uml2.scribe.optimisation.IModelOptimiser;
 import org.suggs.fsm.uml2.scribe.optimisation.ITransitionFactory;
 import org.suggs.fsm.uml2.scribe.runtime.IEventContext;
 import org.suggs.fsm.uml2.scribe.runtime.INamespaceContext;
 import org.suggs.fsm.uml2.scribe.runtime.IStateMachineContext;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.suggs.fsm.uml2.behaviorstatemachines.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ import java.util.Set;
  */
 public class HistoryState extends PseudoState implements IHistoryState {
 
-    private static final Log LOG = LogFactory.getLog(HistoryState.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HistoryState.class);
 
     /**
      * The default constructor.

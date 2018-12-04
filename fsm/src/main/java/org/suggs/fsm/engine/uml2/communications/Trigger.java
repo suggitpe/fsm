@@ -1,12 +1,9 @@
 package org.suggs.fsm.engine.uml2.communications;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.suggs.fsm.engine.uml2.kernel.NamedElement;
 import org.suggs.fsm.uml2.communications.IEvent;
 import org.suggs.fsm.uml2.communications.ITrigger;
 import org.suggs.fsm.uml2.scribe.constraints.IConstraintVisitor;
-
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
 
 public class Trigger extends NamedElement implements ITrigger {
 
@@ -42,9 +39,10 @@ public class Trigger extends NamedElement implements ITrigger {
      * Returns a String representation of this object using the
      * default toString style.
      */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).appendSuper(super.toString())
-                .append("event", event_)
-                .toString();
+        return "Trigger{" +
+                "event_=" + event_ +
+                '}';
     }
 }

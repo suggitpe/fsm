@@ -1,7 +1,7 @@
 package org.suggs.fsm.engine.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.event.IEvent;
 import org.suggs.fsm.event.IEventMapper;
 import org.suggs.fsm.uml2.kernel.INamespace;
@@ -9,7 +9,7 @@ import org.suggs.fsm.uml2.kernel.INamespace;
 
 public class DefaultEventMapper implements IEventMapper {
 
-    private static final Log LOG = LogFactory.getLog(DefaultEventMapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultEventMapper.class);
 
     private String stateMachineName_;
 

@@ -5,15 +5,12 @@
  */
 package org.suggs.fsm.engine.uml2.kernel;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.suggs.fsm.uml2.kernel.INamedElement;
 import org.suggs.fsm.uml2.kernel.INamespace;
 import org.suggs.fsm.uml2.scribe.constraints.IConstraintVisitor;
 import org.suggs.fsm.uml2.scribe.namespacemgt.INamespaceObjectManager;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
+import java.util.Objects;
 
 public abstract class NamedElement implements INamedElement {
 
@@ -89,39 +86,32 @@ public abstract class NamedElement implements INamedElement {
         namespaceObjectManager.visitNamedElement(this);
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        boolean ret = false;
-        if (obj instanceof NamedElement) {
-            NamedElement rhs = (NamedElement) obj;
-            EqualsBuilder eq = new EqualsBuilder().append(name_, rhs.name_);
-            if (this != namespace_) {
-                eq.append(namespace_, rhs.namespace_);
-            }
-            ret = eq.isEquals();
-        }
-        return ret;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NamedElement that = (NamedElement) o;
+        return Objects.equals(name_, that.name_) &&
+                Objects.equals(namespace_, that.namespace_) &&
+                Objects.equals(qualifiedName_, that.qualifiedName_);
     }
 
+    @Override
     public int hashCode() {
-        HashCodeBuilder hcb = new HashCodeBuilder(5, 79).append(name_);
-        if (this != namespace_) {
-            hcb.append(namespace_);
-        }
-        return hcb.toHashCode();
+        return Objects.hash(name_, namespace_, qualifiedName_);
     }
 
     /**
      * Returns a String representation of this object using the
      * default toString style.
      */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).appendSuper(super.toString())
-                .append("name", name_)
-                .append("qualifiedName", getQualifiedName())
-                .toString();
+        return "NamedElement{" +
+                "name_='" + name_ + '\'' +
+                ", namespace_=" + namespace_ +
+                ", qualifiedName_='" + qualifiedName_ + '\'' +
+                '}';
     }
 
 }

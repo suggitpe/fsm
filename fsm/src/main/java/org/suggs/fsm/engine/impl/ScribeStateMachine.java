@@ -1,8 +1,7 @@
 package org.suggs.fsm.engine.impl;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.suggs.fsm.common.Assert;
 import org.suggs.fsm.engine.IEventContextFactory;
 import org.suggs.fsm.engine.IFsmEventInterceptorManager;
@@ -29,11 +28,9 @@ import org.suggs.fsm.uml2.scribe.runtime.IStateMachineContext;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
-
 public class ScribeStateMachine implements IScribeStateMachine {
 
-    private static final Log LOG = LogFactory.getLog(ScribeStateMachine.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ScribeStateMachine.class);
 
     /**
      * Maintains the event interceptors registered with this state
@@ -129,7 +126,7 @@ public class ScribeStateMachine implements IScribeStateMachine {
         stateMachineContext_.setStateManager(stateManager);
     }
 
-    public void handleEvent(IEvent event, IStateManager stateManager, Map context) {
+    public void handleEvent(IEvent event, IStateManager stateManager, Map<String, String> context) {
 
         initialiseStateManagerContext(stateManager);
 
@@ -269,10 +266,16 @@ public class ScribeStateMachine implements IScribeStateMachine {
      * Returns a String representation of this object using the
      * default toString style.
      */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).append("stateMachineContext", stateMachineContext_)
-                .append("namespaceContext", namespaceContext_)
-                .toString();
+        return "ScribeStateMachine{" +
+                "fsmEventInterceptorManager_=" + fsmEventInterceptorManager_ +
+                ", namespaceContext_=" + namespaceContext_ +
+                ", behavioredClassifier_=" + behavioredClassifier_ +
+                ", eventContextFactory_=" + eventContextFactory_ +
+                ", stateMachineContext_=" + stateMachineContext_ +
+                ", eventMapper_=" + eventMapper_ +
+                '}';
     }
 
     /**
@@ -293,7 +296,7 @@ public class ScribeStateMachine implements IScribeStateMachine {
             }
         }
 
-        public void onEventReceived(IEvent event, Map context) {
+        public void onEventReceived(IEvent event, Map<String, String> context) {
 
             if (null != fsmEventInterceptor_) {
                 fsmEventInterceptor_.onEventReceived(event, context);
@@ -341,6 +344,13 @@ public class ScribeStateMachine implements IScribeStateMachine {
             if (null != fsmEventInterceptor_) {
                 fsmEventInterceptor_.onEventDeferred(eventContext);
             }
+        }
+
+        @Override
+        public String toString() {
+            return "FsmEventInterceptorManager{" +
+                    "fsmEventInterceptor_=" + fsmEventInterceptor_ +
+                    '}';
         }
     }
 

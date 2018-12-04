@@ -1,10 +1,6 @@
 package org.suggs.fsm.bo;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import static org.suggs.fsm.common.StringStyle.DEFAULT_TO_STRING_STYLE;
+import java.util.Objects;
 
 /**
  * Bean type class to encapsulate all values that make up the
@@ -235,47 +231,36 @@ public class BusinessObjectIdentifier {
         version_ = version;
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        boolean ret = false;
-        if (obj instanceof BusinessObjectIdentifier) {
-            BusinessObjectIdentifier rhs = (BusinessObjectIdentifier) obj;
-            ret = new EqualsBuilder().append(internalType_, rhs.internalType_)
-                    .append(type_, rhs.type_)
-                    .append(id_, rhs.id_)
-                    .append(externalId_, rhs.externalId_)
-                    .append(owner_, rhs.owner_)
-                    .append(version_, rhs.version_)
-                    .isEquals();
-        }
-        return ret;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BusinessObjectIdentifier that = (BusinessObjectIdentifier) o;
+        return version_ == that.version_ &&
+                hash_ == that.hash_ &&
+                Objects.equals(internalType_, that.internalType_) &&
+                Objects.equals(type_, that.type_) &&
+                Objects.equals(id_, that.id_) &&
+                Objects.equals(externalId_, that.externalId_) &&
+                Objects.equals(owner_, that.owner_);
     }
 
+    @Override
     public int hashCode() {
-        return new HashCodeBuilder(7, 73).append(internalType_)
-                .append(type_)
-                .append(id_)
-                .append(externalId_)
-                .append(owner_)
-                .append(version_)
-                .toHashCode();
+        return Objects.hash(internalType_, type_, id_, externalId_, owner_, version_, hash_);
     }
 
-    /**
-     * Returns a string representation of an instance of this object
-     * using the StringStyle.DEFAULT_TO_STRING_STYLE.
-     */
+    @Override
     public String toString() {
-        return new ToStringBuilder(this, DEFAULT_TO_STRING_STYLE).append("internalType", internalType_)
-                .append("type", type_)
-                .append("id", id_)
-                .append("externalId", externalId_)
-                .append("owner", owner_)
-                .append("version", version_)
-                .append("hash", hash_)
-                .toString();
+        return "BusinessObjectIdentifier{" +
+                "internalType_='" + internalType_ + '\'' +
+                ", type_='" + type_ + '\'' +
+                ", id_='" + id_ + '\'' +
+                ", externalId_='" + externalId_ + '\'' +
+                ", owner_='" + owner_ + '\'' +
+                ", version_=" + version_ +
+                ", hash_=" + hash_ +
+                '}';
     }
 
     /**
