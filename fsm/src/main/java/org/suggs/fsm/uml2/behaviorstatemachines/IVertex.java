@@ -23,22 +23,22 @@ public interface IVertex extends INamedElement, IEnterable, IExitable, IOptimisa
     /**
      * Sets the highest priority outgoing transitions for this node.
      */
-    void setOutgoing(Set outgoingTransitions);
+    void setOutgoing(Set<ITransition> outgoingTransitions);
 
     /**
      * Gets the outgoing transitions for this node.
      */
-    Set getOutgoing();
+    Set<ITransition> getOutgoing();
 
     /**
      * Sets the incoming transitions for this node.
      */
-    void setIncoming(Set incomingTransitions);
+    void setIncoming(Set<ITransition> incomingTransitions);
 
     /**
      * Gets the incoming transitions for this node.
      */
-    Set getIncoming();
+    Set<ITransition> getIncoming();
 
     /**
      * Sets the containing region for this node.
@@ -54,7 +54,7 @@ public interface IVertex extends INamedElement, IEnterable, IExitable, IOptimisa
      * Gets the regions enclosing this vertex in an ordered list,
      * innermost first.
      */
-    List getAncestorList();
+    List<IRegion> getAncestorList();
 
     /**
      * Add an incoming transition to the current set.

@@ -48,7 +48,7 @@ public abstract class Vertex extends NamedElement implements IVertex {
         return outgoingTransitions_;
     }
 
-    public List getAncestorList() {
+    public List<IRegion> getAncestorList() {
 
         if (ancestorList == null) {
             ancestorList = new ArrayList();

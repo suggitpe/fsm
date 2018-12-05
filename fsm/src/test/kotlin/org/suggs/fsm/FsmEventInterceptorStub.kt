@@ -1,6 +1,6 @@
 package org.suggs.fsm
 
-import org.slf4j.LoggerFactory
+import org.slf4j.LoggerFactory.getLogger
 import org.suggs.fsm.event.IEvent
 import org.suggs.fsm.framework.spi.IFsmEventInterceptor
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior
@@ -12,7 +12,8 @@ import org.suggs.fsm.uml2.scribe.runtime.INamespaceContext
 import org.suggs.fsm.uml2.scribe.runtime.IStateMachineContext
 
 class FsmEventInterceptorStub : IFsmEventInterceptor {
-    private val log = LoggerFactory.getLogger(FsmEventInterceptorStub::class.java)
+
+    private val log = getLogger(FsmEventInterceptorStub::class.java)
 
     override fun onActionExecuted(action: IBehavior, eventContext: IEventContext, namespaceContext: INamespaceContext, stateMachineContext: IStateMachineContext) {
         log.debug("++++ Action Executed: " + action.name + " ++++")

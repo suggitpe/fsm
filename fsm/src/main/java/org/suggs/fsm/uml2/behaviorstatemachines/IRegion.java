@@ -73,7 +73,7 @@ public interface IRegion extends INamespace, IOptimisable, IEntryReporter {
      * Gets the regions enclosing this region in an ordered list,
      * innermost first.
      */
-    List getAncestorList();
+    List<IRegion> getAncestorList();
 
     /**
      * Adds a vertex to the set owned by the region. If the same
