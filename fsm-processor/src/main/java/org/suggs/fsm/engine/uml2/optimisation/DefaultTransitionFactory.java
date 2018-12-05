@@ -1,8 +1,3 @@
-/*
- * DefaultTransitionFactory.java created on 13-Dec-2005 17:00:58 by billinro for project FsmLib
- *
- * Copyright (c) 2005 UBS Investment Bank
- */
 package org.suggs.fsm.engine.uml2.optimisation;
 
 import org.suggs.fsm.engine.uml2.behaviorstatemachines.Transition;

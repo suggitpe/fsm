@@ -1,8 +1,3 @@
-/*
- * ModelOptimiser.java created on 28-Nov-2005 08:23:35 by billinro for project FsmLib
- *
- * Copyright (c) 2005 UBS Investment Bank
- */
 package org.suggs.fsm.engine.uml2.optimisation;
 
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior;

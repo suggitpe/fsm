@@ -1,8 +1,3 @@
-/*
- * ConstraintVisitor.java created on 15-Nov-2005 10:39:26 by billinro for project FsmLib
- *
- * Copyright (c) 2005 UBS Investment Bank
- */
 package org.suggs.fsm.engine.uml2.constraints;
 
 import org.suggs.fsm.engine.uml2.constraints.basicbehaviors.IBehaviourChecker;

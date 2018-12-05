@@ -1,8 +1,3 @@
-/*
- * Constraint.java created on 10-Nov-2005 12:34:51 by billinro for project FsmLib
- *
- * Copyright (c) 2005 UBS Investment Bank
- */
 package org.suggs.fsm.engine.uml2.kernel;
 
 import org.slf4j.Logger;

@@ -1,8 +1,3 @@
-/*
- * Namespace.java created on 04-Nov-2005 10:15:37 by billinro for project FsmLib
- *
- * Copyright (c) 2005 UBS Investment Bank
- */
 package org.suggs.fsm.engine.uml2.kernel;
 
 import org.slf4j.Logger;

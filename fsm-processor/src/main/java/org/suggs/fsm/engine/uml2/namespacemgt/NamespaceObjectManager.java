@@ -1,8 +1,3 @@
-/*
- * NamespaceObjectManager.java created on 17-Nov-2005 08:16:54 by billinro for project FsmLib
- *
- * Copyright (c) 2005 UBS Investment Bank
- */
 package org.suggs.fsm.engine.uml2.namespacemgt;
 
 import org.slf4j.Logger;

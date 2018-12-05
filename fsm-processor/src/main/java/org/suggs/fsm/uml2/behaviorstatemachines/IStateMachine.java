@@ -1,8 +1,3 @@
-/*
- * IStateMachine.java created on 02-Nov-2005 16:54:15 by billinro for project FsmLib
- *
- * Copyright (c) 2005 UBS Investment Bank
- */
 package org.suggs.fsm.uml2.behaviorstatemachines;
 
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
