@@ -35,12 +35,12 @@ public interface IRegion extends INamespace, IOptimisable, IEntryReporter {
      * vertices to the owned memebers of this region and also sets the
      * namespace and container of the vertices to be this region.
      */
-    void setSubVertices(Set<IState> vertices);
+    void setSubVertices(Set<IVertex> vertices);
 
     /**
      * @return The vertices owned by this region
      */
-    Set<IState> getSubVertices();
+    Set<IVertex> getSubVertices();
 
     /**
      * Sets the state machine that owns this region.

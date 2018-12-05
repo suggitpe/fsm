@@ -35,21 +35,17 @@ public class Region extends Namespace implements IRegion {
         return stateMachine_;
     }
 
-    public Set getTransitions() {
-        Set s = new HashSet();
+    public Set<ITransition> getTransitions() {
+        Set<ITransition> s = new HashSet<>();
 
-        for (int i = 0; i < transitions_.length; i++) {
-            s.add(transitions_[i]);
-        }
+        Collections.addAll(s, transitions_);
         return s;
     }
 
-    public Set getSubVertices() {
-        Set s = new HashSet();
+    public Set<IVertex> getSubVertices() {
+        Set<IVertex> s = new HashSet<>();
 
-        for (int i = 0; i < subVertices_.length; i++) {
-            s.add(subVertices_[i]);
-        }
+        Collections.addAll(s, subVertices_);
         return s;
     }
 
