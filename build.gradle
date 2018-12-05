@@ -27,7 +27,7 @@ subprojects {
     }
 
     dependencies {
-        compile libs.kotlin,
+        implementation libs.kotlin,
                 libs.kotlinReflect,
                 libs.slf4j,
                 'org.springframework:spring-context:5.1.2.RELEASE'

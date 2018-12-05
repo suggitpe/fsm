@@ -94,7 +94,7 @@ class NamedElementCheckerTest {
         `when`(mockNamedElement.qualifiedName).thenReturn("wrong-qualified-name")
         `when`(mockNamedElement.namespace).thenReturn(mockNamespace)
 
-        assertThrows<IllegalStateException> { namedElementChecker!!.checkConstraints(mockNamedElement) }
+        assertThrows<IllegalStateException> { namedElementChecker.checkConstraints(mockNamedElement) }
 
     }
 }
