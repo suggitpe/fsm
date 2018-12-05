@@ -6,7 +6,10 @@ import org.suggs.fsm.uml2.behaviorstatemachines.ITransition;
 import org.suggs.fsm.uml2.behaviorstatemachines.IVertex;
 import org.suggs.fsm.uml2.communications.ITrigger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class Vertex extends NamedElement implements IVertex {
 
@@ -14,7 +17,7 @@ public abstract class Vertex extends NamedElement implements IVertex {
     private Set<ITransition> incomingTransitions_ = new HashSet<>();
     private Set<ITransition> outgoingTransitions_ = new HashSet<>();
     private List<IRegion> ancestorList = null;
-    protected List prioritisedOutgoingTransitions_;
+    protected List<Set<ITransition>> prioritisedOutgoingTransitions_;
 
     public void setContainer(IRegion container) {
         container_ = container;
@@ -105,16 +108,14 @@ public abstract class Vertex extends NamedElement implements IVertex {
      */
     protected List<Set<ITransition>> getAllPossibleOutgoingTransitions(String eventType) {
 
-        List allTransitions = getAllPossibleOutgoingTransitions();
+        List<Set<ITransition>> allTransitions = getAllPossibleOutgoingTransitions();
 
-        List triggerableTransitions = new ArrayList();
+        List<Set<ITransition>> triggerableTransitions = new ArrayList<>();
 
-        for (Object allTransition : allTransitions) {
-            Set<ITransition> priorityLevelSet = (Set) allTransition;
+        for (Set<ITransition> allTransition : allTransitions) {
 
             Set<ITransition> triggerableSet = new HashSet<>();
-
-            for (ITransition transition : priorityLevelSet) {
+            for (ITransition transition : allTransition) {
                 List<ITrigger> triggers = transition.getTriggers();
                 for (ITrigger trigger : triggers) {
                     if (trigger.getEvent().getQualifiedName().equals(eventType)) {

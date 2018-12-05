@@ -101,11 +101,11 @@ public class HistoryState extends PseudoState implements IHistoryState {
             prioritisedOutgoingTransitions_.add(getOutgoing());
         }
 
-        public List getAllPossibleOutgoingTransitions() {
+        public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
             // History states do not inherit transitions from
             // enclosing states
 
-            List outgoingTransitions = new ArrayList<>();
+            List<Set<ITransition>> outgoingTransitions = new ArrayList<>();
             outgoingTransitions.add(getOutgoing());
 
             return outgoingTransitions;
@@ -113,8 +113,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
     }
 
     /**
-     * Encapsulates the behavioural aspects of a SHALLOW_HISTORY
-     * pseudostate.
+     * Encapsulates the behavioural aspects of a SHALLOW_HISTORY pseudostate.
      */
     private class ShallowHistoryPseudoStateBehaviour implements IPseudoStateBehaviour {
 
@@ -135,7 +134,6 @@ public class HistoryState extends PseudoState implements IHistoryState {
         }
 
         public void acceptOptimiser(IModelOptimiser modelOptimiser) {
-
             // History pseudostates do not inherit transitions from
             // enclosing states
             prioritisedOutgoingTransitions_ = new ArrayList();
@@ -143,15 +141,13 @@ public class HistoryState extends PseudoState implements IHistoryState {
 
         }
 
-        public List<ITransition> getAllPossibleOutgoingTransitions() {
+        public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
             // History states do not inherit transitions from
             // enclosing states
-
-            List<ITransition> outgoingTransitions = new ArrayList<>();
-            outgoingTransitions.addAll(getOutgoing());
+            List<Set<ITransition>> outgoingTransitions = new ArrayList<>();
+            outgoingTransitions.add(getOutgoing());
 
             return outgoingTransitions;
-
         }
     }
 
@@ -165,18 +161,14 @@ public class HistoryState extends PseudoState implements IHistoryState {
     protected ITransition getDefaultTransition() {
 
         Set<ITransition> transitions = getOutgoing();
-
         if (transitions.size() != 1) {
-
             String msg = "History state " + this + " has " + transitions.size() + " outgoing transitions";
             LOG.error(msg);
             throw new RuntimeException(msg);
-
         } else {
             Iterator<ITransition> iter = transitions.iterator();
             return iter.next();
         }
-
     }
 
     protected void transitionToHistoryState(IEventContext eventContext, INamespaceContext namespaceContext,
@@ -194,7 +186,6 @@ public class HistoryState extends PseudoState implements IHistoryState {
             getDefaultTransition().fire(eventContext, namespaceContext, stateMachineContext);
 
         } else {
-
             IState targetState = (IState) namespaceContext.getNamespaceObjectManager().getObject(targetQualifiedName);
 
             // Clone the default transition and change the target
@@ -202,8 +193,6 @@ public class HistoryState extends PseudoState implements IHistoryState {
             ITransition transition = getDefaultTransition().createShallowCopy();
             transition.setOutgoingVertex(targetState);
             transition.fire(eventContext, namespaceContext, stateMachineContext);
-
         }
-
     }
 }

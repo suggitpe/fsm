@@ -53,7 +53,7 @@ public class PseudoState extends Vertex implements IPseudoState {
     public void setPseudoStateKind(String pseudostateKind) {
 
         /*
-         * Set the behaviour based on the kind of pseudostate
+         * Set  the behaviour based on the kind of pseudostate
          * specified.
          */
         if (IPseudoState.INITIAL.equals(pseudostateKind)) {
@@ -86,7 +86,7 @@ public class PseudoState extends Vertex implements IPseudoState {
         boolean isInitialPseudostate();
         void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext);
         void exit(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext);
-        List getAllPossibleOutgoingTransitions();
+        List<Set<ITransition>> getAllPossibleOutgoingTransitions();
     }
 
     /**
@@ -129,11 +129,11 @@ public class PseudoState extends Vertex implements IPseudoState {
             prioritisedOutgoingTransitions_.add(getOutgoing());
         }
 
-        public List getAllPossibleOutgoingTransitions() {
+        public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
             // Initial pseudostates do not inherit transitions from
             // enclosing states
 
-            List outgoingTransitions = new ArrayList();
+            List<Set<ITransition>> outgoingTransitions = new ArrayList();
             outgoingTransitions.add(getOutgoing());
 
             return outgoingTransitions;
@@ -153,18 +153,16 @@ public class PseudoState extends Vertex implements IPseudoState {
              * transition to the initial pseudostate of the region
              * region.
              */
-
-            Set transitions = getOutgoing();
+            Set<ITransition> transitions = getOutgoing();
 
             if (1 != transitions.size()) {
                 String msg = transitions.size() + " outgoing transitions were found from " + PseudoState.this + ": " + transitions;
                 LOG.error(msg);
                 throw new RuntimeException(msg);
             } else {
-                Iterator iter = transitions.iterator();
-                ((ITransition) iter.next()).fire(eventContext, namespaceContext, stateMachineContext);
+                Iterator<ITransition> iter = transitions.iterator();
+                iter.next().fire(eventContext, namespaceContext, stateMachineContext);
             }
-
         }
 
         public void exit(IEventContext event, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
@@ -197,7 +195,7 @@ public class PseudoState extends Vertex implements IPseudoState {
             PseudoState.this.addOutgoingTransition(transition);
         }
 
-        public List<ITransition> getAllPossibleOutgoingTransitions() {
+        public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
             return prioritisedOutgoingTransitions_;
         }
     }
@@ -232,7 +230,7 @@ public class PseudoState extends Vertex implements IPseudoState {
             prioritisedOutgoingTransitions_.add(getOutgoing());
         }
 
-        public List getAllPossibleOutgoingTransitions() {
+        public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
             // Exit pseudostates do inherit transitions from enclosing
             // states
 
@@ -271,7 +269,7 @@ public class PseudoState extends Vertex implements IPseudoState {
         // Pseudostates have no exit action
     }
 
-    public List getAllPossibleOutgoingTransitions() {
+    public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
         return pseudoStateBehaviour_.getAllPossibleOutgoingTransitions();
     }
 

@@ -486,7 +486,7 @@ public class State extends Vertex implements IState {
          *
          * @return All possible transitions out of this state.
          */
-        List getAllPossibleOutgoingTransitions();
+        List<Set<ITransition>> getAllPossibleOutgoingTransitions();
 
         /**
          * Enters the state.
@@ -649,7 +649,7 @@ public class State extends Vertex implements IState {
             State.super.addOutgoingTransition(transition);
         }
 
-        public List getAllPossibleOutgoingTransitions() {
+        public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
             return State.super.getAllPossibleOutgoingTransitions();
         }
 
@@ -769,7 +769,7 @@ public class State extends Vertex implements IState {
             transition.setIncomingVertex(exitPoint_);
         }
 
-        public List getAllPossibleOutgoingTransitions() {
+        public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
             return exitPoint_.getAllPossibleOutgoingTransitions();
         }
     }
@@ -791,7 +791,7 @@ public class State extends Vertex implements IState {
         stateBehaviour_.addOutgoingTransition(transition);
     }
 
-    public List getAllPossibleOutgoingTransitions() {
+    public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
         return stateBehaviour_.getAllPossibleOutgoingTransitions();
     }
 
