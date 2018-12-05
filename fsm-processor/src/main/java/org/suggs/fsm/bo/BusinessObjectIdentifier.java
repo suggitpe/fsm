@@ -3,13 +3,11 @@ package org.suggs.fsm.bo;
 import java.util.Objects;
 
 /**
- * Bean type class to encapsulate all values that make up the
- * identifiable characteristics of a business object - not to be used
- * as a composite id within O/R mappers.
- */
+ * Bean type class to encapsulate all values that make up the identifiable characteristics of a business
+ * object - not to be used as a composite id within O/R mappers. */
 public class BusinessObjectIdentifier {
 
-    public static final int NUM_BUCKETS = 1000;
+    private static final int NUM_BUCKETS = 1000;
 
     private String internalType_;
     private String type_;
@@ -21,37 +19,13 @@ public class BusinessObjectIdentifier {
     private int hash_ = -2;
 
     /**
-     * Constructs a new instance based on the XSD type instance.
-     */
-//    public BusinessObjectIdentifier(ScribeBusinessObjectIdentifier xmlBoId) {
-//        super();
-//        if (xmlBoId.getLinguaBusObjType() != null) {
-//            setType(xmlBoId.getLinguaBusObjType().toString());
-//        }
-//        setInternalType(xmlBoId.getScribeBusObjType().toString());
-//
-//        setId(xmlBoId.getScribeBusObjId());
-//        setExternalId(xmlBoId.getLinguaBusObjId());
-//        setOwner(xmlBoId.getBusObjOwner());
-//        if (xmlBoId.getBusObjVersion() != null) {
-//            setVersion(xmlBoId.getBusObjVersion().intValue());
-//        }
-//        // we will ignore the hash value for the time being, assuming
-//        // that the setting of the id will set the hash correctly
-//    }
-
-    /**
-     * Constructs a new instance using all specified values (the hash
-     * will be computed).
-     */
+     * Constructs a new instance using all specified values (the hash will be computed). */
     public BusinessObjectIdentifier(String internalType, String type, String id, String owner, int version) {
         this(internalType, type, id, owner, version, null);
     }
 
     /**
-     * Constructs a new instance using all specified values (the hash
-     * will be computed).
-     */
+     * Constructs a new instance using all specified values (the hash will be computed). */
     public BusinessObjectIdentifier(String internalType, String type, String id, String owner, int version, String externalId) {
         super();
         setInternalType(internalType);
@@ -75,20 +49,15 @@ public class BusinessObjectIdentifier {
     }
 
     /**
-     * No-args contructor for the business objects to use when created
-     * by the ORM.
-     */
+     * No-args contructor for the business objects to use when created by the ORM. */
     BusinessObjectIdentifier() {
         super();
     }
 
     /**
-     * Returns the bucket number an event was delivered to or bound
-     * for - must be positive between 0 and MAX_BUCKET_NUMBER
-     * inclusive.
+     * Returns the bucket number an event was delivered to or bound for - must be positive between 0 and MAX_BUCKET_NUMBER inclusive.
      * <p>
-     * If the id_ is set, will be computed based on it. If the id is
-     * not set, will be computed based on the external id.
+     * If the id_ is set, will be computed based on it. If the id is not set, will be computed based on the external id.
      *
      * @return The bucket number an event was delivered to.
      */
@@ -264,8 +233,7 @@ public class BusinessObjectIdentifier {
     }
 
     /**
-     * Generate a standard Lingua "bucket ID" hash value from a
-     * business object ID
+     * Generate a standard Lingua "bucket ID" hash value from a business object ID
      *
      * @return the Lingua hash value for the ID (>= 0 && <= 999)
      * @id the ID to generate the hash from (may not be null)

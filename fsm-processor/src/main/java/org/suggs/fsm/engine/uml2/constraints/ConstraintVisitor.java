@@ -14,34 +14,22 @@ import org.suggs.fsm.uml2.communications.ITrigger;
 import org.suggs.fsm.uml2.kernel.INamedElement;
 import org.suggs.fsm.uml2.scribe.constraints.IConstraintVisitor;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 public class ConstraintVisitor implements IConstraintVisitor {
 
     private IPseudoStateChecker pseudoStateChecker_;
-
     private IBehaviourChecker behaviorChecker_;
-
     private IBehaviouredClassifierChecker behavioredClassifierChecker_;
-
     private IEventChecker eventChecker_;
-
     private IFinalStateChecker finalStateChecker_;
-
     private IStateMachineChecker stateMachineChecker_;
-
     private INamedElementChecker namedElementChecker_;
-
     private IRegionChecker regionChecker_;
-
     private ITransitionChecker transitionChecker_;
-
     private IStateChecker stateChecker_;
-
     private ITriggerChecker triggerChecker_;
-
     private IVertexChecker vertexChecker_;
 
     public IStateMachineChecker getStateMachineChecker() {
@@ -73,19 +61,16 @@ public class ConstraintVisitor implements IConstraintVisitor {
         regionChecker_.checkConstraints(region);
 
         // Check sub-vertices
-        Set vertices = region.getSubVertices();
-        for (Iterator iter = vertices.iterator(); iter.hasNext(); ) {
-            IVertex vertex = (IVertex) iter.next();
+        Set<IVertex> vertices = region.getSubVertices();
+        for (IVertex vertex : vertices) {
             vertex.acceptConstraintVisitor(this);
         }
 
         // Check transitions
-        Set transitions = region.getTransitions();
-        for (Iterator iter = transitions.iterator(); iter.hasNext(); ) {
-            ITransition transition = (ITransition) iter.next();
+        Set<ITransition> transitions = region.getTransitions();
+        for (ITransition transition : transitions) {
             transition.acceptConstraintVisitor(this);
         }
-
     }
 
     public IPseudoStateChecker getPseudoStateChecker() {
@@ -169,9 +154,8 @@ public class ConstraintVisitor implements IConstraintVisitor {
         namedElementChecker_.checkConstraints(transition);
 
         // Check owned effects
-        List effects = transition.getEffects();
-        for (Iterator iter = effects.iterator(); iter.hasNext(); ) {
-            IBehavior behavior = (IBehavior) iter.next();
+        List<IBehavior> effects = transition.getEffects();
+        for (IBehavior behavior : effects) {
             behavior.acceptConstraintVisitor(this);
         }
 
@@ -181,11 +165,10 @@ public class ConstraintVisitor implements IConstraintVisitor {
         }
 
         // check triggers
-        List triggers = transition.getTriggers();
+        List<ITrigger> triggers = transition.getTriggers();
         if (null != triggers) {
-            for (Iterator i = triggers.iterator(); i.hasNext(); ) {
-                ITrigger t = (ITrigger) i.next();
-                t.acceptConstraintVisitor(this);
+            for (ITrigger trigger : triggers) {
+                trigger.acceptConstraintVisitor(this);
             }
         }
 
@@ -215,11 +198,10 @@ public class ConstraintVisitor implements IConstraintVisitor {
         }
 
         // check triggers for deferrable events
-        Set triggers = state.getDeferrableTriggers();
+        Set<ITrigger> triggers = state.getDeferrableTriggers();
         if (null != triggers) {
-            for (Iterator i = triggers.iterator(); i.hasNext(); ) {
-                ITrigger t = (ITrigger) i.next();
-                t.acceptConstraintVisitor(this);
+            for (ITrigger trigger : triggers) {
+                trigger.acceptConstraintVisitor(this);
             }
         }
     }

@@ -19,12 +19,12 @@ public interface INamespace extends INamedElement {
      * Gets the named elements owned by this namespace. This typically
      * means the states within a region, for example.
      */
-    Set getOwnedMembers();
+    Set<INamedElement> getOwnedMembers();
 
     /**
      * Sets the named elements owned by this namespace.
      */
-    void setOwnedMembers(Set ownedMembers);
+    void setOwnedMembers(Set<INamedElement> ownedMembers);
 
     /**
      * Adds a named element to this namespace and sets its namespace

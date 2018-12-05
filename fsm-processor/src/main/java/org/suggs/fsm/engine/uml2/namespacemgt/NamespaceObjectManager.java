@@ -10,13 +10,16 @@ import org.suggs.fsm.uml2.kernel.IConstraint;
 import org.suggs.fsm.uml2.kernel.INamedElement;
 import org.suggs.fsm.uml2.scribe.namespacemgt.INamespaceObjectManager;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class NamespaceObjectManager implements INamespaceObjectManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(NamespaceObjectManager.class);
 
-    private Map objectMap_ = new HashMap();
+    private Map<String, Object> objectMap_ = new HashMap<>();
 
     public void addObject(String qualifiedName, Object object) {
 
@@ -55,16 +58,14 @@ public class NamespaceObjectManager implements INamespaceObjectManager {
     public void visitRegion(IRegion region) {
 
         // Visit the contained transitions
-        Set transitions = region.getTransitions();
-        for (Iterator iter = transitions.iterator(); iter.hasNext(); ) {
-            ITransition transition = (ITransition) iter.next();
+        Set<ITransition> transitions = region.getTransitions();
+        for (ITransition transition : transitions) {
             transition.acceptNamespaceObjectManager(this);
         }
 
         // Visit the contained sub-vertices
-        Set vertices = region.getSubVertices();
-        for (Iterator iter = vertices.iterator(); iter.hasNext(); ) {
-            IVertex vertex = (IVertex) iter.next();
+        Set<IVertex> vertices = region.getSubVertices();
+        for (IVertex vertex : vertices) {
             vertex.acceptNamespaceObjectManager(this);
         }
 
@@ -86,26 +87,21 @@ public class NamespaceObjectManager implements INamespaceObjectManager {
         }
 
         // Visit the triggers for deferred events
-        Set triggers = state.getDeferrableTriggers();
+        Set<ITrigger> triggers = state.getDeferrableTriggers();
         if (triggers != null) {
-            for (Iterator iter = triggers.iterator(); iter.hasNext(); ) {
-                ITrigger trigger = (ITrigger) iter.next();
+            for (ITrigger trigger : triggers) {
                 trigger.acceptNamespaceObjectManager(this);
             }
         }
     }
 
     public void visitStateMachine(IStateMachine stateMachine) {
-
         // Visit the owned region in the state machine
         stateMachine.getOwnedRegion().acceptNamespaceObjectManager(this);
-
     }
 
     public void visitBehavioredClassifier(IBehavioredClassifier behavioredClassifier) {
-
         behavioredClassifier.acceptNamespaceObjectManager(this);
-
     }
 
     public void visitTransition(ITransition transition) {
@@ -117,16 +113,14 @@ public class NamespaceObjectManager implements INamespaceObjectManager {
         }
 
         // Visit the transition action
-        List effects = transition.getEffects();
-        for (Iterator iter = effects.iterator(); iter.hasNext(); ) {
-            IBehavior effect = (IBehavior) iter.next();
+        List<IBehavior> effects = transition.getEffects();
+        for (IBehavior effect : effects) {
             effect.acceptNamespaceObjectManager(this);
         }
 
         // Visit the triggers
-        List triggers = transition.getTriggers();
-        for (Iterator iter = triggers.iterator(); iter.hasNext(); ) {
-            ITrigger trigger = (ITrigger) iter.next();
+        List<ITrigger> triggers = transition.getTriggers();
+        for (ITrigger trigger : triggers) {
             trigger.acceptNamespaceObjectManager(this);
         }
 

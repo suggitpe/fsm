@@ -16,9 +16,9 @@ import java.util.List;
 
 public class StateMachine extends Behavior implements IStateMachine {
 
-    private IRegion ownedRegion_ = null;
-
     private static final Logger LOG = LoggerFactory.getLogger(StateMachine.class);
+
+    private IRegion ownedRegion_ = null;
 
     public IRegion getOwnedRegion() {
         return ownedRegion_;
@@ -56,12 +56,12 @@ public class StateMachine extends Behavior implements IStateMachine {
         }
 
         // Get the full ancestor trees for both states
-        List s1AncestorList = s1.getAncestorList();
-        List s2AncestorList = s2.getAncestorList();
+        List<IRegion> s1AncestorList = s1.getAncestorList();
+        List<IRegion> s2AncestorList = s2.getAncestorList();
 
         // Find the first match
-        for (Iterator iter = s1AncestorList.iterator(); iter.hasNext(); ) {
-            Region region = (Region) iter.next();
+        for (IRegion iRegion : s1AncestorList) {
+            Region region = (Region) iRegion;
             if (s2AncestorList.contains(region)) {
                 // Found the LCA
                 return region;

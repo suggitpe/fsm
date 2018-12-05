@@ -27,27 +27,21 @@ public class State extends Vertex implements IState {
     private static final Logger LOG = LoggerFactory.getLogger(State.class);
 
     private INamespace namespaceFacet_;
-
     private IBehavior entryBehavior_ = null;
-
     private IBehavior exitBehavior_ = null;
-
     private IRegion region_ = null;
-
-    private Set deferrableTriggers_ = new HashSet();
-
-    private State() {
-        namespaceFacet_ = new Namespace();
-    }
-
+    private Set<ITrigger> deferrableTriggers_ = new HashSet<>();
     private IStateBehaviour stateBehaviour_;
-
     /**
      * Holds an ordered list of objects that have registered to
      * receive notfications when this state is entered as part of a
      * transition.
      */
-    private List stateEntryListeners_ = new ArrayList();
+    private List<IStateEntryListener> stateEntryListeners_ = new ArrayList<>();
+
+    private State() {
+        namespaceFacet_ = new Namespace();
+    }
 
     public State(String stateKind) {
         setStateKind(stateKind);
@@ -70,9 +64,7 @@ public class State extends Vertex implements IState {
     }
 
     public String getStateKind() {
-
         return stateBehaviour_.getStateKind();
-
     }
 
     public void setEntryBehavior(IBehavior behavior) {
@@ -107,11 +99,11 @@ public class State extends Vertex implements IState {
         return stateBehaviour_.isSubmachineState();
     }
 
-    public Set getOwnedMembers() {
+    public Set<INamedElement> getOwnedMembers() {
         return namespaceFacet_.getOwnedMembers();
     }
 
-    public void setOwnedMembers(Set ownedMembers) {
+    public void setOwnedMembers(Set<INamedElement> ownedMembers) {
         namespaceFacet_.setOwnedMembers(ownedMembers);
     }
 
@@ -160,19 +152,16 @@ public class State extends Vertex implements IState {
      * @return <code>true</code> if any of the Sets in the List have
      * non-zero size, <code>false</code> otherwise.
      */
-    protected boolean hasTransitions(List prioritisedTransitions) {
+    protected boolean hasTransitions(List<Set<ITransition>> prioritisedTransitions) {
 
         // If there are no possible transitions for this event
         boolean potentialTransitionsExist = false;
-        for (Object prioritisedTransition : prioritisedTransitions) {
-            Set transitionSet = (Set) prioritisedTransition;
+        for (Set<ITransition> transitionSet : prioritisedTransitions) {
             if (0 < transitionSet.size()) {
                 potentialTransitionsExist = true;
             }
         }
-
         return potentialTransitionsExist;
-
     }
 
     public void processEvent(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
@@ -221,7 +210,7 @@ public class State extends Vertex implements IState {
     public ITransition getEnabledTransition(IEventContext eventContext, INamespaceContext namespaceContext,
                                             IStateMachineContext stateMachineContext) {
 
-        List potentialOutgoingTransitions = getAllPossibleOutgoingTransitions(eventContext.getEvent().getType());
+        List<Set<ITransition>> potentialOutgoingTransitions = getAllPossibleOutgoingTransitions(eventContext.getEvent().getType());
 
         if (!hasTransitions(potentialOutgoingTransitions)) {
             StringBuffer msg = new StringBuffer();
@@ -233,22 +222,15 @@ public class State extends Vertex implements IState {
             throw new UnprocessableEventException(msg.toString());
         } else {
             /*
-             * Iterate over the transitions at each priority level,
-             * starting at the highest priority.
-             */
-            for (Object potentialOutgoingTransition : potentialOutgoingTransitions) {
-
-                Set prioritySet = (Set) potentialOutgoingTransition;
+             * Iterate over the transitions at each priority level, starting at the highest priority. */
+            for (Set<ITransition> prioritySet : potentialOutgoingTransitions) {
 
                 // Examine the potential transitions at each priority
                 // level
                 if (0 < prioritySet.size()) {
 
-                    Set enabledTransitions = new HashSet();
-
-                    for (Object aPrioritySet : prioritySet) {
-                        ITransition transition = (ITransition) aPrioritySet;
-
+                    Set<ITransition> enabledTransitions = new HashSet<>();
+                    for (ITransition transition : prioritySet) {
                         if (transition.isEnabled(eventContext, namespaceContext, stateMachineContext)) {
                             // Guard passed
                             enabledTransitions.add(transition);
@@ -257,7 +239,7 @@ public class State extends Vertex implements IState {
 
                     if (0 < enabledTransitions.size()) {
                         if (1 == enabledTransitions.size()) {
-                            return ((ITransition) enabledTransitions.iterator().next());
+                            return (enabledTransitions.iterator().next());
                         } else {
                             StringBuffer msg = new StringBuffer();
                             msg.append("Conflicting transitions were enabled for event [")
@@ -266,12 +248,12 @@ public class State extends Vertex implements IState {
 
                             // we should be guaranteed at least 2 to have
                             // reached here
-                            Iterator ei = enabledTransitions.iterator();
-                            ITransition transition = (ITransition) ei.next();
+                            Iterator<ITransition> ei = enabledTransitions.iterator();
+                            ITransition transition = ei.next();
                             msg.append(transition.getName());
 
                             while (ei.hasNext()) {
-                                transition = (ITransition) ei.next();
+                                transition = ei.next();
                                 msg.append(",").append(transition.getName());
                             }
                             msg.append("]");
@@ -308,9 +290,9 @@ public class State extends Vertex implements IState {
         constraintVisitor.visitState(this);
     }
 
-    public Set getAllPossibleDeferrableTriggers() {
+    public Set<ITrigger> getAllPossibleDeferrableTriggers() {
         // initialise with our own defer list
-        Set allTriggers = new HashSet(getDeferrableTriggers());
+        Set<ITrigger> allTriggers = new HashSet(getDeferrableTriggers());
 
         // add the ones from our enclosing states
         if (getContainer().getState() != null) {
@@ -330,27 +312,21 @@ public class State extends Vertex implements IState {
         prioritisedOutgoingTransitions_.add(0, State.super.getOutgoing());
 
         // Stores any new extended transitions that are created
-        Set newTransitions = new HashSet();
+        Set<ITransition> newTransitions = new HashSet();
 
         if (null != getContainer().getState()) {
 
-            List inheritedTransitions = getContainer().getState().getAllPossibleOutgoingTransitions();
+            List<Set<ITransition>> inheritedTransitions = getContainer().getState().getAllPossibleOutgoingTransitions();
 
             for (int i = 0; i < inheritedTransitions.size(); i++) {
-
-                Set priorityLevelSet = new HashSet();
-
-                Set s = (Set) inheritedTransitions.get(i);
-
-                for (Iterator transitionIt = s.iterator(); transitionIt.hasNext(); ) {
-                    ITransition transition = (ITransition) transitionIt.next();
+                Set<ITransition> priorityLevelSet = new HashSet<>();
+                Set<ITransition> s = inheritedTransitions.get(i);
+                for (ITransition transition : s) {
                     ITransition extendedTransition = transition.createShallowCopy();
                     extendedTransition.setIncomingVertex(this);
                     priorityLevelSet.add(extendedTransition);
                     priorityLevelSet.add(transition);
-
                 }
-
                 prioritisedOutgoingTransitions_.add(i + 1, priorityLevelSet);
             }
 
@@ -567,21 +543,21 @@ public class State extends Vertex implements IState {
             //    sending the completion event. (we don't want the new state to
             //    see deferred events that this state should have discarded).
 
-            List managerDeferList = stateMachineContext.getStateManager().getDeferredEvents();
+            List<IEventContext> managerDeferList = stateMachineContext.getStateManager().getDeferredEvents();
 
             // do initialisation if the state manager hasn't done so.
             if (managerDeferList == null) {
-                managerDeferList = new ArrayList();
+                managerDeferList = new ArrayList<>();
                 stateMachineContext.getStateManager().storeDeferredEvents(managerDeferList);
             }
 
             // our own local copy so that code can be used
-            List deferredEvents = (managerDeferList == null) ? new ArrayList() : new ArrayList(managerDeferList);
+            List<IEventContext> deferredEvents = new ArrayList(managerDeferList);
 
             // remove all non deferrable events from state manager
             // list
-            for (Iterator iter = managerDeferList.iterator(); iter.hasNext(); ) {
-                if (!defersEvent(((IEventContext) iter.next()).getEvent())) {
+            for (Iterator<IEventContext> iter = managerDeferList.iterator(); iter.hasNext(); ) {
+                if (!defersEvent(iter.next().getEvent())) {
                     iter.remove();
                 }
             }
@@ -613,8 +589,7 @@ public class State extends Vertex implements IState {
                     // search for first deferred event that can fire,
                     // discard all others that are no longer deferrable
                     // from this state.
-                    for (Iterator iter = deferredEvents.iterator(); iter.hasNext(); ) {
-                        IEventContext context = (IEventContext) iter.next();
+                    for (IEventContext context : deferredEvents) {
                         if (null == transitionToFire) {
                             try {
                                 transitionToFire = getEnabledTransition(context, namespaceContext, stateMachineContext);
@@ -820,39 +795,21 @@ public class State extends Vertex implements IState {
         return stateBehaviour_.getAllPossibleOutgoingTransitions();
     }
 
-    public Set getDeferrableTriggers() {
+    public Set<ITrigger> getDeferrableTriggers() {
         return deferrableTriggers_;
     }
 
-    public void setDeferrableTriggers(Set triggerList) {
+    public void setDeferrableTriggers(Set<ITrigger> triggerList) {
         deferrableTriggers_ = triggerList;
     }
 
     public boolean defersEvent(org.suggs.fsm.event.IEvent event) {
-        for (Iterator e = deferrableTriggers_.iterator(); e.hasNext(); ) {
-            ITrigger t = (ITrigger) e.next();
-            if (t.getEvent().getQualifiedName().equals(event.getType())) {
+        for (ITrigger trigger : deferrableTriggers_) {
+            if (trigger.getEvent().getQualifiedName().equals(event.getType())) {
                 return true;
             }
         }
         return false;
     }
-
-    /**
-     * Returns a String representation of this object using the
-     * default toString style.
-     */
-//    @Override
-//    public String toString() {
-//        return "State{" +
-//                "namespaceFacet_=" + namespaceFacet_ +
-//                ", entryBehavior_=" + entryBehavior_ +
-//                ", exitBehavior_=" + exitBehavior_ +
-//                ", region_=" + region_ +
-//                ", deferrableTriggers_=" + deferrableTriggers_ +
-//                ", stateBehaviour_=" + stateBehaviour_ +
-//                ", stateEntryListeners_=" + stateEntryListeners_ +
-//                '}';
-//    }
 
 }

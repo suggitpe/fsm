@@ -3,6 +3,7 @@ package org.suggs.fsm.engine.uml2.behaviorstatemachines;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.suggs.fsm.uml2.behaviorstatemachines.IState;
+import org.suggs.fsm.uml2.behaviorstatemachines.ITransition;
 import org.suggs.fsm.uml2.communications.IEvent;
 import org.suggs.fsm.uml2.scribe.constraints.IConstraintVisitor;
 import org.suggs.fsm.uml2.scribe.runtime.IEventContext;
@@ -56,11 +57,11 @@ public class FinalState extends State implements IState {
 
     }
 
-    public Set getOutgoing() {
+    public Set<ITransition> getOutgoing() {
         return super.getOutgoing();
     }
 
-    public void setOutgoing(Set outgoingTransitions) {
+    public void setOutgoing(Set<ITransition> outgoingTransitions) {
         super.setOutgoing(outgoingTransitions);
     }
 

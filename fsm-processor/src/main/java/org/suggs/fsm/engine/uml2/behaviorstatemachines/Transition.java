@@ -8,6 +8,7 @@ import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
 import org.suggs.fsm.uml2.behaviorstatemachines.IRegion;
 import org.suggs.fsm.uml2.behaviorstatemachines.ITransition;
 import org.suggs.fsm.uml2.behaviorstatemachines.IVertex;
+import org.suggs.fsm.uml2.communications.ITrigger;
 import org.suggs.fsm.uml2.kernel.IConstraint;
 import org.suggs.fsm.uml2.scribe.constraints.IConstraintVisitor;
 import org.suggs.fsm.uml2.scribe.namespacemgt.INamespaceObjectManager;
@@ -25,11 +26,11 @@ public class Transition extends NamedElement implements ITransition {
 
     private static final Logger LOG = LoggerFactory.getLogger(Transition.class);
 
-    private List effects_ = new ArrayList();
+    private List<IBehavior> effects_ = new ArrayList<>();
     private IConstraint guard_;
     private IVertex incomingVertex_;
     private IVertex outgoingVertex_;
-    private List triggers_ = new DefaultTriggerSet();
+    private List<ITrigger> triggers_ = new DefaultTriggerSet();
     private IRegion container_;
     private ITransitionBehaviour transitionBehaviour_;
 
@@ -38,11 +39,11 @@ public class Transition extends NamedElement implements ITransition {
         setTransitionKind(transitionKind);
     }
 
-    public void setEffects(List effects) {
+    public void setEffects(List<IBehavior> effects) {
         effects_ = effects;
     }
 
-    public List getEffects() {
+    public List<IBehavior> getEffects() {
         return effects_;
     }
 
@@ -89,11 +90,11 @@ public class Transition extends NamedElement implements ITransition {
         return transitionBehaviour_.getTransitionKind();
     }
 
-    public void setTriggers(List triggers) {
+    public void setTriggers(List<ITrigger> triggers) {
         triggers_ = triggers;
     }
 
-    public List getTriggers() {
+    public List<ITrigger> getTriggers() {
         return triggers_;
     }
 
@@ -195,14 +196,12 @@ public class Transition extends NamedElement implements ITransition {
             sourceVertex.exit(eventContext, namespaceContext, stateMachinecontext);
 
             // Do transition actions
-            List effects = getEffects();
-            for (Object effect : effects) {
-                IBehavior behavior = (IBehavior) effect;
-                behavior.execute(eventContext, namespaceContext, stateMachinecontext);
+            List<IBehavior> effects = getEffects();
+            for (IBehavior effect : effects) {
+                effect.execute(eventContext, namespaceContext, stateMachinecontext);
             }
 
             targetVertex.enter(eventContext, namespaceContext, stateMachinecontext);
-
         }
 
         public String getTransitionKind() {
@@ -231,7 +230,7 @@ public class Transition extends NamedElement implements ITransition {
                  * the source and target vertices.
                  */
 
-                List exitList = sourceVertex.getAncestorList();
+                List<IRegion> exitList = sourceVertex.getAncestorList();
 
                 // Exit the source state
                 sourceVertex.exit(eventContext, namespaceContext, stateMachinecontext);
@@ -241,8 +240,8 @@ public class Transition extends NamedElement implements ITransition {
                 // Exit the states in sequence
                 boolean leastCommonAncestorReached = false;
 
-                for (Iterator iter = exitList.iterator(); !leastCommonAncestorReached && iter.hasNext(); ) {
-                    IRegion region = (IRegion) iter.next();
+                for (Iterator<IRegion> iter = exitList.iterator(); !leastCommonAncestorReached && iter.hasNext(); ) {
+                    IRegion region = iter.next();
                     if (region != leastCommonAncestor) {
                         region.getState().doExitAction(eventContext, namespaceContext, stateMachinecontext);
                     } else {
@@ -252,10 +251,9 @@ public class Transition extends NamedElement implements ITransition {
             }
 
             // Do transition actions
-            List effects = getEffects();
-            for (Object effect : effects) {
-                IBehavior behavior = (IBehavior) effect;
-                behavior.execute(eventContext, namespaceContext, stateMachinecontext);
+            List<IBehavior> effects = getEffects();
+            for (IBehavior effect : effects) {
+                effect.execute(eventContext, namespaceContext, stateMachinecontext);
             }
 
             {
@@ -265,37 +263,33 @@ public class Transition extends NamedElement implements ITransition {
                  * least common ancestor and the taget vertex.
                  */
 
-                List entryList = targetVertex.getAncestorList();
+                List<IRegion> entryList = targetVertex.getAncestorList();
 
                 boolean leastCommonAncestorReached = false;
 
                 for (int i = entryList.size() - 1; i >= 0; i--) {
-                    if (leastCommonAncestorReached == true) {
-                        ((IRegion) entryList.get(i)).getState().doEntryAction(eventContext, namespaceContext, stateMachinecontext);
+                    if (leastCommonAncestorReached) {
+                        entryList.get(i).getState().doEntryAction(eventContext, namespaceContext, stateMachinecontext);
                     } else if (entryList.get(i) == leastCommonAncestor) {
                         leastCommonAncestorReached = true;
                     }
                 }
 
                 // Enter the target state
-
                 targetVertex.doEntryAction(eventContext, namespaceContext, stateMachinecontext);
-
                 targetVertex.enter(eventContext, namespaceContext, stateMachinecontext);
-
             }
         }
 
         public String getTransitionKind() {
             return ITransition.EXTERNAL;
         }
-
     }
 
     /**
      * The default triggers for a new transition.
      */
-    protected class DefaultTriggerSet extends Vector implements List {
+    protected class DefaultTriggerSet extends Vector {
 
         DefaultTriggerSet() {
             // Add a single default trigger

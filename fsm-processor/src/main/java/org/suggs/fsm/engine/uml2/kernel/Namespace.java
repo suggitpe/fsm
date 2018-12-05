@@ -17,20 +17,16 @@ public class Namespace extends NamedElement implements INamespace {
     /**
      * The objects owned by this namespace
      */
-    private Set ownedMembers_ = new HashSet();
+    private Set<INamedElement> ownedMembers_ = new HashSet();
 
-    public Set getOwnedMembers() {
+    public Set<INamedElement> getOwnedMembers() {
         return ownedMembers_;
     }
 
-    public void setOwnedMembers(Set ownedMembers) {
-
-        for (Object ownedMember : ownedMembers) {
-            INamedElement e = (INamedElement) ownedMember;
-
-            addOwnedMember(e);
+    public void setOwnedMembers(Set<INamedElement> ownedMembers) {
+        for (INamedElement namedElement : ownedMembers) {
+            addOwnedMember(namedElement);
         }
-
     }
 
     public void addOwnedMember(INamedElement newMember) {
@@ -41,34 +37,20 @@ public class Namespace extends NamedElement implements INamespace {
             throw new RuntimeException(msg);
         }
 
-        for (Iterator iter = ownedMembers_.iterator(); iter.hasNext(); ) {
-            INamedElement element = (INamedElement) iter.next();
+        for (Iterator<INamedElement> iter = ownedMembers_.iterator(); iter.hasNext(); ) {
+            INamedElement element = iter.next();
             if (element.getName().equals(newMember.getName())) {
                 // Replace the existing member and remove it from this
                 // namespace
                 element.setNamespace(null);
                 iter.remove();
             }
-
         }
 
         // Set the namespace of the owned member
         newMember.setNamespace(this);
         ownedMembers_.add(newMember);
-
         Assert.state(ownedMembers_.contains(newMember));
-
     }
-
-//    /**
-//     * Returns a String representation of this object using the
-//     * default toString style.
-//     */
-//    @Override
-//    public String toString() {
-//        return "Namespace{" +
-//                "ownedMembers_=" + ownedMembers_ +
-//                '}';
-//    }
 
 }

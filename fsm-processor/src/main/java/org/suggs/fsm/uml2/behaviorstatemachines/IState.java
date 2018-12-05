@@ -135,6 +135,6 @@ public interface IState extends INamespace, IVertex, IEnterable, IExitable, IEnt
      * state itself, plus the ones registered on all its enclosing
      * states.
      */
-    Set getAllPossibleDeferrableTriggers();
+    Set<ITrigger> getAllPossibleDeferrableTriggers();
 
 }

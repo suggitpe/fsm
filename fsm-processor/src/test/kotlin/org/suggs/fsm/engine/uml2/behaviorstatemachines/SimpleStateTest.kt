@@ -109,7 +109,7 @@ class SimpleStateTest {
 
         state.name = STATE_NAME
 
-        `when`(enclosingState.allPossibleOutgoingTransitions).thenReturn(ArrayList<Any>())
+        `when`(enclosingState.allPossibleOutgoingTransitions).thenReturn(ArrayList())
         `when`(region.state).thenReturn(enclosingState)
         `when`(incomingEvent.type).thenReturn(qualifiedEventName)
         `when`(incomingEvent.businessObject).thenReturn(null)

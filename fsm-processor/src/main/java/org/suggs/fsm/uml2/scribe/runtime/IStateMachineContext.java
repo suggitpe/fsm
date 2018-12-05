@@ -37,7 +37,7 @@ public interface IStateMachineContext {
      * to the fully qualified name <code>String</code> they
      * currently map to.
      */
-    Map getHistoryStates();
+    Map<String, String> getHistoryStates();
 
     /**
      * Sets the state management persistence copmponent to be used by

@@ -105,7 +105,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
             // History states do not inherit transitions from
             // enclosing states
 
-            List outgoingTransitions = new ArrayList();
+            List outgoingTransitions = new ArrayList<>();
             outgoingTransitions.add(getOutgoing());
 
             return outgoingTransitions;
@@ -143,12 +143,12 @@ public class HistoryState extends PseudoState implements IHistoryState {
 
         }
 
-        public List getAllPossibleOutgoingTransitions() {
+        public List<ITransition> getAllPossibleOutgoingTransitions() {
             // History states do not inherit transitions from
             // enclosing states
 
-            List outgoingTransitions = new ArrayList();
-            outgoingTransitions.add(getOutgoing());
+            List<ITransition> outgoingTransitions = new ArrayList<>();
+            outgoingTransitions.addAll(getOutgoing());
 
             return outgoingTransitions;
 
@@ -164,7 +164,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
      */
     protected ITransition getDefaultTransition() {
 
-        Set transitions = getOutgoing();
+        Set<ITransition> transitions = getOutgoing();
 
         if (transitions.size() != 1) {
 
@@ -173,8 +173,8 @@ public class HistoryState extends PseudoState implements IHistoryState {
             throw new RuntimeException(msg);
 
         } else {
-            Iterator iter = transitions.iterator();
-            return (ITransition) iter.next();
+            Iterator<ITransition> iter = transitions.iterator();
+            return iter.next();
         }
 
     }

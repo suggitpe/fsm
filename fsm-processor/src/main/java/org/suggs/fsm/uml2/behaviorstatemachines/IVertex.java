@@ -67,12 +67,9 @@ public interface IVertex extends INamedElement, IEnterable, IExitable, IOptimisa
     void addOutgoingTransition(ITransition transition);
 
     /**
-     * Returns all possible outgoing transitions from this vertex,
-     * including those from enclosing states. The transitions are
-     * presented as a list of sets, where the list defines the
-     * priority of the transition set with position 0 being the
-     * highest priority, ie. the transitions that are defined on this
-     * vertex.
+     * Returns all possible outgoing transitions from this vertex, including those from enclosing states. The
+     * transitions are presented as a list of sets, where the list defines the priority of the transition set
+     * with position 0 being the highest priority, ie. the transitions that are defined on this vertex.
      */
-    List getAllPossibleOutgoingTransitions();
+    List<Set<ITransition>> getAllPossibleOutgoingTransitions();
 }

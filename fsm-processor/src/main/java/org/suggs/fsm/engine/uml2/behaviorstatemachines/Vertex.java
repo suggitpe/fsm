@@ -6,22 +6,14 @@ import org.suggs.fsm.uml2.behaviorstatemachines.ITransition;
 import org.suggs.fsm.uml2.behaviorstatemachines.IVertex;
 import org.suggs.fsm.uml2.communications.ITrigger;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Vertex extends NamedElement implements IVertex {
 
     private IRegion container_;
-
-    private Set incomingTransitions_ = new HashSet();
-
-    private Set outgoingTransitions_ = new HashSet();
-
-    private List ancestorList = null;
-
+    private Set<ITransition> incomingTransitions_ = new HashSet<>();
+    private Set<ITransition> outgoingTransitions_ = new HashSet<>();
+    private List<IRegion> ancestorList = null;
     protected List prioritisedOutgoingTransitions_;
 
     public void setContainer(IRegion container) {
@@ -32,26 +24,26 @@ public abstract class Vertex extends NamedElement implements IVertex {
         return container_;
     }
 
-    public void setIncoming(Set incomingTransitions) {
+    public void setIncoming(Set<ITransition> incomingTransitions) {
         incomingTransitions_ = incomingTransitions;
     }
 
-    public Set getIncoming() {
+    public Set<ITransition> getIncoming() {
         return incomingTransitions_;
     }
 
-    public void setOutgoing(Set outgoingTransitions) {
+    public void setOutgoing(Set<ITransition> outgoingTransitions) {
         outgoingTransitions_ = outgoingTransitions;
     }
 
-    public Set getOutgoing() {
+    public Set<ITransition> getOutgoing() {
         return outgoingTransitions_;
     }
 
     public List<IRegion> getAncestorList() {
 
         if (ancestorList == null) {
-            ancestorList = new ArrayList();
+            ancestorList = new ArrayList<>();
             ancestorList.add(getContainer());
             ancestorList.addAll(getContainer().getAncestorList());
         }
@@ -67,24 +59,23 @@ public abstract class Vertex extends NamedElement implements IVertex {
         outgoingTransitions_.add(transition);
     }
 
-    public List getAllPossibleOutgoingTransitions() {
+    public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
 
-        List allPossibleTransitions = new ArrayList();
+        List<Set<ITransition>> allPossibleTransitions = new ArrayList<>();
 
         allPossibleTransitions.add(0, outgoingTransitions_);
 
         if (null != getContainer().getState()) {
 
-            List inheritedTransitions = getContainer().getState().getAllPossibleOutgoingTransitions();
+            List<Set<ITransition>> inheritedTransitions = getContainer().getState().getAllPossibleOutgoingTransitions();
 
             for (int i = 0; i < inheritedTransitions.size(); i++) {
 
-                Set priorityLevelSet = new HashSet();
+                Set<ITransition> priorityLevelSet = new HashSet<>();
 
-                Set s = (Set) inheritedTransitions.get(i);
+                Set<ITransition> s = inheritedTransitions.get(i);
 
-                for (Iterator transitionIt = s.iterator(); transitionIt.hasNext(); ) {
-                    ITransition transition = (ITransition) transitionIt.next();
+                for (ITransition transition : s) {
                     ITransition extendedTransition = transition.createShallowCopy();
                     extendedTransition.setIncomingVertex(this);
                     priorityLevelSet.add(extendedTransition);
@@ -112,36 +103,28 @@ public abstract class Vertex extends NamedElement implements IVertex {
      * @return The outgoing transitions that could be triggered by the
      * specified event type.
      */
-    protected List getAllPossibleOutgoingTransitions(String eventType) {
+    protected List<Set<ITransition>> getAllPossibleOutgoingTransitions(String eventType) {
 
         List allTransitions = getAllPossibleOutgoingTransitions();
 
         List triggerableTransitions = new ArrayList();
 
         for (Object allTransition : allTransitions) {
-            Set priorityLevelSet = (Set) allTransition;
+            Set<ITransition> priorityLevelSet = (Set) allTransition;
 
-            Set triggerableSet = new HashSet();
+            Set<ITransition> triggerableSet = new HashSet<>();
 
-            for (Object aPriorityLevelSet : priorityLevelSet) {
-                ITransition transition = (ITransition) aPriorityLevelSet;
-
-                List triggers = transition.getTriggers();
-
-                for (Object trigger1 : triggers) {
-                    ITrigger trigger = (ITrigger) trigger1;
+            for (ITransition transition : priorityLevelSet) {
+                List<ITrigger> triggers = transition.getTriggers();
+                for (ITrigger trigger : triggers) {
                     if (trigger.getEvent().getQualifiedName().equals(eventType)) {
-
                         triggerableSet.add(transition);
                     }
-
                 }
             }
 
             triggerableTransitions.add(triggerableSet);
-
         }
-
         return triggerableTransitions;
     }
 

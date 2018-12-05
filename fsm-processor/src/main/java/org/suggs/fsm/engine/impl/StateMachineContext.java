@@ -30,7 +30,7 @@ public class StateMachineContext implements IStateMachineContext {
         fsmEventInterceptor_ = fsmEventInterceptor;
     }
 
-    public Map getHistoryStates() {
+    public Map<String, String> getHistoryStates() {
         return stateManager_.getHistoryStates();
     }
 
