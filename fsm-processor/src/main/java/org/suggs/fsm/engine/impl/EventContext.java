@@ -8,82 +8,74 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EventContext implements IEventContext {
-    private IEvent event_;
-
-    private Map context_ = new HashMap();
-
-    private String internalEventType_ = null;
-
-    private IEventFactory eventFactory_;
+    
+    private IEvent event;
+    private Map context = new HashMap();
+    private String internalEventType = null;
+    private IEventFactory eventFactory;
 
     /**
-     * Returns a String representation of this object using the
-     * default toString style.
+     * Returns a String representation of this object using the default toString style.
      */
     @Override
     public String toString() {
         return "EventContext{" +
-                "event_=" + event_ +
-                ", context_=" + context_ +
-                ", internalEventType_='" + internalEventType_ + '\'' +
-                ", eventFactory_=" + eventFactory_ +
+                "event=" + event +
+                ", context=" + context +
+                ", internalEventType='" + internalEventType + '\'' +
+                ", eventFactory=" + eventFactory +
                 '}';
     }
 
     public Map getContext() {
-        return context_;
+        return context;
     }
 
     public void setEvent(IEvent event) {
-        event_ = event;
+        this.event = event;
     }
 
     /**
      * Returns the value of eventFactory.
      */
     public IEventFactory getEventFactory() {
-        return eventFactory_;
+        return eventFactory;
     }
 
     /**
      * Sets the eventFactory field to the specified value.
      */
     public void setEventFactory(IEventFactory eventFactory) {
-        eventFactory_ = eventFactory;
+        this.eventFactory = eventFactory;
     }
 
     public IEvent getEvent() {
-        return event_;
+        return event;
     }
 
     public void setContext(Map context) {
-        context_ = context;
+        this.context = context;
     }
 
     /**
-     * Requests that an internal event be created. The FSM will handle
-     * the actual creation and firing of the event. This should mainly be used
-     * by actions.
+     * Requests that an internal event be created. The FSM will handle the actual creation and firing of the
+     * event. This should mainly be used by actions.
      */
     public void setInternalEvent(String eventType) {
-        internalEventType_ = eventType;
+        internalEventType = eventType;
     }
 
     /**
-     * Gets the name of the internal event that was requested,
-     * or <code>null</code> if no internal event creation has been requested.
-     *
-     * @return name of internal event or null.
+     * Gets the name of the internal event that was requested, or <code>null</code> if no internal event creation has been requested.
      */
     public String getInternalEvent() {
-        return internalEventType_;
+        return internalEventType;
     }
 
     /**
-     * Removes any internal event request. This will be called by the FSM
-     * after it has processed the internal event request.
+     * Removes any internal event request. This will be called by the FSM after it has processed the internal event request.
      */
     public void removeInternalEvent() {
-        internalEventType_ = null;
+        internalEventType = null;
     }
 }

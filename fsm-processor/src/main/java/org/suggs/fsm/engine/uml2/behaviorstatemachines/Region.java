@@ -16,51 +16,47 @@ public class Region extends Namespace implements IRegion {
 
     private static final Logger LOG = LoggerFactory.getLogger(Region.class);
 
-    private IStateMachine stateMachine_;
-    private IState state_;
+    private IStateMachine stateMachine;
+    private IState state;
     private ITransition[] transitions = new ITransition[0];
     private IVertex[] subVertices = new IVertex[0];
-
-    // The namespace that owns the region.
-    private INamespace owner_;
+    private INamespace owner;
 
     public IState getState() {
-        return state_;
+        return state;
     }
 
     public IStateMachine getStateMachine() {
-        return stateMachine_;
+        return stateMachine;
     }
 
     public Set<ITransition> getTransitions() {
-        Set<ITransition> s = new HashSet<>();
-
-        Collections.addAll(s, transitions);
-        return s;
+        Set<ITransition> transitions = new HashSet<>();
+        Collections.addAll(transitions, this.transitions);
+        return transitions;
     }
 
     public Set<IVertex> getSubVertices() {
-        Set<IVertex> s = new HashSet<>();
-
-        Collections.addAll(s, subVertices);
-        return s;
+        Set<IVertex> vertices = new HashSet<>();
+        Collections.addAll(vertices, subVertices);
+        return vertices;
     }
 
     public void setState(IState state) {
-        if (null == owner_) {
-            state_ = state;
+        if (null == owner) {
+            this.state = state;
             // Set the owner
-            owner_ = state;
+            owner = state;
         } else {
-            LOG.error("The owner of region " + this + " is already set to " + owner_ + ": cannot set to " + state);
-            throw new RuntimeException("The owner of region " + this + " is already set to " + owner_ + ": cannot set to " + state);
+            LOG.error("The owner of region " + this + " is already set to " + owner + ": cannot set to " + state);
+            throw new RuntimeException("The owner of region " + this + " is already set to " + owner + ": cannot set to " + state);
         }
     }
 
     public void setStateMachine(IStateMachine stateMachine) {
-        stateMachine_ = stateMachine;
+        this.stateMachine = stateMachine;
         // Set the owner
-        owner_ = stateMachine;
+        owner = stateMachine;
     }
 
     public void setTransitions(Set<ITransition> transitions) {
@@ -102,10 +98,10 @@ public class Region extends Namespace implements IRegion {
     }
 
     public List<IRegion> getAncestorList() {
-        if (null != state_) {
+        if (null != state) {
             // This region is owned by a state
-            return state_.getAncestorList();
-        } else if (null != stateMachine_) {
+            return state.getAncestorList();
+        } else if (null != stateMachine) {
             /*
              * This region is owned directly by a state machine. Do not recurse up as state machines define a
              * namespace boundary. The impleication of this is that transitions cannot link states from two state machines.

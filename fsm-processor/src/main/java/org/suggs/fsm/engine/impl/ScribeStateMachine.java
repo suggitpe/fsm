@@ -33,77 +33,61 @@ public class ScribeStateMachine implements IScribeStateMachine {
     private static final Logger LOG = LoggerFactory.getLogger(ScribeStateMachine.class);
 
     /**
-     * Maintains the event interceptors registered with this state
-     * machine.
+     * Maintains the event interceptors registered with this state machine.
      */
-    private FsmEventInterceptorManager fsmEventInterceptorManager_;
+    private FsmEventInterceptorManager fsmEventInterceptorManager;
 
     /**
-     * Includes the namespace object manager for providing object
-     * lookup based on qualified name.
+     * Includes the namespace object manager for providing object lookup based on qualified name.
      */
-    private INamespaceContext namespaceContext_;
+    private INamespaceContext namespaceContext;
 
     /**
      * The context that contains the state machine to pass envents to.
      */
-    private IBehavioredClassifier behavioredClassifier_;
+    private IBehavioredClassifier behavioredClassifier;
 
     /**
-     * The factory to use to create the event context from an incoming
-     * event.
+     * The factory to use to create the event context from an incoming event.
      */
-    private IEventContextFactory eventContextFactory_;
+    private IEventContextFactory eventContextFactory;
 
     /**
-     * Contains contextual information for this state machine that is
-     * passed to all guards and actions.
+     * Contains contextual information for this state machine that is passed to all guards and actions.
      */
-    private IStateMachineContext stateMachineContext_;
+    private IStateMachineContext stateMachineContext;
 
     /**
-     * Used to map the name of the event passed to the State Manager
-     * to another name used internally. If an event mapper is not
-     * defined, then the name of the event is used directly.
+     * Used to map the name of the event passed to the State Manager to another name used internally. If an
+     * event mapper is not defined, then the name of the event is used directly.
      */
-    private IEventMapper eventMapper_;
+    private IEventMapper eventMapper;
 
-    /**
-     * Default constructor
-     */
     public ScribeStateMachine() {
         super();
 
-        fsmEventInterceptorManager_ = new FsmEventInterceptorManager();
-        namespaceContext_ = new NamespaceContext();
-        stateMachineContext_ = new StateMachineContext();
-        stateMachineContext_.setFsmEventInterceptor(fsmEventInterceptorManager_);
+        fsmEventInterceptorManager = new FsmEventInterceptorManager();
+        namespaceContext = new NamespaceContext();
+        stateMachineContext = new StateMachineContext();
+        stateMachineContext.setFsmEventInterceptor(fsmEventInterceptorManager);
     }
 
     public void setBehavioredClassifier(IBehavioredClassifier context) {
-        behavioredClassifier_ = context;
+        behavioredClassifier = context;
     }
 
-    /**
-     * Returns the value of eventMapper.
-     */
     public IEventMapper getEventMapper() {
-        return eventMapper_;
+        return eventMapper;
     }
 
-    /**
-     * Sets the eventMapper field to the specified value.
-     */
     public void setEventMapper(IEventMapper eventMapper) {
-        eventMapper_ = eventMapper;
+        this.eventMapper = eventMapper;
     }
 
     /**
-     * Initialises the state manager context. First calls
-     * <code>IStateManager.getHistoryStates</code> and if
-     * <code>null</code> is returned, then an new empty Map is set
-     * as the history states via a call to
-     * <code>IStateManager.setHistoryStates</code>.
+     * Initialises the state manager context. First calls <code>IStateManager.getHistoryStates</code> and
+     * if <code>null</code> is returned, then an new empty Map is set as the history states via a call
+     * to <code>IStateManager.setHistoryStates</code>.
      */
     public void initialiseStateManagerContext(IStateManager stateManager) {
 
@@ -115,15 +99,12 @@ public class ScribeStateMachine implements IScribeStateMachine {
 
         // Initialise history states
         if (null == stateManager.getHistoryStates()) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Got null history states from stateManager: " + stateManager);
-
-            }
+            LOG.debug("Got null history states from stateManager: " + stateManager);
             // Set history states to a new empty map.
-            stateManager.storeHistoryStates(new HashMap());
+            stateManager.storeHistoryStates(new HashMap<>());
         }
 
-        stateMachineContext_.setStateManager(stateManager);
+        stateMachineContext.setStateManager(stateManager);
     }
 
     public void handleEvent(IEvent event, IStateManager stateManager, Map<String, String> context) {
@@ -131,35 +112,33 @@ public class ScribeStateMachine implements IScribeStateMachine {
         initialiseStateManagerContext(stateManager);
 
         //map event
-        if (eventMapper_ != null) {
-            event = eventMapper_.map(event);
+        if (eventMapper != null) {
+            event = eventMapper.map(event);
         }
 
         // Notify listeners
-        stateMachineContext_.getEventInterceptor().onEventReceived(event, context);
+        stateMachineContext.getEventInterceptor().onEventReceived(event, context);
         // Load the state machine state from the state manager
-        String activeState = stateMachineContext_.getStateManager().getActiveState();
+        String activeState = stateMachineContext.getStateManager().getActiveState();
 
         if (null == activeState) {
-            IPseudoState initialState = ((IStateMachine) behavioredClassifier_.getOwnedBehavior()).getOwnedRegion().getInitialState();
+            IPseudoState initialState = ((IStateMachine) behavioredClassifier.getOwnedBehavior()).getOwnedRegion().getInitialState();
 
-            if (LOG.isDebugEnabled()) {
-                String msg = "No current state provided by " + stateMachineContext_.getStateManager()
-                        + ". Initialising to initial state for top region, " + initialState;
-            }
+            String msg = "No current state provided by " + stateMachineContext.getStateManager()
+                    + ". Initialising to initial state for top region, " + initialState;
             // Enter the initial state for the state machine
-            initialState.enter(eventContextFactory_.createEventContext(event, context, getEventFactory()),
-                    namespaceContext_,
-                    stateMachineContext_);
+            initialState.enter(eventContextFactory.createEventContext(event, context, getEventFactory()),
+                    namespaceContext,
+                    stateMachineContext);
 
-            activeState = stateMachineContext_.getStateManager().getActiveState();
+            activeState = stateMachineContext.getStateManager().getActiveState();
         } else if (IState.TRANSITIONING.equals(activeState)) {
             /*
              * A previous transition on the state machine failed and
              * the state machine is in an indeterminate state. This is
              * bad.
              */
-            String msg = "The current active state could not be determined. " + stateMachineContext_.getStateManager() + " returned "
+            String msg = "The current active state could not be determined. " + stateMachineContext.getStateManager() + " returned "
                     + activeState;
             LOG.error(msg);
             throw new RuntimeException(msg);
@@ -168,22 +147,22 @@ public class ScribeStateMachine implements IScribeStateMachine {
         // Request the current state to handle the event
         IState currentState = null;
         try {
-            currentState = (IState) namespaceContext_.getNamespaceObjectManager().getObject(activeState);
+            currentState = (IState) namespaceContext.getNamespaceObjectManager().getObject(activeState);
         } catch (ClassCastException e) {
-            String msg = activeState + " returned from " + stateMachineContext_.getStateManager() + " is not a stable state.";
+            String msg = activeState + " returned from " + stateMachineContext.getStateManager() + " is not a stable state.";
             LOG.error(msg);
             throw new RuntimeException(msg);
         }
 
-        currentState.processEvent(eventContextFactory_.createEventContext(event, context, getEventFactory()),
-                namespaceContext_,
-                stateMachineContext_);
+        currentState.processEvent(eventContextFactory.createEventContext(event, context, getEventFactory()),
+                namespaceContext,
+                stateMachineContext);
 
         // Check that the current active state is not null and is
         // valid
-        activeState = stateMachineContext_.getStateManager().getActiveState();
+        activeState = stateMachineContext.getStateManager().getActiveState();
         Assert.state(null != activeState, "State machine " + this + " left the current active state null.");
-        Assert.state(null != namespaceContext_.getNamespaceObjectManager().getObject(activeState),
+        Assert.state(null != namespaceContext.getNamespaceObjectManager().getObject(activeState),
                 "State machine " + this + " stored non-namespace object as current state: " + activeState);
 
         Assert.state(!IState.TRANSITIONING.equals(activeState), "State machine " + this + " is in an indeterminate state: "
@@ -191,7 +170,7 @@ public class ScribeStateMachine implements IScribeStateMachine {
 
         // we should never end up in a transient state
         if (null != activeState) {
-            IState endState = (IState) namespaceContext_.getNamespaceObjectManager().getObject(activeState);
+            IState endState = (IState) namespaceContext.getNamespaceObjectManager().getObject(activeState);
 
             if (null != endState) {
                 if (endState.isTransient()) {
@@ -204,77 +183,60 @@ public class ScribeStateMachine implements IScribeStateMachine {
     }
 
     public INamespaceObjectManager getNamespaceObjectManager() {
-        return namespaceContext_.getNamespaceObjectManager();
+        return namespaceContext.getNamespaceObjectManager();
     }
 
     public void setNamespaceObjectManager(INamespaceObjectManager namespaceObjectManager) {
-        namespaceContext_.setNamepaceObjectManager(namespaceObjectManager);
+        namespaceContext.setNamepaceObjectManager(namespaceObjectManager);
     }
 
     public void initialiseNamespaceContext() {
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Initialising namespace context");
-        }
-
-        behavioredClassifier_.acceptNamespaceObjectManager(namespaceContext_.getNamespaceObjectManager());
-
+        LOG.debug("Initialising namespace context");
+        behavioredClassifier.acceptNamespaceObjectManager(namespaceContext.getNamespaceObjectManager());
     }
 
     public void setEventContextFactory(IEventContextFactory eventContextFactory) {
-        eventContextFactory_ = eventContextFactory;
+        this.eventContextFactory = eventContextFactory;
     }
 
     public IEventFactory getEventFactory() {
-        return stateMachineContext_.getEventFactory();
+        return stateMachineContext.getEventFactory();
     }
 
     public void setEventFactory(IEventFactory eventFactory) {
-        stateMachineContext_.setEventFactory(eventFactory);
-
+        stateMachineContext.setEventFactory(eventFactory);
     }
 
     public IEventContextFactory getEventContextFactory() {
-        return eventContextFactory_;
+        return eventContextFactory;
     }
 
     public void setFsmEventInterceptor(IFsmEventInterceptor eventInterceptor) {
-        fsmEventInterceptorManager_.setFsmEventInterceptor(eventInterceptor);
+        fsmEventInterceptorManager.setFsmEventInterceptor(eventInterceptor);
     }
 
     public void checkStateMachine(IConstraintVisitor constraintVisitor) {
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Checking constraints");
-        }
-
-        behavioredClassifier_.acceptConstraintVisitor(constraintVisitor);
-
+        LOG.debug("Checking constraints");
+        behavioredClassifier.acceptConstraintVisitor(constraintVisitor);
     }
 
     public void optimiseStateModel(IModelOptimiser modelOptimiser) {
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Optimising state model");
-        }
-
-        behavioredClassifier_.acceptOptimiser(modelOptimiser);
-
+        LOG.debug("Optimising state model");
+        behavioredClassifier.acceptOptimiser(modelOptimiser);
     }
 
     /**
-     * Returns a String representation of this object using the
-     * default toString style.
+     * Returns a String representation of this object using the default toString style.
      */
     @Override
     public String toString() {
         return "ScribeStateMachine{" +
-                "fsmEventInterceptorManager_=" + fsmEventInterceptorManager_ +
-                ", namespaceContext_=" + namespaceContext_ +
-                ", behavioredClassifier_=" + behavioredClassifier_ +
-                ", eventContextFactory_=" + eventContextFactory_ +
-                ", stateMachineContext_=" + stateMachineContext_ +
-                ", eventMapper_=" + eventMapper_ +
+                "fsmEventInterceptorManager=" + fsmEventInterceptorManager +
+                ", namespaceContext=" + namespaceContext +
+                ", behavioredClassifier=" + behavioredClassifier +
+                ", eventContextFactory=" + eventContextFactory +
+                ", stateMachineContext=" + stateMachineContext +
+                ", eventMapper=" + eventMapper +
                 '}';
     }
 

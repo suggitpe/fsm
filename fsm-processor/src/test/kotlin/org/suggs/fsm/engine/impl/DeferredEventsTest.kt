@@ -43,7 +43,7 @@ class DeferredEventsTest {
      */
     @Test fun `automatic transitions`() {
         // Build the state machine
-        stateMachine = stateMachineFactory.getStateMachine("testAutomaticTrans")
+        stateMachine = stateMachineFactory.createStateMachine("testAutomaticTrans")
         assertThat(stateMachine).isNotNull
 
         val e1 = createMockEventFor("top::context::e1")
@@ -72,7 +72,7 @@ class DeferredEventsTest {
      */
     @Test fun `defer queue`() {
         // Build the state machine
-        stateMachine = stateMachineFactory.getStateMachine("testDeferQueue")
+        stateMachine = stateMachineFactory.createStateMachine("testDeferQueue")
         assertThat(stateMachine).isNotNull
 
         val e1 = createMockEventFor("top::context::e1")
@@ -98,7 +98,7 @@ class DeferredEventsTest {
      */
     @Test fun `defer discard`() {
         // Build the state machine
-        stateMachine = stateMachineFactory.getStateMachine("testDeferDiscard")
+        stateMachine = stateMachineFactory.createStateMachine("testDeferDiscard")
         assertThat(stateMachine).isNotNull
 
         val e1 = createMockEventFor("top::context::e1")

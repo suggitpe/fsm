@@ -26,21 +26,20 @@ public class State extends Vertex implements IState {
 
     private static final Logger LOG = LoggerFactory.getLogger(State.class);
 
-    private INamespace namespaceFacet_;
-    private IBehavior entryBehavior_ = null;
-    private IBehavior exitBehavior_ = null;
-    private IRegion region_ = null;
-    private Set<ITrigger> deferrableTriggers_ = new HashSet<>();
-    private IStateBehaviour stateBehaviour_;
+    private INamespace namespaceFacet;
+    private IBehavior entryBehavior;
+    private IBehavior exitBehavior;
+    private IRegion region;
+    private Set<ITrigger> deferrableTriggers = new HashSet<>();
+    private IStateBehaviour stateBehaviour;
     /**
-     * Holds an ordered list of objects that have registered to
-     * receive notfications when this state is entered as part of a
-     * transition.
+     * Holds an ordered list of objects that have registered to receive notfications when this state is
+     * entered as part of a transition.
      */
     private List<IStateEntryListener> stateEntryListeners_ = new ArrayList<>();
 
     private State() {
-        namespaceFacet_ = new Namespace();
+        namespaceFacet = new Namespace();
     }
 
     public State(String stateKind) {
@@ -48,95 +47,92 @@ public class State extends Vertex implements IState {
     }
 
     /**
-     * Sets the kind of this state, which determines is behavior and
-     * structure.
+     * Sets the kind of this state, which determines is behavior and structure.
      */
     protected void setStateKind(String stateKind) {
         if (IState.SIMPLE.equals(stateKind)) {
-            stateBehaviour_ = new SimpleStateBehaviour();
+            stateBehaviour = new SimpleStateBehaviour();
         } else if (IState.SIMPLE_COMPOSITE.equals(stateKind)) {
-            stateBehaviour_ = new SimpleCompositeStateBehaviour();
+            stateBehaviour = new SimpleCompositeStateBehaviour();
         } else if (IState.TRANSIENT.equals(stateKind)) {
-            stateBehaviour_ = new TransientStateBehaviour();
+            stateBehaviour = new TransientStateBehaviour();
         } else {
             throw new RuntimeException("State kind " + stateKind + " is not supported.");
         }
     }
 
     public String getStateKind() {
-        return stateBehaviour_.getStateKind();
+        return stateBehaviour.getStateKind();
     }
 
     public void setEntryBehavior(IBehavior behavior) {
-        entryBehavior_ = behavior;
+        entryBehavior = behavior;
     }
 
     public IBehavior getEntryBehavior() {
-        return entryBehavior_;
+        return entryBehavior;
     }
 
     public void setExitBehavior(IBehavior behavior) {
-        exitBehavior_ = behavior;
+        exitBehavior = behavior;
     }
 
     public IBehavior getExitBehavior() {
-        return exitBehavior_;
+        return exitBehavior;
     }
 
     public boolean isComposite() {
-        return stateBehaviour_.isComposite();
+        return stateBehaviour.isComposite();
     }
 
     public boolean isSimple() {
-        return stateBehaviour_.isSimple();
+        return stateBehaviour.isSimple();
     }
 
     public boolean isTransient() {
-        return stateBehaviour_.isTransient();
+        return stateBehaviour.isTransient();
     }
 
     public boolean isSubmachineState() {
-        return stateBehaviour_.isSubmachineState();
+        return stateBehaviour.isSubmachineState();
     }
 
     public Set<INamedElement> getOwnedMembers() {
-        return namespaceFacet_.getOwnedMembers();
+        return namespaceFacet.getOwnedMembers();
     }
 
     public void setOwnedMembers(Set<INamedElement> ownedMembers) {
-        namespaceFacet_.setOwnedMembers(ownedMembers);
+        namespaceFacet.setOwnedMembers(ownedMembers);
     }
 
     public void addOwnedMember(INamedElement ownedMember) {
-        namespaceFacet_.addOwnedMember(ownedMember);
+        namespaceFacet.addOwnedMember(ownedMember);
     }
 
     public IRegion getRegion() {
-        return region_;
+        return region;
     }
 
     public void setRegion(IRegion region) {
-        stateBehaviour_.setRegion(region);
+        stateBehaviour.setRegion(region);
     }
 
     public void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-        stateBehaviour_.enter(eventContext, namespaceContext, stateMachineContext);
+        stateBehaviour.enter(eventContext, namespaceContext, stateMachineContext);
         notifyStateEntryListeners(stateMachineContext);
     }
 
     /**
-     * Notifies any state entry listeners that this state has been
-     * entered.
+     * Notifies any state entry listeners that this state has been entered.
      */
     protected void notifyStateEntryListeners(IStateMachineContext stateMachineContext) {
-        for (Iterator listenerIt = stateEntryListeners_.iterator(); listenerIt.hasNext(); ) {
-            IStateEntryListener listener = (IStateEntryListener) listenerIt.next();
+        for (IStateEntryListener listener : stateEntryListeners_) {
             listener.stateEntered(this, stateMachineContext);
         }
     }
 
     public void exit(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-        stateBehaviour_.exit(eventContext, namespaceContext, stateMachineContext);
+        stateBehaviour.exit(eventContext, namespaceContext, stateMachineContext);
     }
 
     public void acceptNamespaceObjectManager(INamespaceObjectManager namespaceObjectManager) {
@@ -145,12 +141,9 @@ public class State extends Vertex implements IState {
     }
 
     /**
-     * Iterates through a List of Sets of transions and checks whether
-     * there are any transitions present.
+     * Iterates through a List of Sets of transions and checks whether there are any transitions present.
      *
-     * @param prioritisedTransitions The prioritised list of transitions to check.
-     * @return <code>true</code> if any of the Sets in the List have
-     * non-zero size, <code>false</code> otherwise.
+     * @return <code>true</code> if any of the Sets in the List have non-zero size, <code>false</code> otherwise.
      */
     protected boolean hasTransitions(List<Set<ITransition>> prioritisedTransitions) {
 
@@ -202,10 +195,9 @@ public class State extends Vertex implements IState {
     }
 
     /**
-     * Returns the enabled transition for this state given the event
-     * context. A transition is considered to be enabled if the event
-     * specified by its trigger matches that of the event context, AND
-     * the guard (if any) evaulates to true.
+     * Returns the enabled transition for this state given the event context. A transition is considered to
+     * be enabled if the event specified by its trigger matches that of the event context, AND the guard
+     * (if any) evaulates to true.
      */
     public ITransition getEnabledTransition(IEventContext eventContext, INamespaceContext namespaceContext,
                                             IStateMachineContext stateMachineContext) {
@@ -292,7 +284,7 @@ public class State extends Vertex implements IState {
 
     public Set<ITrigger> getAllPossibleDeferrableTriggers() {
         // initialise with our own defer list
-        Set<ITrigger> allTriggers = new HashSet(getDeferrableTriggers());
+        Set<ITrigger> allTriggers = new HashSet<>(getDeferrableTriggers());
 
         // add the ones from our enclosing states
         if (getContainer().getState() != null) {
@@ -307,12 +299,12 @@ public class State extends Vertex implements IState {
         // Set up the prioritised list of all possible outgoing
         // transitions
 
-        prioritisedOutgoingTransitions_ = new ArrayList();
+        prioritisedOutgoingTransitions_ = new ArrayList<>();
 
         prioritisedOutgoingTransitions_.add(0, State.super.getOutgoing());
 
         // Stores any new extended transitions that are created
-        Set<ITransition> newTransitions = new HashSet();
+        Set<ITransition> newTransitions = new HashSet<>();
 
         if (null != getContainer().getState()) {
 
@@ -332,7 +324,7 @@ public class State extends Vertex implements IState {
 
             // add any deferred triggers from enclosing states to our
             // set
-            deferrableTriggers_.addAll(getContainer().getState().getAllPossibleDeferrableTriggers());
+            deferrableTriggers.addAll(getContainer().getState().getAllPossibleDeferrableTriggers());
         }
 
         /*
@@ -343,13 +335,12 @@ public class State extends Vertex implements IState {
          * ConcurrentModificationException.
          */
 
-        for (Iterator newTransitionIt = newTransitions.iterator(); newTransitionIt.hasNext(); ) {
-            ITransition transition = (ITransition) newTransitionIt.next();
+        for (ITransition transition : newTransitions) {
             transition.acceptOptimiser(modelOptimiser);
         }
 
         // Do optimisation for the new transitions and state kind.
-        stateBehaviour_.acceptOptimiser(modelOptimiser);
+        stateBehaviour.acceptOptimiser(modelOptimiser);
 
     }
 
@@ -399,103 +390,72 @@ public class State extends Vertex implements IState {
     }
 
     /**
-     * Objects that implement this interface provide behavioral
-     * functioality to state objects.
+     * Objects that implement this interface provide behavioral functioality to state objects.
      */
     private interface IStateBehaviour extends IOptimisable {
 
         /**
-         * Sets the region that this state behavior owns. This is only
-         * relevant for composite states, which own a region that
-         * contains their substates.
+         * Sets the region that this state behavior owns. This is only relevant for composite states, which
+         * own a region that contains their substates.
          */
         void setRegion(IRegion region);
 
         /**
-         * @return <code>true</code> if the behavior is that of a
-         * composite state.
+         * @return <code>true</code> if the behavior is that of a composite state.
          */
         boolean isComposite();
 
         /**
-         * @return <code>true</code> if the behavior is that of a
-         * simple state.
+         * @return <code>true</code> if the behavior is that of a simple state.
          */
         boolean isSimple();
 
         /**
-         * @return <code>true</code> if the behavior is that of a
-         * transient simple state.
+         * @return <code>true</code> if the behavior is that of a transient simple state.
          */
         boolean isTransient();
 
         /**
-         * @return <code>true</code> if the behavior is that of a
-         * submachine state.
+         * @return <code>true</code> if the behavior is that of a submachine state.
          */
         boolean isSubmachineState();
 
         /**
-         * Adds a state entry listener to this state behavior. The
-         * effect of adding a state entry listener is dependent on the
-         * kind of state. Coposite states should cascade the addition
-         * of a deep history state entry listner to their enclosed
-         * states.
+         * Adds a state entry listener to this state behavior. The effect of adding a state entry listener
+         * is dependent on the kind of state. Coposite states should cascade the addition of a deep history
+         * state entry listner to their enclosed states.
          *
-         * @param recurse  <code>true</code> if the listener should also
-         *                 be added to any enclosed states.
-         * @param listener The listener to add.
+         * @param recurse  <code>true</code> if the listener should also be added to any enclosed states.
          */
         void addStateEntryListener(boolean recurse, IStateEntryListener listener);
 
-        /**
-         * @return The kind of the state corresponding to this
-         * behaviour.
-         */
         String getStateKind();
 
         /**
-         * Adds an incoming transition to the state. The effect of
-         * adding a transition depends on the kind of state, with
-         * composite states attaching the transition to their entry
-         * point.
-         *
-         * @param transition The transition to add.
+         * Adds an incoming transition to the state. The effect of adding a transition depends on the kind of
+         * state, with composite states attaching the transition to their entry point.
          */
         void addIncomingTransition(ITransition transition);
 
         /**
-         * Adds an outgoing transition to the state. The effect of
-         * adding a transition depends on the kind of state, with
-         * composite states attaching the transition to their exit
-         * point.
-         *
-         * @param transition The transition to add.
+         * Adds an outgoing transition to the state. The effect of adding a transition depends on the kind of
+         * state, with composite states attaching the transition to their exit point.
          */
         void addOutgoingTransition(ITransition transition);
 
         /**
-         * Gets all possible transitions out of this state.
-         * Transitions are returned as a list of sets. The list is
-         * ordered in priority with the highest priority transitions
-         * in the set with index 0. The highest priority transitions
-         * are those defined in the state model as leaving the state
-         * directly. Transitions defined in the model as leaving the
-         * immediate enclosing state are returned as a set at index 1
-         * in the list and so on for any more enclosing states.
+         * Gets all possible transitions out of this state. Transitions are returned as a list of sets. The
+         * list is ordered in priority with the highest priority transitions in the set with index 0. The
+         * highest priority transitions are those defined in the state model as leaving the state
+         * directly. Transitions defined in the model as leaving the immediate enclosing state are returned
+         * as a set at index 1 in the list and so on for any more enclosing states.
          *
          * @return All possible transitions out of this state.
          */
         List<Set<ITransition>> getAllPossibleOutgoingTransitions();
 
-        /**
-         * Enters the state.
-         */
         void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext);
 
-        /**
-         * Exits the state.
-         */
         void exit(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext);
 
     }
@@ -722,7 +682,7 @@ public class State extends Vertex implements IState {
 
         public void setRegion(IRegion region) {
 
-            region_ = region;
+            State.this.region = region;
 
             // Associate the region with this state machine
             getRegion().setState(State.this);
@@ -746,7 +706,7 @@ public class State extends Vertex implements IState {
         }
 
         public void acceptOptimiser(IModelOptimiser modelOptimiser) {
-            region_.acceptOptimiser(modelOptimiser);
+            region.acceptOptimiser(modelOptimiser);
         }
 
         public void addStateEntryListener(boolean recurse, IStateEntryListener listener) {
@@ -780,31 +740,31 @@ public class State extends Vertex implements IState {
             LOG.error(msg);
             throw new RuntimeException(msg);
         }
-        stateBehaviour_.addStateEntryListener(recurse, listener);
+        stateBehaviour.addStateEntryListener(recurse, listener);
     }
 
     public void addIncomingTransition(ITransition transition) {
-        stateBehaviour_.addIncomingTransition(transition);
+        stateBehaviour.addIncomingTransition(transition);
     }
 
     public void addOutgoingTransition(ITransition transition) {
-        stateBehaviour_.addOutgoingTransition(transition);
+        stateBehaviour.addOutgoingTransition(transition);
     }
 
     public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
-        return stateBehaviour_.getAllPossibleOutgoingTransitions();
+        return stateBehaviour.getAllPossibleOutgoingTransitions();
     }
 
     public Set<ITrigger> getDeferrableTriggers() {
-        return deferrableTriggers_;
+        return deferrableTriggers;
     }
 
     public void setDeferrableTriggers(Set<ITrigger> triggerList) {
-        deferrableTriggers_ = triggerList;
+        deferrableTriggers = triggerList;
     }
 
     public boolean defersEvent(org.suggs.fsm.event.IEvent event) {
-        for (ITrigger trigger : deferrableTriggers_) {
+        for (ITrigger trigger : deferrableTriggers) {
             if (trigger.getEvent().getQualifiedName().equals(event.getType())) {
                 return true;
             }

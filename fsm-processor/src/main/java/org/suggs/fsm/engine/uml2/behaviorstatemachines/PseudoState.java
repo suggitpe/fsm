@@ -27,43 +27,32 @@ public class PseudoState extends Vertex implements IPseudoState {
 
     private static final Logger LOG = LoggerFactory.getLogger(PseudoState.class);
 
-    /**
-     * The behavior provider for this pseudostate.
-     */
-    protected IPseudoStateBehaviour pseudoStateBehaviour_;
+    protected IPseudoStateBehaviour pseudoStateBehaviour;
 
     public void acceptConstraintVisitor(IConstraintVisitor constraintVisitor) {
         constraintVisitor.visitPseudoState(this);
     }
 
-    /**
-     * The default constructor.
-     *
-     * @param pseudostateKind The type of pseudostate.
-     */
     public PseudoState(String pseudostateKind) {
         super();
         setPseudoStateKind(pseudostateKind);
     }
 
     public String getPseudoStateKind() {
-        return pseudoStateBehaviour_.getPseudostateKind();
+        return pseudoStateBehaviour.getPseudostateKind();
     }
 
     public void setPseudoStateKind(String pseudostateKind) {
+        // Set the behaviour based on the kind of pseudostate specified.
 
-        /*
-         * Set  the behaviour based on the kind of pseudostate
-         * specified.
-         */
         if (IPseudoState.INITIAL.equals(pseudostateKind)) {
-            pseudoStateBehaviour_ = new InitialPseudoStateBehaviour();
+            pseudoStateBehaviour = new InitialPseudoStateBehaviour();
 
         } else if (IPseudoState.ENTRY_POINT.equals(pseudostateKind)) {
-            pseudoStateBehaviour_ = new EntryPointPseudoStateBehaviour();
+            pseudoStateBehaviour = new EntryPointPseudoStateBehaviour();
 
         } else if (IPseudoState.EXIT_POINT.equals(pseudostateKind)) {
-            pseudoStateBehaviour_ = new ExitPointPseudoStateBehaviour();
+            pseudoStateBehaviour = new ExitPointPseudoStateBehaviour();
 
         } else {
             String msg = "Invalid pseudostate kind specified: " + pseudostateKind;
@@ -74,18 +63,21 @@ public class PseudoState extends Vertex implements IPseudoState {
     }
 
     public boolean isInitialPseudostate() {
-        return pseudoStateBehaviour_.isInitialPseudostate();
+        return pseudoStateBehaviour.isInitialPseudostate();
     }
 
     /**
-     * Defines the pseudostate behaviour that is dependent on the kind
-     * of pseudostate
+     * Defines the pseudostate behaviour that is dependent on the kind of pseudostate
      */
     protected interface IPseudoStateBehaviour extends IOptimisable {
         String getPseudostateKind();
+
         boolean isInitialPseudostate();
+
         void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext);
+
         void exit(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext);
+
         List<Set<ITransition>> getAllPossibleOutgoingTransitions();
     }
 
@@ -141,18 +133,12 @@ public class PseudoState extends Vertex implements IPseudoState {
     }
 
     /**
-     * Encapsulates the behavioural aspects of an ENTRY_POINT
-     * pseudostate.
+     * Encapsulates the behavioural aspects of an ENTRY_POINT pseudostate.
      */
     private class EntryPointPseudoStateBehaviour implements IPseudoStateBehaviour {
 
         public void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-
-            /*
-             * Entering an entry pseudostate causes an automatic
-             * transition to the initial pseudostate of the region
-             * region.
-             */
+            // Entering an entry pseudostate causes an automatic transition to the initial pseudostate of the region region.
             Set<ITransition> transitions = getOutgoing();
 
             if (1 != transitions.size()) {
@@ -181,7 +167,7 @@ public class PseudoState extends Vertex implements IPseudoState {
 
             // Entry pseudostates do not inherit transitions from
             // enclosing states
-            prioritisedOutgoingTransitions_ = new ArrayList();
+            prioritisedOutgoingTransitions_ = new ArrayList<>();
             prioritisedOutgoingTransitions_.add(getOutgoing());
 
             // Add an outbound transition to the initial pseudostate
@@ -201,17 +187,14 @@ public class PseudoState extends Vertex implements IPseudoState {
     }
 
     /**
-     * Encapsulates the behavioural aspects of an EXIT_POINT
-     * pseudostate.
+     * Encapsulates the behavioural aspects of an EXIT_POINT pseudostate.
      */
     private class ExitPointPseudoStateBehaviour implements IPseudoStateBehaviour {
 
         public void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-
         }
 
         public void exit(IEventContext event, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-            // No action
         }
 
         public String getPseudostateKind() {
@@ -250,37 +233,34 @@ public class PseudoState extends Vertex implements IPseudoState {
     }
 
     public void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-        pseudoStateBehaviour_.enter(eventContext, namespaceContext, stateMachineContext);
+        pseudoStateBehaviour.enter(eventContext, namespaceContext, stateMachineContext);
     }
 
     public void exit(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-        pseudoStateBehaviour_.exit(eventContext, namespaceContext, stateMachineContext);
+        pseudoStateBehaviour.exit(eventContext, namespaceContext, stateMachineContext);
     }
 
     public void acceptOptimiser(IModelOptimiser modelOptimiser) {
-        pseudoStateBehaviour_.acceptOptimiser(modelOptimiser);
+        pseudoStateBehaviour.acceptOptimiser(modelOptimiser);
     }
 
     public void doEntryAction(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-        // Pseudostates have no entry action
     }
 
     public void doExitAction(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-        // Pseudostates have no exit action
     }
 
     public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
-        return pseudoStateBehaviour_.getAllPossibleOutgoingTransitions();
+        return pseudoStateBehaviour.getAllPossibleOutgoingTransitions();
     }
 
     /**
-     * Returns a String representation of this object using the
-     * default toString style.
+     * Returns a String representation of this object using the default toString style.
      */
     @Override
     public String toString() {
         return "PseudoState{" +
-                "pseudoStateBehaviour_=" + pseudoStateBehaviour_ +
+                "pseudoStateBehaviour=" + pseudoStateBehaviour +
                 '}';
     }
 }

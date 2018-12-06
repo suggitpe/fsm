@@ -42,7 +42,7 @@ class StateMachineFactoryTest {
         stateMachineFactory.eventContextFactory = eventContextFactory
         stateMachineFactory.eventFactory = eventFactory
 
-        val stateMachine = stateMachineFactory.getStateMachine(modelId)
+        val stateMachine = stateMachineFactory.createStateMachine(modelId)
 
         assertThat(stateMachine).isNotNull
     }

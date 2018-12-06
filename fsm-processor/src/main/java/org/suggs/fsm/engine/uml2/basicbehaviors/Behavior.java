@@ -17,23 +17,15 @@ public class Behavior extends Namespace implements IBehavior {
 
     private static final Logger LOG = LoggerFactory.getLogger(Behavior.class);
 
-    /**
-     * The behaviored classifier that owns this behavior.
-     */
-    private IBehavioredClassifier context_;
-
-    /**
-     * The action executor that implements the functional behavior of
-     * this object.
-     */
-    private IActionExecutor actionExecutor_;
+    private IBehavioredClassifier context;
+    private IActionExecutor actionExecutor;
 
     public IBehavioredClassifier getContext() {
-        return context_;
+        return context;
     }
 
     public void setContext(IBehavioredClassifier context) {
-        context_ = context;
+        this.context = context;
     }
 
     public void acceptConstraintVisitor(IConstraintVisitor constraintVisitor) {
@@ -41,19 +33,14 @@ public class Behavior extends Namespace implements IBehavior {
     }
 
     public void acceptOptimiser(IModelOptimiser modelOptimiser) {
-
         modelOptimiser.optimiseBehavior(this);
-
     }
 
     public void execute(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-
         // Get the action executor from the namespace
         IActionExecutor action = null;
         try {
-
             action = (IActionExecutor) namespaceContext.getNamespaceObjectManager().getObject(getActionExecutor().getName());
-
         } catch (Throwable t) {
             LOG.error("Error getting action executor for " + this.toString());
             throw new RuntimeException(t);
@@ -64,7 +51,6 @@ public class Behavior extends Namespace implements IBehavior {
             action.executeAction(eventContext);
         } catch (Throwable t) {
             LOG.error("Action executor " + this.toString() + " threw " + t.toString() + " for eventContext=" + eventContext);
-
             throw new RuntimeException(t);
         }
 
@@ -76,33 +62,22 @@ public class Behavior extends Namespace implements IBehavior {
                     + eventContext + ", namespaceContext=" + namespaceContext + ", stateMachineContext=" + stateMachineContext);
             throw new RuntimeException(t);
         }
-
     }
 
     public IActionExecutor getActionExecutor() {
-        return actionExecutor_;
+        return actionExecutor;
     }
 
     public void setActionExecutor(IActionExecutor actionExecutor) {
-        actionExecutor_ = actionExecutor;
+        this.actionExecutor = actionExecutor;
     }
 
     public void acceptNamespaceObjectManager(INamespaceObjectManager namespaceObjectManager) {
-
         super.acceptNamespaceObjectManager(namespaceObjectManager);
 
         // Add the action
-        if (null != actionExecutor_) {
-            namespaceObjectManager.addObject(actionExecutor_.getName(), actionExecutor_);
+        if (null != actionExecutor) {
+            namespaceObjectManager.addObject(actionExecutor.getName(), actionExecutor);
         }
-
     }
-
-//    @Override
-//    public String toString() {
-//        return "Behavior{" +
-//                "context_=" + context_ +
-//                ", actionExecutor_=" + actionExecutor_ +
-//                '}';
-//    }
 }

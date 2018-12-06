@@ -16,7 +16,6 @@ public class EventContextFactory implements IEventContextFactory {
     public IEventContext createEventContext(IEvent event, Map<String, String> context, IEventFactory factory) {
 
         EventContext context_ = new EventContext();
-
         if (null == event) {
             String msg = "null event specified in call to createEventContext.";
             LOG.error(msg);
@@ -24,9 +23,7 @@ public class EventContextFactory implements IEventContextFactory {
         }
 
         context_.setEvent(event);
-
         context_.setContext(context);
-
         context_.setEventFactory(factory);
 
         return context_;

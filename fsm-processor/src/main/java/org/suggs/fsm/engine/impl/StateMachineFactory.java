@@ -15,145 +15,102 @@ import org.suggs.fsm.uml2.scribe.optimisation.IModelOptimiser;
 
 public class StateMachineFactory implements IScribeStateMachineFactory {
 
-    private IBehavioredClassifierBuilder behavioredClassifierBuilder_;
-
     private static final Logger LOG = LoggerFactory.getLogger(StateMachineFactory.class);
 
-    private IEventContextFactory eventContextFactory_;
+    private IBehavioredClassifierBuilder behavioredClassifierBuilder;
+    private IEventContextFactory eventContextFactory;
+    private IEventFactory eventFactory;
+    private IConstraintVisitor constraintChecker;
+    private IModelOptimiser modelOptimiser;
+    private IFsmEventInterceptor fsmEventInterceptor;
 
-    /**
-     * The facotry to use to create events within the state machine.
-     * The main example of events that need to be created within the
-     * FSM are completion events to indicate that a state has been
-     * entered successfully.
-     */
-    private IEventFactory eventFactory_;
 
-    private IConstraintVisitor constraintChecker_;
-
-    private IModelOptimiser modelOptimiser_;
-
-    /**
-     * The fsmEventInterceptor that should be applied to all state
-     * machines created by this factory
-     */
-    private IFsmEventInterceptor fsmEventInterceptor_ = null;
-
-    public IStateMachine getStateMachine(String stateModelId) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Creating state machine for stateModelId=" + stateModelId);
-        }
+    public IStateMachine createStateMachine(String stateModelId) {
+        LOG.debug("Creating state machine for stateModelId=" + stateModelId);
 
         ScribeStateMachine scribeStateMachine = new ScribeStateMachine();
-
         IBehavioredClassifier behavioredClassifier =
-                behavioredClassifierBuilder_.createBehavioredClassifier(stateModelId);
-
+                behavioredClassifierBuilder.createBehavioredClassifier(stateModelId);
         scribeStateMachine.setBehavioredClassifier(behavioredClassifier);
-
         scribeStateMachine.setEventMapper(new DefaultEventMapper(behavioredClassifier.getName()));
-
-        scribeStateMachine.setEventContextFactory(eventContextFactory_);
-
-        scribeStateMachine.setEventFactory(eventFactory_);
-
-        scribeStateMachine.checkStateMachine(constraintChecker_);
-
+        scribeStateMachine.setEventContextFactory(eventContextFactory);
+        scribeStateMachine.setEventFactory(eventFactory);
+        scribeStateMachine.checkStateMachine(constraintChecker);
         scribeStateMachine.initialiseNamespaceContext();
-
         setEventInterceptor(scribeStateMachine);
-
-        scribeStateMachine.optimiseStateModel(modelOptimiser_);
-
+        scribeStateMachine.optimiseStateModel(modelOptimiser);
         LOG.debug("Returning new State Machine: " + scribeStateMachine.toString());
-
         return scribeStateMachine;
     }
 
     public IBehavioredClassifierBuilder getBehavioredClassifierBuilder() {
-        return behavioredClassifierBuilder_;
+        return behavioredClassifierBuilder;
     }
 
     public void setBehavioredClassifierBuilder(IBehavioredClassifierBuilder stateMachineContextBuilder) {
-        behavioredClassifierBuilder_ = stateMachineContextBuilder;
+        behavioredClassifierBuilder = stateMachineContextBuilder;
     }
 
     /**
-     * Gets the event context factory passed to all state machines
-     * created by this factory.
+     * Gets the event context factory passed to all state machines created by this factory.
      */
     public IEventContextFactory getEventContextFactory() {
-        return eventContextFactory_;
+        return eventContextFactory;
     }
 
     /**
-     * Sets the event context factory passed to all state machines
-     * created by this factory. Must not be <code>null</code>.
+     * Sets the event context factory passed to all state machines created by this factory. Must not be <code>null</code>.
      */
     public void setEventContextFactory(IEventContextFactory eventContextFactory) {
-
         if (null == eventContextFactory) {
             String msg = "null eventContextFactory provided to " + this.toString();
             LOG.error(msg);
             throw new RuntimeException(msg);
         }
 
-        this.eventContextFactory_ = eventContextFactory;
+        this.eventContextFactory = eventContextFactory;
     }
 
-    /**
-     * Gets the event factory passed to all state machines created by
-     * this factory.
-     */
     public IEventFactory getEventFactory() {
-        return eventFactory_;
+        return eventFactory;
     }
 
-    /**
-     * Sets the event factory passed to all state machines created by
-     * this factory. Must not be <code>null</code>.
-     */
     public void setEventFactory(IEventFactory eventFactory) {
-
         if (null == eventFactory) {
             String msg = "null eventFactory provided to " + this.toString();
             LOG.error(msg);
             throw new RuntimeException(msg);
         }
 
-        eventFactory_ = eventFactory;
+        this.eventFactory = eventFactory;
     }
 
     public IConstraintVisitor getConstraintChecker() {
-        return constraintChecker_;
+        return constraintChecker;
     }
 
     public void setConstraintChecker(IConstraintVisitor constraintChecker) {
-        constraintChecker_ = constraintChecker;
+        this.constraintChecker = constraintChecker;
     }
 
     public void setFsmEventInterceptor(IFsmEventInterceptor eventInterceptor) {
-
-        fsmEventInterceptor_ = eventInterceptor;
-
+        fsmEventInterceptor = eventInterceptor;
     }
 
     /**
-     * Copies the event interceptor set on this object to another
-     * IFsmEventInterceptorManager.
+     * Copies the event interceptor set on this object to another IFsmEventInterceptorManager.
      */
     private void setEventInterceptor(IFsmEventInterceptorManager fsmEventInterceptorManager) {
-
-        if (null != fsmEventInterceptor_) {
-            fsmEventInterceptorManager.setFsmEventInterceptor(fsmEventInterceptor_);
+        if (null != fsmEventInterceptor) {
+            fsmEventInterceptorManager.setFsmEventInterceptor(fsmEventInterceptor);
         }
     }
 
     public IModelOptimiser getModelOptimiser() {
-        return modelOptimiser_;
+        return modelOptimiser;
     }
 
     public void setModelOptimiser(IModelOptimiser modelFinaliser) {
-        this.modelOptimiser_ = modelFinaliser;
+        this.modelOptimiser = modelFinaliser;
     }
 }

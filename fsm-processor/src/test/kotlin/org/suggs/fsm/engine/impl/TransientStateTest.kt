@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
-import org.slf4j.LoggerFactory
 import org.slf4j.LoggerFactory.getLogger
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.suggs.fsm.FsmEventInterceptorStub
@@ -34,7 +33,7 @@ class TransientStateTest {
         val ctx = AnnotationConfigApplicationContext(StateMachineFactoryExecutionConfig::class.java)
         stateMachineFactory = ctx.getBean("stateMachineFactory") as IStateMachineFactory
         stateMachineFactory.setFsmEventInterceptor(eventInterceptor)
-        stateMachine = stateMachineFactory.getStateMachine("testTransientInternalEvent")
+        stateMachine = stateMachineFactory.createStateMachine("testTransientInternalEvent")
         assertThat(stateMachine).isNotNull
 
         // Set the state manager

@@ -11,7 +11,7 @@ public class DefaultEventMapper implements IEventMapper {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultEventMapper.class);
 
-    private String stateMachineName_;
+    private String stateMachineName;
 
     /**
      * Constructs a new instance with a default name of "context" as the name
@@ -30,11 +30,11 @@ public class DefaultEventMapper implements IEventMapper {
     }
 
     public void setStateMachineName(String stateMachineName) {
-        stateMachineName_ = stateMachineName;
+        this.stateMachineName = stateMachineName;
     }
 
     public String getStateMachineName() {
-        return stateMachineName_;
+        return stateMachineName;
     }
 
     /**
@@ -47,7 +47,7 @@ public class DefaultEventMapper implements IEventMapper {
     public IEvent map(IEvent event) {
         String eventHeader = INamespace.TOP_LEVEL_NAMESPACE +
                 INamespace.NAMESPACE_SEPARATOR +
-                stateMachineName_ +
+                stateMachineName +
                 INamespace.NAMESPACE_SEPARATOR;
 
         if (event != null && event.getType() != null) {

@@ -6,24 +6,23 @@ import org.suggs.fsm.uml2.scribe.runtime.INamespaceContext;
 
 public class NamespaceContext implements INamespaceContext {
 
-    private INamespaceObjectManager namespaceObjectManager_ = new NamespaceObjectManager();
+    private INamespaceObjectManager namespaceObjectManager = new NamespaceObjectManager();
 
     public INamespaceObjectManager getNamespaceObjectManager() {
-        return namespaceObjectManager_;
+        return namespaceObjectManager;
     }
 
     public void setNamepaceObjectManager(INamespaceObjectManager namespaceObjectManager) {
-        namespaceObjectManager_ = namespaceObjectManager;
+        this.namespaceObjectManager = namespaceObjectManager;
     }
 
     /**
-     * Returns a String representation of this object using the
-     * default toString style.
+     * Returns a String representation of this object using the default toString style.
      */
     @Override
     public String toString() {
         return "NamespaceContext{" +
-                "namespaceObjectManager_=" + namespaceObjectManager_ +
+                "namespaceObjectManager=" + namespaceObjectManager +
                 '}';
     }
 }

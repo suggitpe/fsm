@@ -10,15 +10,15 @@ import org.suggs.fsm.uml2.scribe.optimisation.IModelOptimiser;
 
 public class BehavioredClassifier extends Namespace implements IBehavioredClassifier, IConstrainedObject {
 
-    private IBehavior ownedBehavior_;
+    private IBehavior ownedBehavior;
 
     public IBehavior getOwnedBehavior() {
-        return ownedBehavior_;
+        return ownedBehavior;
     }
 
     public void setOwnedBehavior(IBehavior ownedBehavior) {
-        ownedBehavior_ = ownedBehavior;
-        ownedBehavior_.setContext(this);
+        this.ownedBehavior = ownedBehavior;
+        this.ownedBehavior.setContext(this);
     }
 
     public void acceptConstraintVisitor(IConstraintVisitor constraintVisitor) {
@@ -32,6 +32,6 @@ public class BehavioredClassifier extends Namespace implements IBehavioredClassi
     public void acceptNamespaceObjectManager(INamespaceObjectManager namespaceObjectManager) {
         super.acceptNamespaceObjectManager(namespaceObjectManager);
         // Visit the owned behavior
-        ownedBehavior_.acceptNamespaceObjectManager(namespaceObjectManager);
+        ownedBehavior.acceptNamespaceObjectManager(namespaceObjectManager);
     }
 }

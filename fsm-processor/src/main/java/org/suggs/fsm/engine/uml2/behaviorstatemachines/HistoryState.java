@@ -15,18 +15,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Implements shallow and deep history state functionality in addition
- * to standard pseusoState behaviour.
+ * Implements shallow and deep history state functionality in addition to standard pseusoState behaviour.
  */
 public class HistoryState extends PseudoState implements IHistoryState {
 
     private static final Logger LOG = LoggerFactory.getLogger(HistoryState.class);
 
-    /**
-     * The default constructor.
-     *
-     * @param pseudostateKind The type of pseudostate.
-     */
     public HistoryState(String pseudostateKind) {
         super(pseudostateKind);
     }
@@ -37,8 +31,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
     }
 
     public void acceptOptimiser(IModelOptimiser modelOptimiser) {
-
-        pseudoStateBehaviour_.acceptOptimiser(modelOptimiser);
+        pseudoStateBehaviour.acceptOptimiser(modelOptimiser);
 
         // If no default transition has been set, add an outgoing
         // transition to the initial pseudostate for
@@ -52,25 +45,19 @@ public class HistoryState extends PseudoState implements IHistoryState {
         // Finalise by registering as a state entry listener with the
         // containing region, recursing if this is a deep history
         getContainer().addStateEntryListener((PseudoState.DEEP_HISTORY.equals(getPseudoStateKind()) ? true : false), this);
-
     }
 
     public void setPseudoStateKind(String pseudostateKind) {
-
-        /*
-         * Set the behaviour based on the kind of pseudostate
-         * specified.
-         */
+        // Set the behaviour based on the kind of pseudostate specified.
         if (IPseudoState.DEEP_HISTORY.equals(pseudostateKind)) {
-            pseudoStateBehaviour_ = new DeepHistoryPseudoStateBehaviour();
+            pseudoStateBehaviour = new DeepHistoryPseudoStateBehaviour();
         } else if (IPseudoState.SHALLOW_HISTORY.equals(pseudostateKind)) {
-            pseudoStateBehaviour_ = new ShallowHistoryPseudoStateBehaviour();
+            pseudoStateBehaviour = new ShallowHistoryPseudoStateBehaviour();
         } else {
             String msg = "Invalid pseudostate kind specified: " + pseudostateKind;
             LOG.error(msg);
             throw new RuntimeException(msg);
         }
-
     }
 
     /**
@@ -152,11 +139,8 @@ public class HistoryState extends PseudoState implements IHistoryState {
     }
 
     /**
-     * Gets the default transition out of this history state. This
-     * should be a transition to the initial pseudostate of the
-     * containing region.
-     *
-     * @return The default transition out of this history state.
+     * Gets the default transition out of this history state. This should be a transition to the
+     * initial pseudostate of the containing region.
      */
     protected ITransition getDefaultTransition() {
 

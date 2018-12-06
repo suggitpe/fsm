@@ -37,7 +37,7 @@ class StateMachineFactoryExecutionTest {
         stateMachineFactory.setFsmEventInterceptor(eventInterceptor)
 
         // Build the state machine
-        stateMachine = stateMachineFactory.getStateMachine("TestFsm")
+        stateMachine = stateMachineFactory.createStateMachine("TestFsm")
         assertThat(stateMachine).isNotNull
 
         // Set the state manager

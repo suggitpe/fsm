@@ -13,37 +13,32 @@ public class StateMachineContext implements IStateMachineContext {
 
     private static final Logger LOG = LoggerFactory.getLogger(StateMachineContext.class);
 
-    private IFsmEventInterceptor fsmEventInterceptor_ = null;
-
-    private IEventFactory eventFactory_;
-
-    /**
-     * Provides state persistence services to this state machine.
-     */
-    private IStateManager stateManager_;
+    private IFsmEventInterceptor fsmEventInterceptor = null;
+    private IEventFactory eventFactory;
+    private IStateManager stateManager;
 
     public IFsmEventInterceptor getEventInterceptor() {
-        return fsmEventInterceptor_;
+        return fsmEventInterceptor;
     }
 
     public void setFsmEventInterceptor(IFsmEventInterceptor fsmEventInterceptor) {
-        fsmEventInterceptor_ = fsmEventInterceptor;
+        this.fsmEventInterceptor = fsmEventInterceptor;
     }
 
     public Map<String, String> getHistoryStates() {
-        return stateManager_.getHistoryStates();
+        return stateManager.getHistoryStates();
     }
 
     public IStateManager getStateManager() {
-        return stateManager_;
+        return stateManager;
     }
 
     public void setStateManager(IStateManager stateManager) {
-        stateManager_ = stateManager;
+        this.stateManager = stateManager;
     }
 
     public IEventFactory getEventFactory() {
-        return eventFactory_;
+        return eventFactory;
     }
 
     public void setEventFactory(IEventFactory eventFactory) {
@@ -52,19 +47,15 @@ public class StateMachineContext implements IStateMachineContext {
             LOG.error(msg);
             throw new RuntimeException(msg);
         }
-        eventFactory_ = eventFactory;
+        this.eventFactory = eventFactory;
     }
 
-    /**
-     * Returns a String representation of this object using the
-     * default toString style.
-     */
     @Override
     public String toString() {
         return "StateMachineContext{" +
-                "fsmEventInterceptor_=" + fsmEventInterceptor_ +
-                ", eventFactory_=" + eventFactory_ +
-                ", stateManager_=" + stateManager_ +
+                "fsmEventInterceptor=" + fsmEventInterceptor +
+                ", eventFactory=" + eventFactory +
+                ", stateManager=" + stateManager +
                 '}';
     }
 

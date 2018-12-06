@@ -20,20 +20,15 @@ public class FinalState extends State implements IState {
 
     private static final Logger LOG = LoggerFactory.getLogger(FinalState.class);
 
-    /**
-     * Default constructor. The constructor sets the state kind to SIMPLE.
-     */
     public FinalState() {
         super(IState.SIMPLE);
     }
 
     public void acceptConstraintVisitor(IConstraintVisitor constraintVisitor) {
         constraintVisitor.visitFinalState(this);
-
     }
 
     public void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-
         notifyStateEntryListeners(stateMachineContext);
 
         // Update persistent state.
@@ -54,7 +49,6 @@ public class FinalState extends State implements IState {
                 // OK to silently skip completion events
             }
         }
-
     }
 
     public Set<ITransition> getOutgoing() {
