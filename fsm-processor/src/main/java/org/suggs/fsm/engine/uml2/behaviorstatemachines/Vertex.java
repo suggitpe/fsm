@@ -106,7 +106,7 @@ public abstract class Vertex extends NamedElement implements IVertex {
      * @return The outgoing transitions that could be triggered by the
      * specified event type.
      */
-    protected List<Set<ITransition>> getAllPossibleOutgoingTransitions(String eventType) {
+    List<Set<ITransition>> getAllPossibleOutgoingTransitions(String eventType) {
 
         List<Set<ITransition>> allTransitions = getAllPossibleOutgoingTransitions();
 
