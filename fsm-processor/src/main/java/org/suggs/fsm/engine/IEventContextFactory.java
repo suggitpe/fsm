@@ -7,7 +7,7 @@ import org.suggs.fsm.uml2.scribe.runtime.IEventContext;
 import java.util.Map;
 
 /**
- * Implemenations of this interface create IEventContext instances based on an IEvent instance and Map
+ * Implementations of this interface create IEventContext instances based on an IEvent instance and Map
  * of context information. */
 public interface IEventContextFactory
 {

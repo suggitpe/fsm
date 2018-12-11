@@ -1,8 +1,6 @@
 package org.suggs.fsm.uml2.behaviorstatemachines;
 
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
-import org.suggs.fsm.uml2.scribe.constraints.IConstrainedObject;
-import org.suggs.fsm.uml2.scribe.optimisation.IOptimisable;
 
 /**
  * Defines an implementation of the UML 2.0 StateMachine class.
@@ -14,7 +12,7 @@ import org.suggs.fsm.uml2.scribe.optimisation.IOptimisable;
  * machines are accessible and additional attributes may have been
  * added to support implementation of the state machine runtime.
  */
-public interface IStateMachine extends IBehavior, IConstrainedObject, IOptimisable {
+public interface IStateMachine extends IBehavior {
 
     /**
      * Sets the region owned by this state machine.

@@ -5,9 +5,7 @@ import org.suggs.fsm.event.IEvent;
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
 import org.suggs.fsm.uml2.communications.ITrigger;
 import org.suggs.fsm.uml2.kernel.INamespace;
-import org.suggs.fsm.uml2.scribe.runtime.IEnterable;
 import org.suggs.fsm.uml2.scribe.runtime.IEntryReporter;
-import org.suggs.fsm.uml2.scribe.runtime.IExitable;
 
 import java.util.Set;
 
@@ -20,7 +18,7 @@ import java.util.Set;
  * machines are accessible and additional attributes may have been
  * added to support implementation of the state machine runtime.
  */
-public interface IState extends INamespace, IVertex, IEnterable, IExitable, IEntryReporter, IEventProcessor {
+public interface IState extends INamespace, IVertex, IEntryReporter, IEventProcessor {
 
     /**
      * The State kind for a Simple State

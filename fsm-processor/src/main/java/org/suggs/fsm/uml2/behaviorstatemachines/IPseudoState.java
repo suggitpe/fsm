@@ -1,7 +1,5 @@
 package org.suggs.fsm.uml2.behaviorstatemachines;
 
-import org.suggs.fsm.uml2.scribe.constraints.IConstrainedObject;
-
 /**
  * Defines an implementation of the UML 2.0 PseudoState class.
  * PseudoStates are transient vertives in the state machine graph,
@@ -12,7 +10,7 @@ import org.suggs.fsm.uml2.scribe.constraints.IConstrainedObject;
  * machines are accessible and additional attributes may have been
  * added to support implementation of the state machine runtime.
  */
-public interface IPseudoState extends IVertex, IConstrainedObject {
+public interface IPseudoState extends IVertex {
 
     /**
      * The PseudoStateKind for an Initial State
