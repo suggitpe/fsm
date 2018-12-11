@@ -50,7 +50,7 @@ class NamespaceTest {
         assertThat(namespace.ownedMembers.size).isEqualTo(3)
         val iter = ownedMembers.iterator()
         while (iter.hasNext()) {
-            val element = iter.next() as INamedElement
+            val element = iter.next()
             assertThat(namespace.ownedMembers.contains(element)).isTrue()
         }
     }
