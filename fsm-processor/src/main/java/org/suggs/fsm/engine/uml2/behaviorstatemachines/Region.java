@@ -12,6 +12,9 @@ import org.suggs.fsm.uml2.scribe.runtime.IStateEntryListener;
 
 import java.util.*;
 
+/**
+ * mapped
+ */
 public class Region extends Namespace implements IRegion {
 
     private static final Logger LOG = LoggerFactory.getLogger(Region.class);
@@ -62,7 +65,7 @@ public class Region extends Namespace implements IRegion {
     public void setTransitions(Set<ITransition> transitions) {
         this.transitions = transitions.toArray(new ITransition[transitions.size()]);
 
-        // Add the subvertices to the region namespace
+        // Add the subVertices to the region namespace
         for (ITransition iTransition : this.transitions) {
             addOwnedMember(iTransition);
             // Set the container to this region

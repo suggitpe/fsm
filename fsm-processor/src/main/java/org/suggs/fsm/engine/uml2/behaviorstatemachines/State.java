@@ -652,7 +652,7 @@ public class State extends Vertex implements IState {
 
         private IPseudoState exitPoint_;
 
-        public SimpleCompositeStateBehaviour() {
+        SimpleCompositeStateBehaviour() {
             entryPoint_ = new PseudoState(PseudoState.ENTRY_POINT);
             exitPoint_ = new PseudoState(PseudoState.EXIT_POINT);
 

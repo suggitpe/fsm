@@ -11,7 +11,6 @@ import org.suggs.fsm.uml2.scribe.constraints.IConstraintVisitor;
 import org.suggs.fsm.uml2.scribe.namespacemgt.INamespaceObjectManager;
 import org.suggs.fsm.uml2.scribe.optimisation.IModelOptimiser;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class StateMachine extends Behavior implements IStateMachine {
