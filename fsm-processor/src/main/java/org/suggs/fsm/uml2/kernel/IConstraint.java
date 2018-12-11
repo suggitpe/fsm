@@ -13,6 +13,7 @@ import org.suggs.fsm.uml2.scribe.runtime.IStateMachineContext;
  * the UML class - only those attributes relevant to Scribe state
  * machines are accessible and additional attributes may have been
  * added to support implementation of the state machine runtime.
+ * mapped
  */
 public interface IConstraint extends INamedElement {
 

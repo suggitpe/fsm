@@ -44,7 +44,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
 
         // Finalise by registering as a state entry listener with the
         // containing region, recursing if this is a deep history
-        getContainer().addStateEntryListener((PseudoState.DEEP_HISTORY.equals(getPseudoStateKind()) ? true : false), this);
+        getContainer().addStateEntryListener((PseudoState.DEEP_HISTORY.equals(getPseudoStateKind())), this);
     }
 
     public void setPseudoStateKind(String pseudostateKind) {
@@ -84,7 +84,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
         public void acceptOptimiser(IModelOptimiser modelOptimiser) {
             // History pseudostates do not inherit transitions from
             // enclosing states
-            prioritisedOutgoingTransitions_ = new ArrayList();
+            prioritisedOutgoingTransitions_ = new ArrayList<>();
             prioritisedOutgoingTransitions_.add(getOutgoing());
         }
 
@@ -123,7 +123,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
         public void acceptOptimiser(IModelOptimiser modelOptimiser) {
             // History pseudostates do not inherit transitions from
             // enclosing states
-            prioritisedOutgoingTransitions_ = new ArrayList();
+            prioritisedOutgoingTransitions_ = new ArrayList<>();
             prioritisedOutgoingTransitions_.add(getOutgoing());
 
         }
@@ -142,7 +142,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
      * Gets the default transition out of this history state. This should be a transition to the
      * initial pseudostate of the containing region.
      */
-    protected ITransition getDefaultTransition() {
+    private ITransition getDefaultTransition() {
 
         Set<ITransition> transitions = getOutgoing();
         if (transitions.size() != 1) {
@@ -155,10 +155,10 @@ public class HistoryState extends PseudoState implements IHistoryState {
         }
     }
 
-    protected void transitionToHistoryState(IEventContext eventContext, INamespaceContext namespaceContext,
-                                            IStateMachineContext stateMachineContext) {
+    private void transitionToHistoryState(IEventContext eventContext, INamespaceContext namespaceContext,
+                                          IStateMachineContext stateMachineContext) {
 
-        String targetQualifiedName = (String) stateMachineContext.getHistoryStates().get(getQualifiedName());
+        String targetQualifiedName = stateMachineContext.getHistoryStates().get(getQualifiedName());
 
         if (null == targetQualifiedName) {
 

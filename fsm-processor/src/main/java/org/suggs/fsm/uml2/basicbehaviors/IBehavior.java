@@ -2,7 +2,6 @@ package org.suggs.fsm.uml2.basicbehaviors;
 
 import org.suggs.fsm.framework.spi.IActionExecutor;
 import org.suggs.fsm.uml2.kernel.IClassifier;
-import org.suggs.fsm.uml2.scribe.constraints.IConstrainedObject;
 import org.suggs.fsm.uml2.scribe.optimisation.IOptimisable;
 import org.suggs.fsm.uml2.scribe.runtime.IEventContext;
 import org.suggs.fsm.uml2.scribe.runtime.INamespaceContext;
@@ -17,7 +16,7 @@ import org.suggs.fsm.uml2.scribe.runtime.IStateMachineContext;
  * machines are accessible and additional attributes may have been
  * added to support implementation of the state machine runtime.
  */
-public interface IBehavior extends IClassifier, IConstrainedObject, IOptimisable {
+public interface IBehavior extends IClassifier, IOptimisable {
 
     /**
      * Sets the context that ownws this behavior.

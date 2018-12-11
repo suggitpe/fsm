@@ -16,7 +16,7 @@ import java.util.Set;
  * Implementation of a UML Final State as per UML Modeling Language:
  * Superstructure Version 2.0 formal/05-07-04
  */
-public class FinalState extends State implements IState {
+public class FinalState extends State {
 
     private static final Logger LOG = LoggerFactory.getLogger(FinalState.class);
 

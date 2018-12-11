@@ -1,7 +1,6 @@
 package org.suggs.fsm.uml2.basicbehaviors;
 
 import org.suggs.fsm.uml2.kernel.IClassifier;
-import org.suggs.fsm.uml2.scribe.constraints.IConstrainedObject;
 import org.suggs.fsm.uml2.scribe.optimisation.IOptimisable;
 
 /**
@@ -13,7 +12,7 @@ import org.suggs.fsm.uml2.scribe.optimisation.IOptimisable;
  * machines are accessible and additional attributes may have been
  * added to support implementation of the state machine runtime.
  */
-public interface IBehavioredClassifier extends IClassifier, IConstrainedObject, IOptimisable {
+public interface IBehavioredClassifier extends IClassifier, IOptimisable {
 
     /**
      * Gets the behavior owned by this classifier.
