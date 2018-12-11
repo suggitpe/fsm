@@ -24,7 +24,6 @@ public class Constraint extends NamedElement implements IConstraint {
     }
 
     public boolean evaluate(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-
         boolean result = false;
 
         // Get the guard evaluator from the namespace
@@ -41,9 +40,7 @@ public class Constraint extends NamedElement implements IConstraint {
             result = evaluator.evaluateGuard(eventContext);
         } catch (Throwable t) {
             LOG.error("Guard evaluator " + this.toString() + " threw " + t.toString() + " for eventContext=" + eventContext);
-
             throw new RuntimeException(t);
-
         }
 
         // Notify listeners
@@ -54,14 +51,11 @@ public class Constraint extends NamedElement implements IConstraint {
                     + eventContext + ", namespaceContext=" + namespaceContext + ", stateMachineContext=" + stateMachineContext);
             throw new RuntimeException(t);
         }
-
         return result;
     }
 
     public void acceptNamespaceObjectManager(INamespaceObjectManager namespaceObjectManager) {
-
         super.acceptNamespaceObjectManager(namespaceObjectManager);
-
         // Add the guard evaluator
         if (null != guardEvaluator_) {
             namespaceObjectManager.addObject(guardEvaluator_.getName(), guardEvaluator_);

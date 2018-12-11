@@ -3,12 +3,11 @@ package org.suggs.fsm.engine.uml2.basicbehaviors;
 import org.suggs.fsm.engine.uml2.kernel.Namespace;
 import org.suggs.fsm.uml2.basicbehaviors.IBehavior;
 import org.suggs.fsm.uml2.basicbehaviors.IBehavioredClassifier;
-import org.suggs.fsm.uml2.scribe.constraints.IConstrainedObject;
 import org.suggs.fsm.uml2.scribe.constraints.IConstraintVisitor;
 import org.suggs.fsm.uml2.scribe.namespacemgt.INamespaceObjectManager;
 import org.suggs.fsm.uml2.scribe.optimisation.IModelOptimiser;
 
-public class BehavioredClassifier extends Namespace implements IBehavioredClassifier, IConstrainedObject {
+public class BehavioredClassifier extends Namespace implements IBehavioredClassifier {
 
     private IBehavior ownedBehavior;
 

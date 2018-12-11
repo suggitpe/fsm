@@ -38,7 +38,7 @@ public class Behavior extends Namespace implements IBehavior {
 
     public void execute(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
         // Get the action executor from the namespace
-        IActionExecutor action = null;
+        IActionExecutor action;
         try {
             action = (IActionExecutor) namespaceContext.getNamespaceObjectManager().getObject(getActionExecutor().getName());
         } catch (Throwable t) {
