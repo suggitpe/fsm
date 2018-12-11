@@ -10,12 +10,7 @@ import java.util.Objects;
 public abstract class NamedElement implements INamedElement {
 
     private String name_ = EMPTY_NAME;
-
     private INamespace namespace_ = null;
-
-    /**
-     * Used to cache the qualified name
-     */
     private String qualifiedName_ = null;
 
     public String getName() {

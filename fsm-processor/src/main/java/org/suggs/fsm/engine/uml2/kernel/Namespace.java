@@ -14,10 +14,7 @@ public class Namespace extends NamedElement implements INamespace {
 
     private static final Logger LOG = LoggerFactory.getLogger(Namespace.class);
 
-    /**
-     * The objects owned by this namespace
-     */
-    private Set<INamedElement> ownedMembers_ = new HashSet();
+    private Set<INamedElement> ownedMembers_ = new HashSet<>();
 
     public Set<INamedElement> getOwnedMembers() {
         return ownedMembers_;

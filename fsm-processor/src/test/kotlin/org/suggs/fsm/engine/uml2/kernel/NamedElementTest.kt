@@ -41,7 +41,7 @@ class NamedElementTest {
     }
 
     @Test fun testConstraintCheckerAcceptance() {
-        namedElement!!.acceptConstraintVisitor(constraintChecker)
+        namedElement.acceptConstraintVisitor(constraintChecker)
         verify(constraintChecker).visitNamedElement(namedElement)
     }
 
