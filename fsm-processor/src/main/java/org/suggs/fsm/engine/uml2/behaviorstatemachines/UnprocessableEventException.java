@@ -7,20 +7,8 @@ package org.suggs.fsm.engine.uml2.behaviorstatemachines;
  */
 public class UnprocessableEventException extends RuntimeException {
 
-    public UnprocessableEventException() {
-        super();
-    }
-
     public UnprocessableEventException(String message) {
         super(message);
-    }
-
-    public UnprocessableEventException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public UnprocessableEventException(Throwable cause) {
-        super(cause);
     }
 
 }

@@ -289,7 +289,7 @@ public class Transition extends NamedElement implements ITransition {
     /**
      * The default triggers for a new transition.
      */
-    protected class DefaultTriggerSet extends Vector {
+    protected class DefaultTriggerSet extends Vector<ITrigger> {
 
         DefaultTriggerSet() {
             // Add a single default trigger
