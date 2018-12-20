@@ -101,7 +101,7 @@
         <property name="name" value="R0_FS"/>
     </bean>
 
-    <!-- Region 0 transitions -->
+    <!-- Region 0 transitionBuilders -->
     <bean id="R0_T1" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.Transition">
         <constructor-arg value="EXTERNAL"/>
         <property name="name" value="R0_T1"/>

@@ -57,13 +57,13 @@ public class NamespaceObjectManager implements INamespaceObjectManager {
 
     public void visitRegion(IRegion region) {
 
-        // Visit the contained transitions
+        // Visit the contained transitionBuilders
         Set<ITransition> transitions = region.getTransitions();
         for (ITransition transition : transitions) {
             transition.acceptNamespaceObjectManager(this);
         }
 
-        // Visit the contained sub-vertices
+        // Visit the contained sub-vertexBuilders
         Set<IVertex> vertices = region.getSubVertices();
         for (IVertex vertex : vertices) {
             vertex.acceptNamespaceObjectManager(this);

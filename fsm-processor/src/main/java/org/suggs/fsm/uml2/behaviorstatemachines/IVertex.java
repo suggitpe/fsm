@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Defines an implementation of the UML 2.0 Vertex class. Vertices are
  * abstract nodes in state machine graphs and act as sources and
- * targets of transitions.
+ * targets of transitionBuilders.
  * <p>
  * Note that the interface may not define a complete representation of
  * the UML class - only those attributes relevant to Scribe state
@@ -21,22 +21,22 @@ import java.util.Set;
 public interface IVertex extends INamedElement, IEnterable, IExitable, IOptimisable {
 
     /**
-     * Sets the highest priority outgoing transitions for this node.
+     * Sets the highest priority outgoing transitionBuilders for this node.
      */
     void setOutgoing(Set<ITransition> outgoingTransitions);
 
     /**
-     * Gets the outgoing transitions for this node.
+     * Gets the outgoing transitionBuilders for this node.
      */
     Set<ITransition> getOutgoing();
 
     /**
-     * Sets the incoming transitions for this node.
+     * Sets the incoming transitionBuilders for this node.
      */
     void setIncoming(Set<ITransition> incomingTransitions);
 
     /**
-     * Gets the incoming transitions for this node.
+     * Gets the incoming transitionBuilders for this node.
      */
     Set<ITransition> getIncoming();
 
@@ -51,7 +51,7 @@ public interface IVertex extends INamedElement, IEnterable, IExitable, IOptimisa
     IRegion getContainer();
 
     /**
-     * Gets the regions enclosing this vertex in an ordered list,
+     * Gets the region enclosing this vertex in an ordered list,
      * innermost first.
      */
     List<IRegion> getAncestorList();
@@ -67,9 +67,9 @@ public interface IVertex extends INamedElement, IEnterable, IExitable, IOptimisa
     void addOutgoingTransition(ITransition transition);
 
     /**
-     * Returns all possible outgoing transitions from this vertex, including those from enclosing states. The
-     * transitions are presented as a list of sets, where the list defines the priority of the transition set
-     * with position 0 being the highest priority, ie. the transitions that are defined on this vertex.
+     * Returns all possible outgoing transitionBuilders from this vertex, including those from enclosing states. The
+     * transitionBuilders are presented as a list of sets, where the list defines the priority of the transition set
+     * with position 0 being the highest priority, ie. the transitionBuilders that are defined on this vertex.
      */
     List<Set<ITransition>> getAllPossibleOutgoingTransitions();
 }

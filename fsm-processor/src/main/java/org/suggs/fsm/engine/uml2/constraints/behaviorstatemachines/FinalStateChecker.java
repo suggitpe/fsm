@@ -8,14 +8,14 @@ public class FinalStateChecker implements IFinalStateChecker {
     public void checkConstraints(IState finalState) {
 
         /*
-         * [1] A final state cannot have any outgoing transitions.
+         * [1] A final state cannot have any outgoing transitionBuilders.
          */
-        Assert.state(finalState.getOutgoing().size() == 0, "Final state " + finalState + " has outgoing transitions");
+        Assert.state(finalState.getOutgoing().size() == 0, "Final state " + finalState + " has outgoing transitionBuilders");
 
         /*
-         * [2] A final state cannot have regions.
+         * [2] A final state cannot have region.
          */
-        Assert.state(finalState.getRegion() == null, "Final state " + finalState + " has regions");
+        Assert.state(finalState.getRegion() == null, "Final state " + finalState + " has region");
 
         /*
          * [3] A final state cannot reference a submachine.

@@ -227,7 +227,7 @@ public class Transition extends NamedElement implements ITransition {
                  * Get the list of states to exit. This is the source
                  * state plus any other states up to but not including
                  * the state that owns the least common ancestor of
-                 * the source and target vertices.
+                 * the source and target vertexBuilders.
                  */
 
                 List<IRegion> exitList = sourceVertex.getAncestorList();

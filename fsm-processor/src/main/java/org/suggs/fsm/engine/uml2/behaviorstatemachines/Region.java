@@ -85,7 +85,7 @@ public class Region extends Namespace implements IRegion {
                 return (IPseudoState) iVertex;
             }
         }
-        String msg = "No initial pseudostate found for region " + this;
+        String msg = "No pseudoStateKind pseudostate found for region " + this;
         LOG.error(msg);
         throw new RuntimeException(msg);
     }
@@ -107,7 +107,7 @@ public class Region extends Namespace implements IRegion {
         } else if (null != stateMachine) {
             /*
              * This region is owned directly by a state machine. Do not recurse up as state machines define a
-             * namespace boundary. The impleication of this is that transitions cannot link states from two state machines.
+             * namespace boundary. The impleication of this is that transitionBuilders cannot link states from two state machines.
              */
             return new ArrayList<>();
         } else {
@@ -118,13 +118,13 @@ public class Region extends Namespace implements IRegion {
     }
 
     public void acceptOptimiser(IModelOptimiser modelOptimiser) {
-        // Optimise the transitions owned by the region
+        // Optimise the transitionBuilders owned by the region
         Set<ITransition> transitions = getTransitions();
         for (ITransition transition : transitions) {
             transition.acceptOptimiser(modelOptimiser);
         }
 
-        // Optimise the sub-vertices owned by the region
+        // Optimise the sub-vertexBuilders owned by the region
         Set<IVertex> subVertices = getSubVertices();
         for (IVertex vertex : subVertices) {
             vertex.acceptOptimiser(modelOptimiser);
@@ -132,7 +132,7 @@ public class Region extends Namespace implements IRegion {
     }
 
     public void addStateEntryListener(boolean recurse, IStateEntryListener stateEntryListener) {
-        // If deepHistory, recurse into regions in compound states
+        // If deepHistory, recurse into region in compound states
         Set<IVertex> subVertices = getSubVertices();
         for (IVertex vertex : subVertices) {
             if (vertex instanceof IState) {
@@ -155,10 +155,10 @@ public class Region extends Namespace implements IRegion {
 
         subVertices = newArray;
 
-        // Add the sub-vertices to the region namespace
+        // Add the sub-vertexBuilders to the region namespace
         addOwnedMember(vertex);
 
-        // Set the container on the sub-vertices to this region
+        // Set the container on the sub-vertexBuilders to this region
         vertex.setContainer(this);
 
     }

@@ -5,7 +5,7 @@ import org.suggs.fsm.uml2.kernel.INamespace;
 
 /**
  * Defines an implementation of the UML 2.0 Event class. Events are
- * occurrences that may potentially trigger transitions.
+ * occurrences that may potentially trigger transitionBuilders.
  * <p>
  * Note that the interface may not define a complete representation of
  * the UML class - only those attributes relevant to Scribe state
@@ -16,7 +16,7 @@ public interface IEvent extends INamedElement {
 
     /**
      * Name used to identify completion events that can trigger
-     * completion (automatic) transitions.
+     * completion (automatic) transitionBuilders.
      */
     String COMPLETION_EVENT_NAME = "$COMPLETION";
 
@@ -24,7 +24,7 @@ public interface IEvent extends INamedElement {
 
     /**
      * Name used to identify 'null' events, in particular the event
-     * used to transition from an initial pseudostate to the first
+     * used to transition from an pseudoStateKind pseudostate to the first
      * stable state of a region.
      */
     String NULL_EVENT_NAME = "$NULL";

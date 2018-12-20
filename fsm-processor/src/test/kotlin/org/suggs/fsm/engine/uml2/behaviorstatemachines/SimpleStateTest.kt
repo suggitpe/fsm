@@ -100,7 +100,7 @@ class SimpleStateTest {
     }
 
     /**
-     * Tests that the following occur on state entry: 1) The state is set as the current state. 2) Outgoing transitions are
+     * Tests that the following occur on state entry: 1) The state is set as the current state. 2) Outgoing transitionBuilders are
      * identified and fired. 3) The state entry listener registered with the state is notified.
      */
     @Test fun `state entry`() {

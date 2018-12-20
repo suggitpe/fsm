@@ -24,7 +24,7 @@ public class Trigger extends NamedElement implements ITrigger {
 
     /**
      * Default event type for triggers. This is provided so that
-     * completion (automatic) transitions can be defined by creating a
+     * completion (automatic) transitionBuilders can be defined by creating a
      * transition with an eventless trigger.
      */
     protected class DefaultTriggerEvent extends Event {

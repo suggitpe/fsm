@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * Implementation of the UML PseudoState class as per UML Modeling
  * Language: Superstructure Version 2.0 formal/05-07-04. PseudoStates
- * include initial states and entry and exit points. History states
+ * include pseudoStateKind states and entry and exit points. History states
  * are implemented using the subclass.
  */
 public class PseudoState extends Vertex implements IPseudoState {
@@ -88,11 +88,11 @@ public class PseudoState extends Vertex implements IPseudoState {
 
         public void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
 
-            // Follow the initial transitions
+            // Follow the pseudoStateKind transitionBuilders
             Set<ITransition> transitions = getOutgoing();
 
             if (1 != transitions.size()) {
-                String msg = "Initial PseudoState " + PseudoState.this + " has " + transitions.size() + " outgoing transitions";
+                String msg = "Initial PseudoState " + PseudoState.this + " has " + transitions.size() + " outgoing transitionBuilders";
                 LOG.error(msg);
                 throw new RuntimeException(msg);
             } else {
@@ -115,14 +115,14 @@ public class PseudoState extends Vertex implements IPseudoState {
         }
 
         public void acceptOptimiser(IModelOptimiser modelOptimiser) {
-            // Initial pseudostates do not inherit transitions from
+            // Initial pseudostates do not inherit transitionBuilders from
             // enclosing states
             prioritisedOutgoingTransitions_ = new ArrayList<>();
             prioritisedOutgoingTransitions_.add(getOutgoing());
         }
 
         public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
-            // Initial pseudoStates do not inherit transitions from
+            // Initial pseudoStates do not inherit transitionBuilders from
             // enclosing states
 
             List<Set<ITransition>> outgoingTransitions = new ArrayList<>();
@@ -138,11 +138,11 @@ public class PseudoState extends Vertex implements IPseudoState {
     private class EntryPointPseudoStateBehaviour implements IPseudoStateBehaviour {
 
         public void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {
-            // Entering an entry pseudostate causes an automatic transition to the initial pseudostate of the region region.
+            // Entering an entry pseudostate causes an automatic transition to the pseudoStateKind pseudostate of the region region.
             Set<ITransition> transitions = getOutgoing();
 
             if (1 != transitions.size()) {
-                String msg = transitions.size() + " outgoing transitions were found from " + PseudoState.this + ": " + transitions;
+                String msg = transitions.size() + " outgoing transitionBuilders were found from " + PseudoState.this + ": " + transitions;
                 LOG.error(msg);
                 throw new RuntimeException(msg);
             } else {
@@ -165,12 +165,12 @@ public class PseudoState extends Vertex implements IPseudoState {
 
         public void acceptOptimiser(IModelOptimiser modelOptimiser) {
 
-            // Entry pseudostates do not inherit transitions from
+            // Entry pseudostates do not inherit transitionBuilders from
             // enclosing states
             prioritisedOutgoingTransitions_ = new ArrayList<>();
             prioritisedOutgoingTransitions_.add(getOutgoing());
 
-            // Add an outbound transition to the initial pseudostate
+            // Add an outbound transition to the pseudoStateKind pseudostate
             // for the compound state that contains this pseudostate
 
             Transition transition = new Transition(ITransition.INTERNAL);
@@ -207,14 +207,14 @@ public class PseudoState extends Vertex implements IPseudoState {
 
         public void acceptOptimiser(IModelOptimiser modelOptimiser) {
 
-            // Exit pseudostates do not inherit transitions from
+            // Exit pseudostates do not inherit transitionBuilders from
             // enclosing states
             prioritisedOutgoingTransitions_ = new ArrayList<>();
             prioritisedOutgoingTransitions_.add(getOutgoing());
         }
 
         public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
-            // Exit pseudostates do inherit transitions from enclosing
+            // Exit pseudostates do inherit transitionBuilders from enclosing
             // states
 
             List<Set<ITransition>> outgoingTransitions = new ArrayList<>();

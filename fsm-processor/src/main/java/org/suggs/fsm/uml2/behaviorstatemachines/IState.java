@@ -111,7 +111,7 @@ public interface IState extends INamespace, IVertex, IEntryReporter, IEventProce
     /**
      * @return a set of <code>ITrigger</code> s for events that are
      * candidates to be retained by the state machine if they
-     * trigger no transitions out of this state.
+     * trigger no transitionBuilders out of this state.
      */
     Set<ITrigger> getDeferrableTriggers();
 

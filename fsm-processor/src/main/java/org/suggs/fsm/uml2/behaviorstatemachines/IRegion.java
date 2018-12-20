@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * Defines an implementation of the UML 2.0 Region class. Regions are
- * containers for states and transitions.
+ * containers for states and transitionBuilders.
  * <p>
  * Note that the interface may not define a complete representation of
  * the UML class - only those attributes relevant to Scribe state
@@ -19,26 +19,26 @@ import java.util.Set;
 public interface IRegion extends INamespace, IOptimisable, IEntryReporter {
 
     /**
-     * Sets the transitions owned by this region. The method adds the
-     * transitions to the owned memebers of this region and also sets
-     * the namespace and container of the vertices to be this region.
+     * Sets the transitionBuilders owned by this region. The method adds the
+     * transitionBuilders to the owned memebers of this region and also sets
+     * the namespace and container of the vertexBuilders to be this region.
      */
     void setTransitions(Set<ITransition> transitions);
 
     /**
-     * @return The transitions owned by this region.
+     * @return The transitionBuilders owned by this region.
      */
     Set<ITransition> getTransitions();
 
     /**
-     * Sets the vertices owned by this region. The method adds the
-     * vertices to the owned memebers of this region and also sets the
-     * namespace and container of the vertices to be this region.
+     * Sets the vertexBuilders owned by this region. The method adds the
+     * vertexBuilders to the owned memebers of this region and also sets the
+     * namespace and container of the vertexBuilders to be this region.
      */
     void setSubVertices(Set<IVertex> vertices);
 
     /**
-     * @return The vertices owned by this region
+     * @return The vertexBuilders owned by this region
      */
     Set<IVertex> getSubVertices();
 
@@ -65,12 +65,12 @@ public interface IRegion extends INamespace, IOptimisable, IEntryReporter {
     IState getState();
 
     /**
-     * Returns the initial pseudoState of this region.
+     * Returns the pseudoStateKind pseudoState of this region.
      */
     IPseudoState getInitialState();
 
     /**
-     * Gets the regions enclosing this region in an ordered list,
+     * Gets the region enclosing this region in an ordered list,
      * innermost first.
      */
     List<IRegion> getAncestorList();

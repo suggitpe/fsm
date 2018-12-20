@@ -2,6 +2,7 @@
 
 class BehavioredClassifier
 interface IBehavior
+class Behavior
 interface IStateMachine
 class StateMachine
 interface IRegion
@@ -11,15 +12,18 @@ class Vertex
 interface ITransition
 class Transition
 
-BehavioredClassifier *- IBehavior
+BehavioredClassifier *- IBehavior : ownedBehavior
+IBehavior <.. Behavior
 IBehavior <.. IStateMachine
 IStateMachine <.. StateMachine
-StateMachine *- IRegion
+Behavior <-- StateMachine
+StateMachine *- IRegion: ownedRegion
 IRegion <.. Region
 Region *- IVertex
 IVertex <.. Vertex
 Region *- ITransition
 ITransition <.. Transition
+
 
 
 @enduml

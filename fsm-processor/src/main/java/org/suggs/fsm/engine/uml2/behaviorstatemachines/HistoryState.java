@@ -34,7 +34,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
         pseudoStateBehaviour.acceptOptimiser(modelOptimiser);
 
         // If no default transition has been set, add an outgoing
-        // transition to the initial pseudostate for
+        // transition to the pseudoStateKind pseudostate for
         // the containing region
         if (0 == getOutgoing().size()) {
             ITransitionFactory transitionFactory = modelOptimiser.getTransitionFactory();
@@ -82,14 +82,14 @@ public class HistoryState extends PseudoState implements IHistoryState {
         }
 
         public void acceptOptimiser(IModelOptimiser modelOptimiser) {
-            // History pseudostates do not inherit transitions from
+            // History pseudostates do not inherit transitionBuilders from
             // enclosing states
             prioritisedOutgoingTransitions_ = new ArrayList<>();
             prioritisedOutgoingTransitions_.add(getOutgoing());
         }
 
         public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
-            // History states do not inherit transitions from
+            // History states do not inherit transitionBuilders from
             // enclosing states
 
             List<Set<ITransition>> outgoingTransitions = new ArrayList<>();
@@ -121,7 +121,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
         }
 
         public void acceptOptimiser(IModelOptimiser modelOptimiser) {
-            // History pseudostates do not inherit transitions from
+            // History pseudostates do not inherit transitionBuilders from
             // enclosing states
             prioritisedOutgoingTransitions_ = new ArrayList<>();
             prioritisedOutgoingTransitions_.add(getOutgoing());
@@ -129,7 +129,7 @@ public class HistoryState extends PseudoState implements IHistoryState {
         }
 
         public List<Set<ITransition>> getAllPossibleOutgoingTransitions() {
-            // History states do not inherit transitions from
+            // History states do not inherit transitionBuilders from
             // enclosing states
             List<Set<ITransition>> outgoingTransitions = new ArrayList<>();
             outgoingTransitions.add(getOutgoing());
@@ -140,13 +140,13 @@ public class HistoryState extends PseudoState implements IHistoryState {
 
     /**
      * Gets the default transition out of this history state. This should be a transition to the
-     * initial pseudostate of the containing region.
+     * pseudoStateKind pseudostate of the containing region.
      */
     private ITransition getDefaultTransition() {
 
         Set<ITransition> transitions = getOutgoing();
         if (transitions.size() != 1) {
-            String msg = "History state " + this + " has " + transitions.size() + " outgoing transitions";
+            String msg = "History state " + this + " has " + transitions.size() + " outgoing transitionBuilders";
             LOG.error(msg);
             throw new RuntimeException(msg);
         } else {

@@ -141,13 +141,13 @@ public class State extends Vertex implements IState {
     }
 
     /**
-     * Iterates through a List of Sets of transions and checks whether there are any transitions present.
+     * Iterates through a List of Sets of transions and checks whether there are any transitionBuilders present.
      *
      * @return <code>true</code> if any of the Sets in the List have non-zero size, <code>false</code> otherwise.
      */
     protected boolean hasTransitions(List<Set<ITransition>> prioritisedTransitions) {
 
-        // If there are no possible transitions for this event
+        // If there are no possible transitionBuilders for this event
         boolean potentialTransitionsExist = false;
         for (Set<ITransition> transitionSet : prioritisedTransitions) {
             if (0 < transitionSet.size()) {
@@ -169,7 +169,7 @@ public class State extends Vertex implements IState {
             }
 
             // firableTransition will be null if there are valid
-            // transitions
+            // transitionBuilders
             // for the event, but all the guards failed.
             // Queue the event if can defer from this state.
             else if (defersEvent(eventContext.getEvent())) {
@@ -182,7 +182,7 @@ public class State extends Vertex implements IState {
                 LOG.debug("Event " + eventContext.getEvent().toString() + " was skipped for state " + this.toString());
                 stateMachineContext.getEventInterceptor().onEventSkipped(eventContext, namespaceContext, stateMachineContext);
             }
-        } catch (UnprocessableEventException e) {   // no transitions were found, if the event is deferrable
+        } catch (UnprocessableEventException e) {   // no transitionBuilders were found, if the event is deferrable
             // from this state, then this is a valid scenario. 
             // Queue the event in state manager for later.
             if (defersEvent(eventContext.getEvent())) {
@@ -206,7 +206,7 @@ public class State extends Vertex implements IState {
 
         if (!hasTransitions(potentialOutgoingTransitions)) {
             StringBuffer msg = new StringBuffer();
-            msg.append("No potential transitions for event [")
+            msg.append("No potential transitionBuilders for event [")
                     .append(eventContext.getEvent().getType()).append("], in state [")
                     .append(this.getName()).append("]");
 
@@ -214,10 +214,10 @@ public class State extends Vertex implements IState {
             throw new UnprocessableEventException(msg.toString());
         } else {
             /*
-             * Iterate over the transitions at each priority level, starting at the highest priority. */
+             * Iterate over the transitionBuilders at each priority level, starting at the highest priority. */
             for (Set<ITransition> prioritySet : potentialOutgoingTransitions) {
 
-                // Examine the potential transitions at each priority
+                // Examine the potential transitionBuilders at each priority
                 // level
                 if (0 < prioritySet.size()) {
 
@@ -234,9 +234,9 @@ public class State extends Vertex implements IState {
                             return (enabledTransitions.iterator().next());
                         } else {
                             StringBuffer msg = new StringBuffer();
-                            msg.append("Conflicting transitions were enabled for event [")
+                            msg.append("Conflicting transitionBuilders were enabled for event [")
                                     .append(eventContext.getEvent().getType()).append("], in state [")
-                                    .append(this.getName()).append("], transitions [");
+                                    .append(this.getName()).append("], transitionBuilders [");
 
                             // we should be guaranteed at least 2 to have
                             // reached here
@@ -258,7 +258,7 @@ public class State extends Vertex implements IState {
             }
         }
         /*
-         * To have reached here, potential transitions were found but
+         * To have reached here, potential transitionBuilders were found but
          * none can fire because all guards failed.
          */
         return null;
@@ -297,13 +297,13 @@ public class State extends Vertex implements IState {
     public void acceptOptimiser(IModelOptimiser modelOptimiser) {
 
         // Set up the prioritised list of all possible outgoing
-        // transitions
+        // transitionBuilders
 
         prioritisedOutgoingTransitions_ = new ArrayList<>();
 
         prioritisedOutgoingTransitions_.add(0, State.super.getOutgoing());
 
-        // Stores any new extended transitions that are created
+        // Stores any new extended transitionBuilders that are created
         Set<ITransition> newTransitions = new HashSet<>();
 
         if (null != getContainer().getState()) {
@@ -328,8 +328,8 @@ public class State extends Vertex implements IState {
         }
 
         /*
-         * Optimise the new extended transitions. This is done outside
-         * of the inherited transitions iteration since it modifies
+         * Optimise the new extended transitionBuilders. This is done outside
+         * of the inherited transitionBuilders iteration since it modifies
          * the source and target vertives by adding the transitio to
          * them and would otherwise give a
          * ConcurrentModificationException.
@@ -339,7 +339,7 @@ public class State extends Vertex implements IState {
             transition.acceptOptimiser(modelOptimiser);
         }
 
-        // Do optimisation for the new transitions and state kind.
+        // Do optimisation for the new transitionBuilders and state kind.
         stateBehaviour.acceptOptimiser(modelOptimiser);
 
     }
@@ -444,13 +444,13 @@ public class State extends Vertex implements IState {
         void addOutgoingTransition(ITransition transition);
 
         /**
-         * Gets all possible transitions out of this state. Transitions are returned as a list of sets. The
-         * list is ordered in priority with the highest priority transitions in the set with index 0. The
-         * highest priority transitions are those defined in the state model as leaving the state
+         * Gets all possible transitionBuilders out of this state. Transitions are returned as a list of sets. The
+         * list is ordered in priority with the highest priority transitionBuilders in the set with index 0. The
+         * highest priority transitionBuilders are those defined in the state model as leaving the state
          * directly. Transitions defined in the model as leaving the immediate enclosing state are returned
          * as a set at index 1 in the list and so on for any more enclosing states.
          *
-         * @return All possible transitions out of this state.
+         * @return All possible transitionBuilders out of this state.
          */
         List<Set<ITransition>> getAllPossibleOutgoingTransitions();
 
@@ -486,7 +486,7 @@ public class State extends Vertex implements IState {
         }
 
         public void setRegion(IRegion regions) {
-            throw new RuntimeException("Simple States cannot have regions");
+            throw new RuntimeException("Simple States cannot have region");
         }
 
         public void enter(IEventContext eventContext, INamespaceContext namespaceContext, IStateMachineContext stateMachineContext) {

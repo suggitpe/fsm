@@ -60,13 +60,13 @@ public class ConstraintVisitor implements IConstraintVisitor {
 
         regionChecker_.checkConstraints(region);
 
-        // Check sub-vertices
+        // Check sub-vertexBuilders
         Set<IVertex> vertices = region.getSubVertices();
         for (IVertex vertex : vertices) {
             vertex.acceptConstraintVisitor(this);
         }
 
-        // Check transitions
+        // Check transitionBuilders
         Set<ITransition> transitions = region.getTransitions();
         for (ITransition transition : transitions) {
             transition.acceptConstraintVisitor(this);

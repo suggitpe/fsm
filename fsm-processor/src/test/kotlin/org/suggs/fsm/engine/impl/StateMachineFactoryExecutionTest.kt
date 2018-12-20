@@ -27,7 +27,7 @@ class StateMachineFactoryExecutionTest {
     private val log = getLogger(StateMachineFactoryExecutionTest::class.java)
 
     private lateinit var stateMachine: IStateMachine
-    private lateinit var testStateManager: IStateManager
+    private lateinit var stateManager: IStateManager
 
     @BeforeEach fun setUp() {
         val eventInterceptor = FsmEventInterceptorStub()
@@ -41,7 +41,7 @@ class StateMachineFactoryExecutionTest {
         assertThat(stateMachine).isNotNull
 
         // Set the state manager
-        testStateManager = MockStateManager()
+        stateManager = MockStateManager()
 
         // Don't listen to events or exceptions
         //stateMachine.setFsmEventInterceptor(null);
@@ -53,8 +53,8 @@ class StateMachineFactoryExecutionTest {
     @Test fun testStraightRunWithRuntimeBinding() {
         bindGuardsAndActions()
         sendEvents(stateMachine)
-        assertThat(testStateManager.activeState).isEqualTo("top::context::State Machine::region0::R0_FS")
-        log.debug("Current state is: ${testStateManager.activeState}")
+        assertThat(stateManager.activeState).isEqualTo("top::context::State Machine::region0::R0_FS")
+        log.debug("Current state is: ${stateManager.activeState}")
     }
 
     /**
@@ -63,8 +63,8 @@ class StateMachineFactoryExecutionTest {
      */
     @Test fun testStraightRunWithStateMachineDefinitionBinding() {
         sendEvents(stateMachine)
-        assertThat(testStateManager.activeState).isEqualTo("top::context::State Machine::region0::R0_FS")
-        log.debug("Current state is: ${testStateManager.activeState}")
+        assertThat(stateManager.activeState).isEqualTo("top::context::State Machine::region0::R0_FS")
+        log.debug("Current state is: ${stateManager.activeState}")
     }
 
     /**
@@ -184,7 +184,7 @@ class StateMachineFactoryExecutionTest {
     /**
      * Sends event to an event handler in a pre-defined script
      */
-    private fun sendEvents(eventHandler: IStateMachine?) {
+    private fun sendEvents(stateMachineDefinition: IStateMachine) {
 
         val e1 = createMockEventFor("top::context::e1")
         val e2 = createMockEventFor("top::context::e2")
@@ -197,41 +197,44 @@ class StateMachineFactoryExecutionTest {
         val e10 = createMockEventFor("top::context::e10")
         val e11 = createMockEventFor("top::context::e11")
 
-        sendEvent(eventHandler, e1, testStateManager, HashMap())
-        sendEvent(eventHandler, e10, testStateManager, HashMap()) // deferred
-        sendEvent(eventHandler, e11, testStateManager, HashMap()) // deferred
-        sendEvent(eventHandler, e5, testStateManager, HashMap()) // deferred
-        sendEvent(eventHandler, e7, testStateManager, HashMap())
-        assertThat(testStateManager.deferredEvents.size).isEqualTo(3)
+        sendEvent(stateMachineDefinition, e1, stateManager, HashMap())
+        sendEvent(stateMachineDefinition, e10, stateManager, HashMap()) // deferred
+        sendEvent(stateMachineDefinition, e11, stateManager, HashMap()) // deferred
+        sendEvent(stateMachineDefinition, e5, stateManager, HashMap()) // deferred
+        sendEvent(stateMachineDefinition, e7, stateManager, HashMap())
+        assertThat(stateManager.deferredEvents.size).isEqualTo(3)
 
-        sendEvent(eventHandler, e2, testStateManager, HashMap())
+        sendEvent(stateMachineDefinition, e2, stateManager, HashMap())
         // inputting event e2 should cause deferred events e10 and e11
         // to automatically fire, leaving just 1 deferred event
         // remaining
-        assertThat(testStateManager.deferredEvents.size).isEqualTo(1)
-        sendEvent(eventHandler, e9, testStateManager, HashMap())
-        assertThat(testStateManager.deferredEvents.size).isEqualTo(0)
-        sendEvent(eventHandler, e10, testStateManager, HashMap())
-        assertThat(testStateManager.deferredEvents.size).isEqualTo(0)
-        sendEvent(eventHandler, e4, testStateManager, HashMap())
-        sendEvent(eventHandler, e5, testStateManager, HashMap())
-        sendEvent(eventHandler, e3, testStateManager, HashMap())
-        assertThat(testStateManager.deferredEvents.size).isEqualTo(0)
+        assertThat(stateManager.deferredEvents.size).isEqualTo(1)
+        sendEvent(stateMachineDefinition, e9, stateManager, HashMap())
+        assertThat(stateManager.deferredEvents.size).isEqualTo(0)
+        sendEvent(stateMachineDefinition, e10, stateManager, HashMap())
+        assertThat(stateManager.deferredEvents.size).isEqualTo(0)
+        sendEvent(stateMachineDefinition, e4, stateManager, HashMap())
+        sendEvent(stateMachineDefinition, e5, stateManager, HashMap())
+        sendEvent(stateMachineDefinition, e3, stateManager, HashMap())
+        assertThat(stateManager.deferredEvents.size).isEqualTo(0)
 
-        assertThrows<UnprocessableEventException> { sendEvent(eventHandler, e3, testStateManager, HashMap()) }
+        assertThrows<UnprocessableEventException> { sendEvent(stateMachineDefinition, e3, stateManager, HashMap()) }
 
-        sendEvent(eventHandler, e6, testStateManager, HashMap()) //e6
-        sendEvent(eventHandler, e1, testStateManager, HashMap()) // e1
-        sendEvent(eventHandler, e11, testStateManager, HashMap())
+        sendEvent(stateMachineDefinition, e6, stateManager, HashMap()) //e6
+        sendEvent(stateMachineDefinition, e1, stateManager, HashMap()) // e1
+        sendEvent(stateMachineDefinition, e11, stateManager, HashMap())
     }
 
     /**
      * Sends an event to a stateful trade confirmation and prints the
      * elapsed processing time to System.out.
      */
-    private fun sendEvent(eventHandler: IStateMachine?, event: IEvent, stateManager: IStateManager?, context: Map<String, String>) {
+    private fun sendEvent(stateMachineDefinition: IStateMachine,
+                          event: IEvent,
+                          stateManager: IStateManager,
+                          context: Map<String, String>) {
         val startTime = System.currentTimeMillis()
-        eventHandler!!.handleEvent(event, stateManager, context)
+        stateMachineDefinition.handleEvent(event, stateManager, context)
         val elapsedTime = System.currentTimeMillis() - startTime
         log.debug("Processed event " + event.type + " in " + elapsedTime + " ms.")
     }

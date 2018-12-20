@@ -93,17 +93,17 @@ public abstract class Vertex extends NamedElement implements IVertex {
     }
 
     /**
-     * Returns the potential outgoing transitions for the specified
+     * Returns the potential outgoing transitionBuilders for the specified
      * event type. This method effectively filters the output from
      * {@link #getAllPossibleOutgoingTransitions()}using the event
-     * type to restrict the outgoing transitions returned.
+     * type to restrict the outgoing transitionBuilders returned.
      * <p>
      * NOTE: The method does not evaluate the guards on the
-     * transitions.
+     * transitionBuilders.
      *
      * @param eventType The event type to compare with the triggers on the
-     *                  transitions.
-     * @return The outgoing transitions that could be triggered by the
+     *                  transitionBuilders.
+     * @return The outgoing transitionBuilders that could be triggered by the
      * specified event type.
      */
     List<Set<ITransition>> getAllPossibleOutgoingTransitions(String eventType) {

@@ -7,7 +7,7 @@ import org.suggs.fsm.uml2.behaviorstatemachines.IState;
  * is entered. The interface is provided to support the implementation
  * of history states, which keep track of the last state entered in
  * the region that contains the history state (shallow history) and
- * also any regions enclosed within copound states (deep history).
+ * also any region enclosed within copound states (deep history).
  */
 public interface IStateEntryListener {
 

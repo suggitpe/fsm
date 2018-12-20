@@ -25,7 +25,7 @@ public interface IStateMachine extends IBehavior {
     IRegion getOwnedRegion();
 
     /**
-     * @return The initial pseudostate for the state machine.
+     * @return The pseudoStateKind pseudostate for the state machine.
      */
     IPseudoState getInitialStableState();
 

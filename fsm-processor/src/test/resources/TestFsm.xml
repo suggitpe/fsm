@@ -4,6 +4,7 @@
 <beans>
 
     <bean id="context" class="org.suggs.fsm.engine.uml2.basicbehaviors.BehavioredClassifier">
+        <property name="name" value="context"/>
         <property name="ownedBehavior">
             <bean class="org.suggs.fsm.engine.uml2.behaviorstatemachines.StateMachine">
                 <property name="name" value="State Machine"/>
@@ -33,7 +34,6 @@
                 </property>
             </bean>
         </property>
-        <property name="name" value="context"/>
     </bean>
 
     <!-- States -->

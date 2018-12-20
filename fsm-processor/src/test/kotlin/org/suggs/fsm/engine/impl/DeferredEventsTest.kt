@@ -39,7 +39,7 @@ class DeferredEventsTest {
     }
 
     /**
-     * tests that deferred events correctly trigger transitions automatically on entering states where they are fireable.
+     * tests that deferred events correctly trigger transitionBuilders automatically on entering states where they are fireable.
      */
     @Test fun `automatic transitions`() {
         // Build the state machine
@@ -57,7 +57,7 @@ class DeferredEventsTest {
 
         assertThat(testStateManager.deferredEvents.size).isEqualTo(3)
 
-        // should trigger a series of transitions thru till the last
+        // should trigger a series of transitionBuilders thru till the last
         // state.
         sendEvent(stateMachine, e10, testStateManager, HashMap())
 
@@ -67,7 +67,7 @@ class DeferredEventsTest {
     }
 
     /**
-     * tests that automatic transitions take priority over deferred events, and also, that deferred events
+     * tests that automatic transitionBuilders take priority over deferred events, and also, that deferred events
      * are checked in the order they were deferred.
      */
     @Test fun `defer queue`() {
@@ -84,7 +84,7 @@ class DeferredEventsTest {
 
         assertThat(testStateManager.deferredEvents.size).isEqualTo(2)
 
-        // should trigger a series of state changes, as transitions
+        // should trigger a series of state changes, as transitionBuilders
         // are automatically taken due to the deferred events firing.
         sendEvent(stateMachine, e10, testStateManager, HashMap())
 
@@ -112,7 +112,7 @@ class DeferredEventsTest {
 
         assertThat(testStateManager.deferredEvents.size).isEqualTo(3)
 
-        // should trigger a series of state changes, as transitions
+        // should trigger a series of state changes, as transitionBuilders
         // are automatically taken due to the deferred events firing.
         sendEvent(stateMachine, e10, testStateManager, HashMap())
 

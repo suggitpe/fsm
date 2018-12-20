@@ -7,7 +7,7 @@ package org.suggs.fsm.uml2.scribe.runtime;
  * within a region that is monitored by a history state <code>H</code>.
  * When <code>S</code> is entered, it notifies <code>H</code>,
  * which may then update its internal reference to re-direct incoming
- * transitions to <code>S</code>.
+ * transitionBuilders to <code>S</code>.
  */
 public interface IEntryReporter
 {

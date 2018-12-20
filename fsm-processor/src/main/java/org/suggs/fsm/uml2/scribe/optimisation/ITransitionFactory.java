@@ -9,7 +9,7 @@ import org.suggs.fsm.uml2.behaviorstatemachines.IVertex;
 public interface ITransitionFactory {
 
     /**
-     * Creates a new transition of the specified kind with the incoming and outgoing vertices.
+     * Creates a new transition of the specified kind with the incoming and outgoing vertexBuilders.
      */
     ITransition createTransition(String transitionKind, IVertex incomingVertex, IVertex outgoingVertex);
 

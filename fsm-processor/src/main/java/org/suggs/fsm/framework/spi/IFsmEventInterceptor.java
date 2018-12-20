@@ -45,7 +45,7 @@ public interface IFsmEventInterceptor {
 
     /**
      * Called after an event has been skipped. This will occur if the
-     * state machine has no transitions from the current state that
+     * state machine has no transitionBuilders from the current state that
      * could be fired by the incoming event. This includes cases where
      * the guard condition evaluated to false.
      */

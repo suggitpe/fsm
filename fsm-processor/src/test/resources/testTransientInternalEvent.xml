@@ -61,7 +61,7 @@
         <property name="name" value="R0_S3"/>
     </bean>
 
-    <!-- Region 0 transitions -->
+    <!-- Region 0 transitionBuilders -->
     <bean id="R0_T1" class="org.suggs.fsm.engine.uml2.behaviorstatemachines.Transition">
         <constructor-arg value="EXTERNAL"/>
         <property name="name" value="R0_T1"/>
@@ -120,7 +120,11 @@
     </bean>
 
     <bean id="internalEvent2" class="org.suggs.fsm.engine.uml2.communications.Event">
-        <constructor-arg index="0" value="internalEvent2"/>
+        <constructor-arg index="0" value="
+
+
+
+"/>
         <constructor-arg index="1" ref="context"/>
     </bean>
 

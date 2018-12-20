@@ -30,7 +30,7 @@ class FinalStateTest {
     }
 
     /**
-     * A final state cannot have any regions
+     * A final state cannot have any region
      */
     @Test fun `region constraint`() {
         assertThrows<RuntimeException> { finalState.region = region }

@@ -125,8 +125,8 @@ public class ScribeStateMachine implements IScribeStateMachine {
             IPseudoState initialState = ((IStateMachine) behavioredClassifier.getOwnedBehavior()).getOwnedRegion().getInitialState();
 
             String msg = "No current state provided by " + stateMachineContext.getStateManager()
-                    + ". Initialising to initial state for top region, " + initialState;
-            // Enter the initial state for the state machine
+                    + ". Initialising to pseudoStateKind state for top region, " + initialState;
+            // Enter the pseudoStateKind state for the state machine
             initialState.enter(eventContextFactory.createEventContext(event, context, getEventFactory()),
                     namespaceContext,
                     stateMachineContext);

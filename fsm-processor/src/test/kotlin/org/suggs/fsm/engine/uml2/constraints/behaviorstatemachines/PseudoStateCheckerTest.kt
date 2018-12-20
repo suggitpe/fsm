@@ -25,7 +25,7 @@ class PseudoStateCheckerTest {
     }
 
     /*
-     * An initial vertex can have at most one outgoing transition
+     * An pseudoStateKind vertex can have at most one outgoing transition
      */
     @Test
     fun testMultipleTransitionFromInitialVertexConstraint() {

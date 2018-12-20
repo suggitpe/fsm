@@ -12,8 +12,8 @@ import org.suggs.fsm.uml2.scribe.optimisation.ITransitionFactory;
 public class ModelOptimiser implements IModelOptimiser {
 
     /**
-     * The factory used when generating transitions as part of the
-     * optimisation process. For example, transitions are generated
+     * The factory used when generating transitionBuilders as part of the
+     * optimisation process. For example, transitionBuilders are generated
      * from enclosed states.
      */
     private ITransitionFactory transitionFactory_;

@@ -44,7 +44,7 @@ public interface IModelOptimiser {
     void optimiseExitPointPseudoState(IPseudoState pseudoState);
 
     /**
-     * Optimises an initial pseudostate.
+     * Optimises an pseudoStateKind pseudostate.
      */
     void optimiseInitialPseudoState(IPseudoState pseudoState);
 
@@ -70,18 +70,18 @@ public interface IModelOptimiser {
 
     /**
      * Gets the transition factory that will be used to create new
-     * transitions as part of the optimisation process.
+     * transitionBuilders as part of the optimisation process.
      */
     ITransitionFactory getTransitionFactory();
 
     /**
-     * Sets a transition factory to be used to create new transitions
-     * as part of the optimisation process. <p/>Additional transitions
+     * Sets a transition factory to be used to create new transitionBuilders
+     * as part of the optimisation process. <p/>Additional transitionBuilders
      * are added to the state machine object model to improve runtime
      * performance. For example, enclosed states inherit the outgoing
-     * transitions from their enclosing state but these are not
+     * transitionBuilders from their enclosing state but these are not
      * expressed explicitly in a UML state model. The optimisation
-     * process adds these transitions explicitly to remove the need
+     * process adds these transitionBuilders explicitly to remove the need
      * for runtime checking.
      */
     void setTransitionFactory(ITransitionFactory transitionFactory);
