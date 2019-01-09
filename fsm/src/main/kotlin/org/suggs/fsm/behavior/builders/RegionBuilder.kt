@@ -2,7 +2,8 @@ package org.suggs.fsm.behavior.builders
 
 import org.suggs.fsm.behavior.Region
 
-class RegionBuilder(val name: String) {
+class RegionBuilder(val name: String)
+    : Builder<Region> {
     companion object {
 
         fun aRegionCalled(name: String): RegionBuilder {
@@ -23,7 +24,7 @@ class RegionBuilder(val name: String) {
         return this
     }
 
-    fun build(): Region {
+    override fun build(): Region {
         val vertices = vertexBuilders.map { it.name to it.build() }.toMap()
         val transitions = transitionBuilders.map { it.name to it.build(vertices) }.toMap()
         transitions.values.map {

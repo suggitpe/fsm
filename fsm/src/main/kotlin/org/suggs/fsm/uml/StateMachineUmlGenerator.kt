@@ -18,7 +18,16 @@ class StateMachineUmlGenerator {
         fun generateUmlFor(stateMachine: BehavioredClassifier): String {
             return """
                 |@startuml
-                |scale 350 width
+                |scale 250 width
+                |skinparam backgroundColor LightYellow
+                |skinparam state {
+                |StartColor MediumBlue
+                |EndColor Red
+                |BackgroundColor Peru
+                |BackgroundColor<<Warning>> Olive
+                |BorderColor Gray
+                |FontName Impact
+                |}
                 |
                 |${generateUmlFor(stateMachine.ownedBehavior as StateMachine)}
                 |
@@ -31,10 +40,17 @@ class StateMachineUmlGenerator {
 
         private fun generateUmlFor(region: Region): String {
             val puml = StringBuilder()
-            for(transition in region.transitions.values){
-                puml.append("\n${transition.source.umlSyntax()} --> ${transition.target.umlSyntax()}")
-                if(transition.triggers.isNotEmpty()){puml.append(": ${transition.triggers.first().event.name}")}
+
+            puml.append("\n' states ....")
+            for(state in region.vertices.values){
+                puml.append("\n${UmlSyntaxHack.createUmlDefinitionFor(state)}")
             }
+
+            puml.append("\n\n' transitions ...")
+            for(transition in region.transitions.values){
+                puml.append("\n${UmlSyntaxHack.createUmlSyntaxFor(transition)}")
+            }
+
             return puml.toString()
         }
 

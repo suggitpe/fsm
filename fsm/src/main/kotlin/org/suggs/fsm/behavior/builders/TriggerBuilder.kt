@@ -3,7 +3,8 @@ package org.suggs.fsm.behavior.builders
 import org.suggs.fsm.behavior.Trigger
 
 
-class TriggerBuilder(val name: String) {
+class TriggerBuilder(val name: String)
+    : Builder<Trigger> {
 
     companion object {
 
@@ -21,12 +22,12 @@ class TriggerBuilder(val name: String) {
         return this
     }
 
-    fun build(): Trigger {
-        return Trigger(name, eventBuilder.build())
-    }
-
     fun aDefaultEvent(): EventBuilder {
         return EventBuilder(COMPLETION_EVENT_NAME)
+    }
+
+    override fun build(): Trigger {
+        return Trigger(name, eventBuilder.build())
     }
 
 }

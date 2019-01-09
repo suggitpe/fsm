@@ -3,9 +3,10 @@ package org.suggs.fsm.behavior.builders
 import org.suggs.fsm.behavior.PseudoStateKind
 import org.suggs.fsm.behavior.Vertex
 
-abstract class VertexBuilder(val name: String) {
-
+abstract class VertexBuilder(val name: String)
+    : Builder<Vertex> {
     companion object {
+
         fun anInitialPseudoStateCalled(name: String): VertexBuilder {
             return PseudoStateBuilder(name, PseudoStateKind.INITIAL)
         }
@@ -13,7 +14,6 @@ abstract class VertexBuilder(val name: String) {
         fun aSimpleStateCalled(name: String): VertexBuilder {
             return StateBuilder(name)
         }
-
         fun aCompositeStateCalled(name: String): CompositeStateBuilder {
             return CompositeStateBuilder(name)
         }
@@ -21,7 +21,11 @@ abstract class VertexBuilder(val name: String) {
         fun aFinalStateCalled(name: String): VertexBuilder {
             return FinalStateBuilder(name)
         }
+
     }
 
-    abstract fun build(): Vertex
+    abstract fun withDeferrableTriggers(vararg newTriggers: TriggerBuilder): VertexBuilder
+    abstract fun withEntryBehavior(behavior: BehaviorBuilder): VertexBuilder
+    abstract fun withExitBehavior(behavior: BehaviorBuilder): VertexBuilder
+
 }

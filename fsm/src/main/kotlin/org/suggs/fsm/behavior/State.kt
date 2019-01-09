@@ -1,8 +1,7 @@
 package org.suggs.fsm.behavior
 
-open class State(name: String)
-    : Vertex(name) {
-
-    override fun umlSyntax(): String = name
-
-}
+open class State(name: String,
+                 val deferrableTriggers: Set<Trigger>,
+                 val entryBehavior: Behavior,
+                 val exitBehavior: Behavior)
+    : Vertex(name)

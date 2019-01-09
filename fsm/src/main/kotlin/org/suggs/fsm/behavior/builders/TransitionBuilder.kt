@@ -1,7 +1,6 @@
 package org.suggs.fsm.behavior.builders
 
 import org.suggs.fsm.behavior.Transition
-import org.suggs.fsm.behavior.Trigger
 import org.suggs.fsm.behavior.Vertex
 
 class TransitionBuilder(val name: String) {
@@ -12,7 +11,8 @@ class TransitionBuilder(val name: String) {
         }
     }
 
-    val triggers: MutableSet<TriggerBuilder> = HashSet()
+    private val triggers: MutableSet<TriggerBuilder> = HashSet()
+    private val effects: MutableSet<BehaviorBuilder> = HashSet()
     lateinit var startState: String
     lateinit var endState: String
 
@@ -31,10 +31,17 @@ class TransitionBuilder(val name: String) {
         return this
     }
 
+    fun withEffects(vararg newEffects: BehaviorBuilder): TransitionBuilder {
+        effects.addAll(newEffects)
+        return this
+    }
+
     fun build(vertices: Map<String, Vertex>): Transition {
-        val transition = Transition(name, vertices[startState]!!, vertices[endState]!!)
-        transition.addTriggers(triggers.map { it.build() }.toSet())
-        return transition
+        return Transition(name,
+                vertices[startState]!!,
+                vertices[endState]!!,
+                triggers.map { it.build() }.toSet(),
+                effects.map { it.build() }.toSet())
     }
 
 }
