@@ -1,8 +1,0 @@
-@startuml
-scale 350 width
-
-[*] --> RO_S1 : event=e1
-RO_S1 --> RO_S2: event=internalEvent1
-RO_S1 --> RO_S3: event=internalEvent2
-
-@enduml
