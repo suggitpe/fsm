@@ -1,2 +1,1 @@
-include 'fsm',
-        'fsm-processor'
+include 'fsm'
