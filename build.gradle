@@ -10,11 +10,8 @@ buildscript {
     }
 }
 
-allprojects {
-    defaultTasks 'clean', 'build'
-}
+defaultTasks 'clean', 'build'
 
-subprojects {
 
     apply from: "$rootDir/dependencies.gradle"
     apply plugin: 'kotlin'
@@ -63,4 +60,3 @@ subprojects {
             jvmTarget = "1.8"
         }
     }
-}
