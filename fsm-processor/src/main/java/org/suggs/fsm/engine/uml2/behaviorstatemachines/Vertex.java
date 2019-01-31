@@ -108,16 +108,12 @@ public abstract class Vertex extends NamedElement implements IVertex {
      */
     List<Set<ITransition>> getAllPossibleOutgoingTransitions(String eventType) {
 
-        List<Set<ITransition>> allTransitions = getAllPossibleOutgoingTransitions();
-
         List<Set<ITransition>> triggerableTransitions = new ArrayList<>();
-
-        for (Set<ITransition> allTransition : allTransitions) {
+        for (Set<ITransition> allTransition : getAllPossibleOutgoingTransitions()) {
 
             Set<ITransition> triggerableSet = new HashSet<>();
             for (ITransition transition : allTransition) {
-                List<ITrigger> triggers = transition.getTriggers();
-                for (ITrigger trigger : triggers) {
+                for (ITrigger trigger : transition.getTriggers()) {
                     if (trigger.getEvent().getQualifiedName().equals(eventType)) {
                         triggerableSet.add(transition);
                     }

@@ -1,14 +1,12 @@
 package org.suggs.fsm.behavior.builders
 
+import org.suggs.fsm.behavior.Event.Companion.COMPLETION_EVENT_NAME
 import org.suggs.fsm.behavior.Trigger
 
 
-class TriggerBuilder(val name: String)
-    : Builder<Trigger> {
+class TriggerBuilder(val name: String) {
 
     companion object {
-
-        const val COMPLETION_EVENT_NAME = "\$COMPLETION"
 
         fun aTriggerCalled(name: String): TriggerBuilder {
             return TriggerBuilder(name)
@@ -26,7 +24,7 @@ class TriggerBuilder(val name: String)
         return EventBuilder(COMPLETION_EVENT_NAME)
     }
 
-    override fun build(): Trigger {
+    fun build(): Trigger {
         return Trigger(name, eventBuilder.build())
     }
 

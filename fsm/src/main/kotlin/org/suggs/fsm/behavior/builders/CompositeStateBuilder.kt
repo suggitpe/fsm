@@ -1,11 +1,12 @@
 package org.suggs.fsm.behavior.builders
 
+import org.suggs.fsm.behavior.Region
 import org.suggs.fsm.behavior.State
 import org.suggs.fsm.behavior.Vertex
 import org.suggs.fsm.behavior.builders.EmptyBehaviourBuilder.Companion.anEmptyBehavior
 
-class CompositeStateBuilder(name: String)
-    : VertexBuilder(name) {
+class CompositeStateBuilder(name: String) :
+        VertexBuilder(name) {
     lateinit var region: RegionBuilder
 
     fun withRegion(aRegion: RegionBuilder): VertexBuilder {
@@ -32,8 +33,9 @@ class CompositeStateBuilder(name: String)
         return this
     }
 
-    override fun build(): Vertex {
+    override fun build(region: Region): Vertex {
         return State(name,
+                region,
                 deferrableTriggers.map { it.build() }.toSet(),
                 entryBehavior.build(),
                 exitBehavior.build())

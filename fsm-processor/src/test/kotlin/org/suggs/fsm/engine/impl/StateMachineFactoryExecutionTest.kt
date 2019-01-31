@@ -44,7 +44,7 @@ class StateMachineFactoryExecutionTest {
         stateManager = MockStateManager()
 
         // Don't listen to events or exceptions
-        //stateMachine.setFsmEventInterceptor(null);
+        //stateMachineDefinition.setFsmEventInterceptor(null);
     }
 
     /**

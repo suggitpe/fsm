@@ -84,7 +84,7 @@ class NamespaceObjectManagerTest {
     @Test fun testVisitNamedElement() {
         `when`(namedElement.qualifiedName).thenReturn("")
 
-        namespaceObjectManager.visitNamedElement(namedElement)
+        namespaceObjectManager.registerElement(namedElement)
     }
 
     /**

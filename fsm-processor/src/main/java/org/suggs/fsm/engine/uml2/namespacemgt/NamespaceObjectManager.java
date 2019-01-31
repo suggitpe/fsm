@@ -44,7 +44,7 @@ public class NamespaceObjectManager implements INamespaceObjectManager {
 
     }
 
-    public void visitNamedElement(INamedElement namedElement) {
+    public void registerElement(INamedElement namedElement) {
 
         /*
          * This is the default behaviour for a named element. It

@@ -425,7 +425,7 @@ public class State extends Vertex implements IState {
          * is dependent on the kind of state. Coposite states should cascade the addition of a deep history
          * state entry listner to their enclosed states.
          *
-         * @param recurse  <code>true</code> if the listener should also be added to any enclosed states.
+         * @param recurse <code>true</code> if the listener should also be added to any enclosed states.
          */
         void addStateEntryListener(boolean recurse, IStateEntryListener listener);
 
@@ -503,25 +503,6 @@ public class State extends Vertex implements IState {
             //    sending the completion event. (we don't want the new state to
             //    see deferred events that this state should have discarded).
 
-            List<IEventContext> managerDeferList = stateMachineContext.getStateManager().getDeferredEvents();
-
-            // do initialisation if the state manager hasn't done so.
-            if (managerDeferList == null) {
-                managerDeferList = new ArrayList<>();
-                stateMachineContext.getStateManager().storeDeferredEvents(managerDeferList);
-            }
-
-            // our own local copy so that code can be used
-            List<IEventContext> deferredEvents = new ArrayList(managerDeferList);
-
-            // remove all non deferrable events from state manager
-            // list
-            for (Iterator<IEventContext> iter = managerDeferList.iterator(); iter.hasNext(); ) {
-                if (!defersEvent(iter.next().getEvent())) {
-                    iter.remove();
-                }
-            }
-
             /*
              * Send a completion event to self. This may trigger a
              * completion transition - fireCompletionEvent() will
@@ -530,6 +511,27 @@ public class State extends Vertex implements IState {
              * see if any can fire.
              */
             if (!fireCompletionEvent(eventContext, namespaceContext, stateMachineContext)) {
+
+                List<IEventContext> managerDeferList = stateMachineContext.getStateManager().getDeferredEvents();
+
+                // do initialisation if the state manager hasn't done so.
+                if (managerDeferList == null) {
+                    managerDeferList = new ArrayList<>();
+                    stateMachineContext.getStateManager().storeDeferredEvents(managerDeferList);
+                }
+
+                // our own local copy so that code can be used
+                List<IEventContext> deferredEvents = new ArrayList(managerDeferList);
+
+
+                // remove all non deferrable events from state manager
+                // list
+                for (Iterator<IEventContext> iter = managerDeferList.iterator(); iter.hasNext(); ) {
+                    if (!defersEvent(iter.next().getEvent())) {
+                        iter.remove();
+                    }
+                }
+
                 String internalEvent = eventContext.getInternalEvent();
                 boolean internalEventFired = false;
 

@@ -1,7 +1,6 @@
 package org.suggs.fsm.behavior.builders
 
 import org.slf4j.LoggerFactory
-import org.suggs.fsm.behavior.BehavioredClassifier
 import org.suggs.fsm.behavior.builders.BehaviorBuilder.Companion.aBehaviorCalled
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
@@ -13,29 +12,52 @@ import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
 
-class TestFsm {
+object FsmPrototypes {
 
-    companion object {
+    private val log = LoggerFactory.getLogger(this::class.java)
 
-        private val log = LoggerFactory.getLogger(this::class.java)
-
-        fun buildSimpleStateMachine(): BehavioredClassifier {
-
-            return aStateMachineCalled("Simple State Machine").withRegion(
-                    aRegionCalled("R0")
+    fun simpleStateMachinePrototype() =
+            aStateMachineCalled("Simple State Machine").withRegion(
+                    RegionBuilder.aRegionCalled("R0")
                             .withVertices(
-                                    anInitialPseudoStateCalled("IS"),
-                                    aSimpleStateCalled("S0"),
-                                    aFinalStateCalled("FS"))
+                                    VertexBuilder.anInitialPseudoStateCalled("IS"),
+                                    VertexBuilder.aSimpleStateCalled("S1"),
+                                    VertexBuilder.aSimpleStateCalled("S2"),
+                                    VertexBuilder.aFinalStateCalled("FS"))
                             .withTransitions(
-                                    anExternalTransitionCalled("T1").startingAt("IS").endingAt("S0"),
-                                    anExternalTransitionCalled("T2").startingAt("S0").endingAt("FS").withTriggers(aTriggerCalled("T2_TG1").firedWith(anEventCalled("event1")))
+                                    TransitionBuilder.anExternalTransitionCalled("T1").startingAt("IS").endingAt("S1"),
+                                    TransitionBuilder.anExternalTransitionCalled("T2").startingAt("S1").endingAt("S2")
+                                            .withTriggers(TriggerBuilder.aTriggerCalled("R0_T1").firedWith(EventBuilder.anEventCalled("realEvent"))),
+                                    TransitionBuilder.anExternalTransitionCalled("T3").startingAt("S2").endingAt("FS")
                             )
-            ).build()
-        }
+            )
 
-        fun buildFsmWithAutomatedTransitions(): BehavioredClassifier {
-            return aStateMachineCalled("State Machine with automated transitions").withRegion(
+
+    fun simpleStateMachineWithTwoOutcomesPrototype() =
+            aStateMachineCalled("Simple State Machine").withRegion(
+                    RegionBuilder.aRegionCalled("R0")
+                            .withVertices(
+                                    VertexBuilder.anInitialPseudoStateCalled("Start"),
+                                    VertexBuilder.aSimpleStateCalled("Middle"),
+                                    VertexBuilder.aSimpleStateCalled("Left"),
+                                    VertexBuilder.aSimpleStateCalled("Right"),
+                                    VertexBuilder.aFinalStateCalled("End"))
+                            .withTransitions(
+                                    TransitionBuilder.anExternalTransitionCalled("T1").startingAt("Start").endingAt("Middle"),
+                                    TransitionBuilder.anExternalTransitionCalled("T2").startingAt("Middle").endingAt("Left")
+                                            .withTriggers(TriggerBuilder.aTriggerCalled("R0_T1").firedWith(EventBuilder.anEventCalled("goLeft"))),
+                                    TransitionBuilder.anExternalTransitionCalled("T3").startingAt("Middle").endingAt("Right")
+                                            .withTriggers(TriggerBuilder.aTriggerCalled("R0_T2").firedWith(EventBuilder.anEventCalled("goRight"))),
+                                    TransitionBuilder.anExternalTransitionCalled("T4").startingAt("Left").endingAt("End")
+                                            .withTriggers(TriggerBuilder.aTriggerCalled("R0_T3").firedWith(EventBuilder.anEventCalled("finish"))),
+                                    TransitionBuilder.anExternalTransitionCalled("T5").startingAt("Right").endingAt("End")
+                                            .withTriggers(TriggerBuilder.aTriggerCalled("R0_T4").firedWith(EventBuilder.anEventCalled("finish")))
+                            )
+            )
+
+
+    fun fsmWithDeferredAutomatedTransitionsPrototype() =
+            aStateMachineCalled("State Machine with automated transitions").withRegion(
                     aRegionCalled("region0")
                             .withVertices(
                                     anInitialPseudoStateCalled("R0_IS"),
@@ -70,45 +92,45 @@ class TestFsm {
                                             .withTriggers(aTriggerCalled("R0_T2_TG1")
                                                     .firedWith(anEventCalled("e10")))
                                             .withEffects(aBehaviorCalled("R0_T2_B1")
-                                                    .withAction { it -> log.debug("""actioning $it""") }),
+                                                    .withAction { log.debug("""actioning $it""") }),
                                     anExternalTransitionCalled("R0_T3")
                                             .startingAt("R0_S2")
                                             .endingAt("R0_S3")
                                             .withEffects(aBehaviorCalled("R0_T3_B1")
-                                                    .withAction { it -> log.debug("""actioning $it""") }),
+                                                    .withAction { log.debug("""actioning $it""") }),
                                     anExternalTransitionCalled("R0_T4")
                                             .startingAt("R0_S3")
                                             .endingAt("R0_S4")
                                             .withTriggers(aTriggerCalled("R0_T4_TG1")
                                                     .firedWith(anEventCalled("e1")))
                                             .withEffects(aBehaviorCalled("R0_T4_B1")
-                                                    .withAction { it -> log.debug("""actioning $it""") }),
+                                                    .withAction { log.debug("""actioning $it""") }),
                                     anExternalTransitionCalled("R0_T5")
                                             .startingAt("R0_S4")
                                             .endingAt("R0_S5")
                                             .withTriggers(aTriggerCalled("R0_T5_TG1")
                                                     .firedWith(anEventCalled("e2")))
                                             .withEffects(aBehaviorCalled("R0_T5_B1")
-                                                    .withAction { it -> log.debug("""actioning $it""") }),
+                                                    .withAction { log.debug("""actioning $it""") }),
                                     anExternalTransitionCalled("R0_T6")
                                             .startingAt("R0_S5")
                                             .endingAt("R0_FS")
                                             .withTriggers(aTriggerCalled("R0_T6_TG1")
                                                     .firedWith(anEventCalled("e3")))
                                             .withEffects(aBehaviorCalled("R0_T6_B1")
-                                                    .withAction { it -> log.debug("""actioning $it""") })
+                                                    .withAction { log.debug("""actioning $it""") })
                             )
-            ).build()
-        }
+            )
 
-        fun buildFsmWithEntryAndExitBehaviors(): BehavioredClassifier {
-            return aStateMachineCalled("Simple State Machine with entry and exit behaviors").withRegion(
+
+    fun fsmWithEntryAndExitBehaviorsPrototype() =
+            aStateMachineCalled("Simple State Machine with entry and exit behaviors").withRegion(
                     aRegionCalled("R0")
                             .withVertices(
                                     anInitialPseudoStateCalled("R0_IS"),
                                     aSimpleStateCalled("R0_S1")
-                                            .withEntryBehavior(aBehaviorCalled("R0_S1_ENTRYACTION").withAction { it -> log.debug("entry action for $it") })
-                                            .withExitBehavior(aBehaviorCalled("R0_S1_EXITACTION").withAction { it -> log.debug("exit action for $it") }),
+                                            .withEntryBehavior(aBehaviorCalled("doLoggingEntryAction()").withAction { it -> log.debug("entry action for $it") })
+                                            .withExitBehavior(aBehaviorCalled("doLoggingExitAction()").withAction { it -> log.debug("exit action for $it") }),
                                     aSimpleStateCalled("R0_S2"),
                                     aSimpleStateCalled("R0_S3")
                             )
@@ -120,11 +142,11 @@ class TestFsm {
                                     anExternalTransitionCalled("R0_T3").startingAt("R0_S1").endingAt("R0_S3")
                                             .withTriggers(aTriggerCalled("R0_T3_TG1").firedWith(anEventCalled("internalEvent2")))
                             )
-            ).build()
-        }
+            )
 
-        fun buildNestedStateStateMachine(): BehavioredClassifier {
-            return aStateMachineCalled("Composite State machine").withRegion(
+
+    fun nestedStateStateMachinePrototype() =
+            aStateMachineCalled("Composite State machine").withRegion(
                     aRegionCalled("R0")
                             .withVertices(
                                     anInitialPseudoStateCalled("R0_IS"),
@@ -145,7 +167,6 @@ class TestFsm {
                                     anExternalTransitionCalled("R0_T1").startingAt("R0_S0").endingAt("R0_S1"),
                                     anExternalTransitionCalled("R0_T2").startingAt("R0_S1").endingAt("R0_FS")
                             )
-            ).build()
-        }
-    }
+            )
+
 }

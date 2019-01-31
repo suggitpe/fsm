@@ -1,7 +1,87 @@
 package org.suggs.fsm.behavior
 
+import org.slf4j.LoggerFactory
+import org.suggs.fsm.behavior.Event.Companion.COMPLETION_EVENT_NAME
+import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
+import org.suggs.fsm.behavior.traits.Processable
+import org.suggs.fsm.execution.BusinessEvent
+import org.suggs.fsm.execution.FsmExecutionContext
+import org.suggs.fsm.execution.UnprocessableEventException
+import sun.reflect.generics.reflectiveObjects.NotImplementedException
+
 open class State(name: String,
+                 container: Region,
                  val deferrableTriggers: Set<Trigger>,
                  val entryBehavior: Behavior,
                  val exitBehavior: Behavior)
-    : Vertex(name)
+    : Processable, Vertex(name, container) {
+
+    companion object {
+        val log = LoggerFactory.getLogger(this::class.java)!!
+        const val TRANSITIONING = "TRANSITIONING"
+    }
+
+    override fun processEvent(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
+        val validTransitions = findFireableTransitions(event)
+        when {
+            validTransitions.size == 1 -> validTransitions.first().fire(event, fsmExecutionContext)
+            validTransitions.size > 1 -> throw IllegalStateException("State [$name] has more than one valid transition")
+            validTransitions.isEmpty() -> {
+                if (weCanDefer(event)) {
+                    log.debug("Storing deferrable event [$event] for a future time")
+                    fsmExecutionContext.stateManager.storeDeferredEvents(anEventCalled(event.type).build())
+                } else {
+                    log.debug("No valid transitions for [${event}] from state [$name]")
+                    throw UnprocessableEventException("No valid transitions from $name for $event")
+                }
+            }
+        }
+    }
+
+    private fun findFireableTransitions(event: BusinessEvent): Set<Transition> {
+        return outgoing.filter { it.isFireableFor(event) }.toSet()
+    }
+
+    fun weCanDefer(businessEvent: BusinessEvent): Boolean {
+        return deferrableTriggers.map { it.event }.contains(anEventCalled(businessEvent.type).build())
+    }
+
+    override fun enter(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
+        log.debug("Entering state [$name]")
+        fsmExecutionContext.stateManager.storeActiveState(getQualifiedName())
+
+        if (!fireCompletionEvent(event, fsmExecutionContext)) {
+            val deferredEvents = fsmExecutionContext.stateManager.getDeferredEvents().filter { ev -> ev.name in deferrableTriggers.map { tg -> tg.event.name } }
+            //throw NotImplementedException()
+        }
+    }
+
+    private fun fireCompletionEvent(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext): Boolean {
+        return fireInternalEvent(COMPLETION_EVENT_NAME, event, fsmExecutionContext)
+    }
+
+    private fun fireInternalEvent(eventType: String, event: BusinessEvent, fsmExecutionContext: FsmExecutionContext): Boolean {
+        val newEvent = BusinessEvent(eventType, event.identifier)
+        log.debug("Firing internal event $newEvent")
+        return try {
+            processEvent(newEvent, fsmExecutionContext)
+            true
+        } catch (noInternalTransitions: UnprocessableEventException) {
+            false
+        }
+    }
+
+
+    override fun doEntryAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
+        entryBehavior.execute(event)
+    }
+
+    override fun exit(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
+        log.debug("Exiting state [$name]")
+        fsmExecutionContext.stateManager.storeActiveState(TRANSITIONING)
+    }
+
+    override fun doExitAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
+        exitBehavior.execute(event)
+    }
+}

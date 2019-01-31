@@ -1,10 +1,9 @@
 package org.suggs.fsm.behavior.builders
 
 import org.suggs.fsm.behavior.Behavior
-import org.suggs.fsm.behavior.EventContext
+import org.suggs.fsm.execution.BusinessEvent
 
-open class BehaviorBuilder(val name: String)
-    : Builder<Behavior> {
+open class BehaviorBuilder(val name: String) {
 
     companion object {
         fun aBehaviorCalled(name: String): BehaviorBuilder {
@@ -13,14 +12,14 @@ open class BehaviorBuilder(val name: String)
 
     }
 
-    private var executableFunction: (EventContext) -> Unit = {}
+    private var executableFunction: (BusinessEvent) -> Unit = {}
 
-    fun withAction(effect: (EventContext) -> Unit): BehaviorBuilder {
+    fun withAction(effect: (BusinessEvent) -> Unit): BehaviorBuilder {
         executableFunction = effect
         return this
     }
 
-    override fun build(): Behavior {
+    fun build(): Behavior {
         return Behavior(name, executableFunction)
     }
 

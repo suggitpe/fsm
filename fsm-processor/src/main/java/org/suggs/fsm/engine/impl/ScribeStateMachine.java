@@ -43,7 +43,7 @@ public class ScribeStateMachine implements IScribeStateMachine {
     private INamespaceContext namespaceContext;
 
     /**
-     * The context that contains the state machine to pass envents to.
+     * The context that contains the state machine to pass events to.
      */
     private IBehavioredClassifier behavioredClassifier;
 

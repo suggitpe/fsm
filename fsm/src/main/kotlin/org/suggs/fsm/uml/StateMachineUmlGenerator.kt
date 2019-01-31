@@ -18,11 +18,11 @@ class StateMachineUmlGenerator {
         fun generateUmlFor(stateMachine: BehavioredClassifier): String {
             return """
                 |@startuml
-                |scale 250 width
+                |scale 150 width
                 |skinparam backgroundColor LightYellow
                 |skinparam state {
                 |StartColor MediumBlue
-                |EndColor Red
+                |EndColor Green
                 |BackgroundColor Peru
                 |BackgroundColor<<Warning>> Olive
                 |BorderColor Gray

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 
 class EventBuilderTest {
+
     private val event = anEventCalled("EVENT").build()
 
     @Test

@@ -46,29 +46,29 @@ public class StateMachine extends Behavior implements IStateMachine {
         return ownedRegion_.getInitialState();
     }
 
-    public static IRegion getLeastCommonAncestor(IVertex s1, IVertex s2) {
+    public static IRegion getLeastCommonAncestor(IVertex source, IVertex target) {
 
-        if (null == s1 || null == s2) {
-            String msg = "getLeastCommonAncestor() called with null state(s), s1 = " + s1 + ", s2 = " + s2;
+        if (null == source || null == target) {
+            String msg = "getLeastCommonAncestor() called with null state(s), source = " + source + ", target = " + target;
             LOG.error(msg);
             throw new RuntimeException(msg);
         }
 
         // Get the full ancestor trees for both states
-        List<IRegion> s1AncestorList = s1.getAncestorList();
-        List<IRegion> s2AncestorList = s2.getAncestorList();
+        List<IRegion> sourceAncestorList = source.getAncestorList();
+        List<IRegion> targetAncestorList = target.getAncestorList();
 
         // Find the first match
-        for (IRegion iRegion : s1AncestorList) {
+        for (IRegion iRegion : sourceAncestorList) {
             Region region = (Region) iRegion;
-            if (s2AncestorList.contains(region)) {
+            if (targetAncestorList.contains(region)) {
                 // Found the LCA
                 return region;
             }
         }
 
         // No LCA found
-        String msg = "No LCA Found for states s1 = " + s1 + ", s2 = " + s2;
+        String msg = "No LCA Found for states source = " + source + ", target = " + target;
         LOG.error(msg);
         throw new RuntimeException(msg);
     }

@@ -1,5 +1,5 @@
 package org.suggs.fsm.behavior
 
-open class Namespace(name: String,
+abstract class Namespace(name: String,
                      val ownedMembers: Set<NamedElement> = HashSet())
     : NamedElement(name)

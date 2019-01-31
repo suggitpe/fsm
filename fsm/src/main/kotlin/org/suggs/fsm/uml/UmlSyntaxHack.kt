@@ -1,6 +1,7 @@
 package org.suggs.fsm.uml
 
 import org.suggs.fsm.behavior.*
+import org.suggs.fsm.behavior.Event.Companion.COMPLETION_EVENT_NAME
 
 class UmlSyntaxHack {
 
@@ -44,7 +45,8 @@ class UmlSyntaxHack {
         }
 
         private fun addTriggersFor(transition: Transition): String {
-            if (transition.triggers.isNotEmpty()) {
+            if (transition.triggers.isNotEmpty()
+                    && transition.triggers.first().name != COMPLETION_EVENT_NAME) {
                 return ": ${transition.triggers.first().event.name}"
             }
             return ""

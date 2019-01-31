@@ -42,7 +42,7 @@ public interface INamespaceObjectManager {
      *
      * @param namedObject The INamedElement to visit
      */
-    void visitNamedElement(INamedElement namedObject);
+    void registerElement(INamedElement namedObject);
 
     /**
      * Visits an instance of a state machine object and updates the

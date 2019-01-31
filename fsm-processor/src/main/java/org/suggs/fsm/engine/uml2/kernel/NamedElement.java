@@ -73,7 +73,7 @@ public abstract class NamedElement implements INamedElement {
     }
 
     public void acceptNamespaceObjectManager(INamespaceObjectManager namespaceObjectManager) {
-        namespaceObjectManager.visitNamedElement(this);
+        namespaceObjectManager.registerElement(this);
     }
 
     @Override
