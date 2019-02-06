@@ -41,7 +41,7 @@ class TransitionBuilderTest {
 
     @Test fun `builds transitions with triggers`() {
         val transition = transitionPrototype
-                .withTriggers(aTriggerCalled("TRIGGER1"), aTriggerCalled("TRIGGER2"))
+                .triggeredBy(aTriggerCalled("TRIGGER1"), aTriggerCalled("TRIGGER2"))
                 .build(vertices)
         assertThat(transition.triggers.size).isEqualTo(2)
         assertThat(transition.triggers.sortedBy { it.name }.first().name).isEqualTo("TRIGGER1")

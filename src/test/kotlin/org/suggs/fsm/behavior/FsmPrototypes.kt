@@ -16,142 +16,146 @@ object FsmPrototypes {
 
     private val log = LoggerFactory.getLogger(this::class.java)
 
-    fun simpleStateMachinePrototype() =
+    fun simpleFsmPrototype() =
             aStateMachineCalled("Simple State Machine").withRegion(
-                    RegionBuilder.aRegionCalled("R0")
+                    RegionBuilder.aRegionCalled("region")
                             .withVertices(
-                                    VertexBuilder.anInitialPseudoStateCalled("IS"),
-                                    VertexBuilder.aSimpleStateCalled("S1"),
-                                    VertexBuilder.aSimpleStateCalled("S2"),
-                                    VertexBuilder.aFinalStateCalled("FS"))
+                                    anInitialPseudoStateCalled("Initial"),
+                                    aSimpleStateCalled("State1"),
+                                    aSimpleStateCalled("State2"),
+                                    aFinalStateCalled("Final"))
                             .withTransitions(
-                                    TransitionBuilder.anExternalTransitionCalled("T1").startingAt("IS").endingAt("S1"),
-                                    TransitionBuilder.anExternalTransitionCalled("T2").startingAt("S1").endingAt("S2")
-                                            .withTriggers(TriggerBuilder.aTriggerCalled("R0_T1").firedWith(EventBuilder.anEventCalled("realEvent"))),
-                                    TransitionBuilder.anExternalTransitionCalled("T3").startingAt("S2").endingAt("FS")
+                                    anExternalTransitionCalled("_trigger1").startingAt("Initial").endingAt("State1"),
+                                    anExternalTransitionCalled("_trigger2").startingAt("State1").endingAt("State2")
+                                            .triggeredBy(aTriggerCalled("region0_trigger1").firedWith(anEventCalled("realEvent"))),
+                                    anExternalTransitionCalled("_trigger3").startingAt("State2").endingAt("Final")
                             )
             )
 
 
-    fun simpleStateMachineWithTwoOutcomesPrototype() =
-            aStateMachineCalled("Simple State Machine").withRegion(
-                    RegionBuilder.aRegionCalled("R0")
+    fun fsmWithTwoOutcomesPrototype() =
+            aStateMachineCalled("Simple State Machine with two routes").withRegion(
+                    RegionBuilder.aRegionCalled("region0")
                             .withVertices(
-                                    VertexBuilder.anInitialPseudoStateCalled("Start"),
-                                    VertexBuilder.aSimpleStateCalled("Middle"),
-                                    VertexBuilder.aSimpleStateCalled("Left"),
-                                    VertexBuilder.aSimpleStateCalled("Right"),
-                                    VertexBuilder.aFinalStateCalled("End"))
+                                    anInitialPseudoStateCalled("Start"),
+                                    aSimpleStateCalled("Middle"),
+                                    aSimpleStateCalled("Left"),
+                                    aSimpleStateCalled("Right"),
+                                    aFinalStateCalled("End"))
                             .withTransitions(
-                                    TransitionBuilder.anExternalTransitionCalled("T1").startingAt("Start").endingAt("Middle"),
-                                    TransitionBuilder.anExternalTransitionCalled("T2").startingAt("Middle").endingAt("Left")
-                                            .withTriggers(TriggerBuilder.aTriggerCalled("R0_T1").firedWith(EventBuilder.anEventCalled("goLeft"))),
-                                    TransitionBuilder.anExternalTransitionCalled("T3").startingAt("Middle").endingAt("Right")
-                                            .withTriggers(TriggerBuilder.aTriggerCalled("R0_T2").firedWith(EventBuilder.anEventCalled("goRight"))),
-                                    TransitionBuilder.anExternalTransitionCalled("T4").startingAt("Left").endingAt("End")
-                                            .withTriggers(TriggerBuilder.aTriggerCalled("R0_T3").firedWith(EventBuilder.anEventCalled("finish"))),
-                                    TransitionBuilder.anExternalTransitionCalled("T5").startingAt("Right").endingAt("End")
-                                            .withTriggers(TriggerBuilder.aTriggerCalled("R0_T4").firedWith(EventBuilder.anEventCalled("finish")))
+                                    anExternalTransitionCalled("_trigger1").startingAt("Start").endingAt("Middle"),
+                                    anExternalTransitionCalled("_trigger2").startingAt("Middle").endingAt("Left")
+                                            .triggeredBy(aTriggerCalled("region0_trigger1").firedWith(anEventCalled("goLeft"))),
+                                    anExternalTransitionCalled("_trigger3").startingAt("Middle").endingAt("Right")
+                                            .triggeredBy(aTriggerCalled("region0_trigger2").firedWith(anEventCalled("goRight"))),
+                                    anExternalTransitionCalled("_trigger4").startingAt("Left").endingAt("End")
+                                            .triggeredBy(aTriggerCalled("region0_trigger3").firedWith(anEventCalled("finish"))),
+                                    anExternalTransitionCalled("_trigger5").startingAt("Right").endingAt("End")
+                                            .triggeredBy(aTriggerCalled("region0_trigger4").firedWith(anEventCalled("finish")))
                             )
             )
 
 
-    fun fsmWithDeferredAutomatedTransitionsPrototype() =
-            aStateMachineCalled("State Machine with automated transitions").withRegion(
+    fun fsmWithDeferredTransitionsPrototype() =
+            aStateMachineCalled("State Machine with deferred transitions").withRegion(
                     aRegionCalled("region0")
                             .withVertices(
-                                    anInitialPseudoStateCalled("R0_IS"),
-                                    aSimpleStateCalled("R0_S1")
+                                    anInitialPseudoStateCalled("Initial"),
+                                    aSimpleStateCalled("State1")
                                             .withDeferrableTriggers(
-                                                    aTriggerCalled("R0_S1_DE1").firedWith(anEventCalled("e1")),
-                                                    aTriggerCalled("R0_S1_DE2").firedWith(anEventCalled("e2")),
-                                                    aTriggerCalled("R0_S1_DE3").firedWith(anEventCalled("e3"))),
-                                    aSimpleStateCalled("R0_S2")
+                                                    aTriggerCalled("State1_DE1").firedWith(anEventCalled("deferredEvent1")),
+                                                    aTriggerCalled("State1_DE3").firedWith(anEventCalled("deferredEvent2"))),
+                                    aSimpleStateCalled("State2")
                                             .withDeferrableTriggers(
-                                                    aTriggerCalled("R0_S2_DE1").firedWith(anEventCalled("e1")),
-                                                    aTriggerCalled("R0_S2_DE2").firedWith(anEventCalled("e2")),
-                                                    aTriggerCalled("R0_S2_DE3").firedWith(anEventCalled("e3"))),
-                                    aSimpleStateCalled("R0_S3")
+                                                    aTriggerCalled("State2_DE1").firedWith(anEventCalled("deferredEvent1")),
+                                                    aTriggerCalled("State2_DE3").firedWith(anEventCalled("deferredEvent2"))),
+                                    aSimpleStateCalled("State3")
                                             .withDeferrableTriggers(
-                                                    aTriggerCalled("R0_S3_DE1").firedWith(anEventCalled("e2")),
-                                                    aTriggerCalled("R0_S3_DE2").firedWith(anEventCalled("e3"))),
-                                    aSimpleStateCalled("R0_S4")
-                                            .withDeferrableTriggers(
-                                                    aTriggerCalled("R0_S4_DE1").firedWith(anEventCalled("e3"))
-                                            ),
-                                    aSimpleStateCalled("R0_S5"),
-                                    aFinalStateCalled("R0_FS")
+                                                    aTriggerCalled("State3_DE1").firedWith(anEventCalled("deferredEvent2"))),
+                                    aSimpleStateCalled("State4"),
+                                    aFinalStateCalled("Final")
                             )
                             .withTransitions(
-                                    anExternalTransitionCalled("R0_T1")
-                                            .startingAt("R0_IS")
-                                            .endingAt("R0_S1"),
-                                    anExternalTransitionCalled("R0_T2")
-                                            .startingAt("R0_S1")
-                                            .endingAt("R0_S2")
-                                            .withTriggers(aTriggerCalled("R0_T2_TG1")
-                                                    .firedWith(anEventCalled("e10")))
-                                            .withEffects(aBehaviorCalled("R0_T2_B1")
-                                                    .withAction { log.debug("""actioning $it""") }),
-                                    anExternalTransitionCalled("R0_T3")
-                                            .startingAt("R0_S2")
-                                            .endingAt("R0_S3")
-                                            .withEffects(aBehaviorCalled("R0_T3_B1")
-                                                    .withAction { log.debug("""actioning $it""") }),
-                                    anExternalTransitionCalled("R0_T4")
-                                            .startingAt("R0_S3")
-                                            .endingAt("R0_S4")
-                                            .withTriggers(aTriggerCalled("R0_T4_TG1")
-                                                    .firedWith(anEventCalled("e1")))
-                                            .withEffects(aBehaviorCalled("R0_T4_B1")
-                                                    .withAction { log.debug("""actioning $it""") }),
-                                    anExternalTransitionCalled("R0_T5")
-                                            .startingAt("R0_S4")
-                                            .endingAt("R0_S5")
-                                            .withTriggers(aTriggerCalled("R0_T5_TG1")
-                                                    .firedWith(anEventCalled("e2")))
-                                            .withEffects(aBehaviorCalled("R0_T5_B1")
-                                                    .withAction { log.debug("""actioning $it""") }),
-                                    anExternalTransitionCalled("R0_T6")
-                                            .startingAt("R0_S5")
-                                            .endingAt("R0_FS")
-                                            .withTriggers(aTriggerCalled("R0_T6_TG1")
-                                                    .firedWith(anEventCalled("e3")))
-                                            .withEffects(aBehaviorCalled("R0_T6_B1")
-                                                    .withAction { log.debug("""actioning $it""") })
+                                    anExternalTransitionCalled("region0_trigger1").startingAt("Initial").endingAt("State1"),
+                                    anExternalTransitionCalled("region0_trigger2").startingAt("State1").endingAt("State2")
+                                            .triggeredBy(aTriggerCalled("region0_trigger2_TG1").firedWith(anEventCalled("realEvent"))),
+                                    anExternalTransitionCalled("region0_trigger3").startingAt("State2").endingAt("State3"),
+                                    anExternalTransitionCalled("region0_trigger4").startingAt("State3").endingAt("State4")
+                                            .triggeredBy(aTriggerCalled("region0_trigger4_TG1").firedWith(anEventCalled("deferredEvent1"))),
+                                    anExternalTransitionCalled("region0_trigger5").startingAt("State4").endingAt("Final")
+                                            .triggeredBy(aTriggerCalled("region0_trigger5_TG1").firedWith(anEventCalled("deferredEvent2")))
+                            )
+            )
+
+    fun fsmWithDeferredAndAutomatedTransitionsPrototype() =
+            aStateMachineCalled("Simple state machine with deferred and automated transitions").withRegion(
+                    aRegionCalled("region0")
+                            .withVertices(
+                                    anInitialPseudoStateCalled("Initial"),
+                                    aSimpleStateCalled("State1")
+                                            .withDeferrableTriggers(
+                                                    aTriggerCalled("S1_DT1").firedWith(anEventCalled("deferredEvent1")),
+                                                    aTriggerCalled("S1_DT2").firedWith(anEventCalled("deferredEvent2"))),
+                                    aSimpleStateCalled("State2")
+                                            .withDeferrableTriggers(
+                                                    aTriggerCalled("S2_DT1").firedWith(anEventCalled("deferredEvent1")),
+                                                    aTriggerCalled("S2_DT2").firedWith(anEventCalled("deferredEvent2"))
+                                            ),
+                                    aSimpleStateCalled("State3"),
+                                    aSimpleStateCalled("State4"),
+                                    aSimpleStateCalled("State5"),
+                                    aFinalStateCalled("Final")
+                            )
+                            .withTransitions(
+                                    anExternalTransitionCalled("T1").startingAt("Initial").endingAt("State1"),
+                                    anExternalTransitionCalled("T2").startingAt("State1").endingAt("State2")
+                                            .triggeredBy(aTriggerCalled("TG1").firedWith(anEventCalled("realEvent"))),
+                                    anExternalTransitionCalled("T3").startingAt("State2").endingAt("State3")
+                                            .triggeredBy(aTriggerCalled("TG2").firedWith(anEventCalled("deferredEvent1"))),
+                                    anExternalTransitionCalled("T4").startingAt("State2").endingAt("State4"),
+                                    anExternalTransitionCalled("T5").startingAt("State2").endingAt("State5")
+                                            .triggeredBy(aTriggerCalled("TG3").firedWith(anEventCalled("deferredEvent2"))),
+                                    anExternalTransitionCalled("T6").startingAt("State4").endingAt("State3")
+                                            .triggeredBy(aTriggerCalled("TG4").firedWith(anEventCalled("deferredEvent1"))),
+                                    anExternalTransitionCalled("T7").startingAt("State4").endingAt("State5")
+                                            .triggeredBy(aTriggerCalled("TG5").firedWith(anEventCalled("deferredEvent2"))),
+                                    anExternalTransitionCalled("T8").startingAt("State4").endingAt("Final")
+                                            .triggeredBy(aTriggerCalled("TG6").firedWith(anEventCalled("otherEvent"))),
+                                    anExternalTransitionCalled("T9").startingAt("State5").endingAt("Final")
+                                            .triggeredBy(aTriggerCalled("TG7").firedWith(anEventCalled("deferredEvent1")))
                             )
             )
 
 
     fun fsmWithEntryAndExitBehaviorsPrototype() =
             aStateMachineCalled("Simple State Machine with entry and exit behaviors").withRegion(
-                    aRegionCalled("R0")
+                    aRegionCalled("region0")
                             .withVertices(
-                                    anInitialPseudoStateCalled("R0_IS"),
-                                    aSimpleStateCalled("R0_S1")
+                                    anInitialPseudoStateCalled("Initial"),
+                                    aSimpleStateCalled("State1")
                                             .withEntryBehavior(aBehaviorCalled("doLoggingEntryAction()").withAction { it -> log.debug("entry action for $it") })
                                             .withExitBehavior(aBehaviorCalled("doLoggingExitAction()").withAction { it -> log.debug("exit action for $it") }),
-                                    aSimpleStateCalled("R0_S2"),
-                                    aSimpleStateCalled("R0_S3")
+                                    aSimpleStateCalled("State2"),
+                                    aSimpleStateCalled("State3")
                             )
                             .withTransitions(
-                                    anExternalTransitionCalled("R0_T1").startingAt("R0_IS").endingAt("R0_S1")
-                                            .withTriggers(aTriggerCalled("R0_T1_TG1").firedWith(anEventCalled("e1"))),
-                                    anExternalTransitionCalled("R0_T2").startingAt("R0_S1").endingAt("R0_S2")
-                                            .withTriggers(aTriggerCalled("R0_T2_TG1").firedWith(anEventCalled("internalEvent1"))),
-                                    anExternalTransitionCalled("R0_T3").startingAt("R0_S1").endingAt("R0_S3")
-                                            .withTriggers(aTriggerCalled("R0_T3_TG1").firedWith(anEventCalled("internalEvent2")))
+                                    anExternalTransitionCalled("region0_trigger1").startingAt("Initial").endingAt("State1")
+                                            .triggeredBy(aTriggerCalled("region0_trigger1_TG1").firedWith(anEventCalled("e1"))),
+                                    anExternalTransitionCalled("region0_trigger2").startingAt("State1").endingAt("State2")
+                                            .triggeredBy(aTriggerCalled("region0_trigger2_TG1").firedWith(anEventCalled("internalEven_trigger1"))),
+                                    anExternalTransitionCalled("region0_trigger3").startingAt("State1").endingAt("State3")
+                                            .triggeredBy(aTriggerCalled("region0_trigger3_TG1").firedWith(anEventCalled("internalEven_trigger2")))
                             )
             )
 
 
     fun nestedStateStateMachinePrototype() =
             aStateMachineCalled("Composite State machine").withRegion(
-                    aRegionCalled("R0")
+                    aRegionCalled("region0")
                             .withVertices(
-                                    anInitialPseudoStateCalled("R0_IS"),
-                                    aSimpleStateCalled("R0_S0"),
-                                    aCompositeStateCalled("R0_S1")
+                                    anInitialPseudoStateCalled("Initial"),
+                                    aSimpleStateCalled("region0_S0"),
+                                    aCompositeStateCalled("State1")
                                             .withRegion(aRegionCalled("R1")
                                                     .withVertices(
                                                             anInitialPseudoStateCalled("R1_IS"),
@@ -161,11 +165,11 @@ object FsmPrototypes {
 
                                                     )
                                             ),
-                                    aFinalStateCalled("R0_FS"))
+                                    aFinalStateCalled("Final"))
                             .withTransitions(
-                                    anExternalTransitionCalled("R0_T0").startingAt("R0_IS").endingAt("R0_S0"),
-                                    anExternalTransitionCalled("R0_T1").startingAt("R0_S0").endingAt("R0_S1"),
-                                    anExternalTransitionCalled("R0_T2").startingAt("R0_S1").endingAt("R0_FS")
+                                    anExternalTransitionCalled("region0_T0").startingAt("Initial").endingAt("region0_S0"),
+                                    anExternalTransitionCalled("region0_trigger1").startingAt("region0_S0").endingAt("State1"),
+                                    anExternalTransitionCalled("region0_trigger2").startingAt("State1").endingAt("Final")
                             )
             )
 

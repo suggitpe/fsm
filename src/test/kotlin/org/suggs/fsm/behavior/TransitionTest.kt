@@ -36,7 +36,7 @@ class TransitionTest {
                         aSimpleStateCalled("state2")
                 )
                 .withTransitions(
-                        anExternalTransitionCalled("transition").startingAt("state1").endingAt("state2").withTriggers(
+                        anExternalTransitionCalled("transition").startingAt("state1").endingAt("state2").triggeredBy(
                                 aTriggerCalled("trigger").firedWith(anEventCalled("event"))
                         )
                 )

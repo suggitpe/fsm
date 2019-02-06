@@ -40,7 +40,7 @@ class TransitionBuilder(val name: String, val type: TransitionKind) {
         return this
     }
 
-    fun withTriggers(vararg newTriggers: TriggerBuilder): TransitionBuilder {
+    fun triggeredBy(vararg newTriggers: TriggerBuilder): TransitionBuilder {
         triggers.removeIf { it.name == COMPLETION_EVENT_NAME }
         triggers.addAll(newTriggers)
         return this

@@ -5,7 +5,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.suggs.fsm.behavior.BehavioredClassifier
-import org.suggs.fsm.behavior.builders.FsmPrototypes
+import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithTwoOutcomesPrototype
+import org.suggs.fsm.uml.StateMachineUmlGenerator
+import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.generateUmlFor
+import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.writePumlToFile
 
 class SimpleStateMachineNavigation {
 
@@ -15,6 +18,11 @@ class SimpleStateMachineNavigation {
 
     @BeforeEach fun `set up execution environment`() {
         executionEnvironment = createAStateMachineContextWithSimpleRouting()
+    }
+
+    @Test
+    fun `describes simple state machines with two routes`() {
+        writePumlToFile(generateUmlFor(fsmWithTwoOutcomesPrototype().build()), "simpleFsmLeftAndRight.puml")
     }
 
     @Test fun `does not transition if the events do not fire triggers`() {
@@ -53,7 +61,7 @@ class SimpleStateMachineNavigation {
     }
 
     private fun aSimpleEventCalled(eventName: String): BusinessEvent = BusinessEvent(eventName, BusinessObjectIdentifier("domain", "id", 0))
-    private fun simpleStateMachineWithTwoOutcomesPrototype(): BehavioredClassifier = FsmPrototypes.simpleStateMachineWithTwoOutcomesPrototype().build()
-    private fun createAStateMachineContextWithSimpleRouting() = FsmExecutionEnvironment(simpleStateMachineWithTwoOutcomesPrototype(), fsmExecutionContext)
+    private fun simpleStateMachineWithTwoOutcomes(): BehavioredClassifier = fsmWithTwoOutcomesPrototype().build()
+    private fun createAStateMachineContextWithSimpleRouting() = FsmExecutionEnvironment(simpleStateMachineWithTwoOutcomes(), fsmExecutionContext)
     private fun theResultingState() = stateManager.getActiveState()
 }

@@ -12,4 +12,6 @@ interface FsmStateManager {
 
     fun getDeferredEvents(): Set<Event>
 
+    fun removeDeferredEvent(eventName: String)
+
 }

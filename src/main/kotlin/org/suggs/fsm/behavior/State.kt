@@ -7,7 +7,6 @@ import org.suggs.fsm.behavior.traits.Processable
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
 import org.suggs.fsm.execution.UnprocessableEventException
-import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
 open class State(name: String,
                  container: Region,
@@ -22,7 +21,7 @@ open class State(name: String,
     }
 
     override fun processEvent(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        val validTransitions = findFireableTransitions(event)
+        val validTransitions = findFireableTransitionsFor(event)
         when {
             validTransitions.size == 1 -> validTransitions.first().fire(event, fsmExecutionContext)
             validTransitions.size > 1 -> throw IllegalStateException("State [$name] has more than one valid transition")
@@ -38,7 +37,7 @@ open class State(name: String,
         }
     }
 
-    private fun findFireableTransitions(event: BusinessEvent): Set<Transition> {
+    private fun findFireableTransitionsFor(event: BusinessEvent): Set<Transition> {
         return outgoing.filter { it.isFireableFor(event) }.toSet()
     }
 
@@ -51,9 +50,20 @@ open class State(name: String,
         fsmExecutionContext.stateManager.storeActiveState(getQualifiedName())
 
         if (!fireCompletionEvent(event, fsmExecutionContext)) {
-            val deferredEvents = fsmExecutionContext.stateManager.getDeferredEvents().filter { ev -> ev.name in deferrableTriggers.map { tg -> tg.event.name } }
-            //throw NotImplementedException()
+            //val deferredEvents = fsmExecutionContext.stateManager.getDeferredEvents().filter { ev -> ev.name in deferrableTriggers.map { tg -> tg.event.name } }
+            val triggeringDeferredEvents = findEventsThatFireTransitionsFrom(fsmExecutionContext.stateManager.getDeferredEvents())
+            if(triggeringDeferredEvents.size > 1) {
+                val triggeredEvent = triggeringDeferredEvents.first().name
+                fsmExecutionContext.stateManager.removeDeferredEvent(triggeredEvent)
+                log.debug("Firing deferred event $triggeredEvent")
+                processEvent(BusinessEvent(triggeredEvent, event.identifier), fsmExecutionContext)
+            }
         }
+    }
+
+    fun findEventsThatFireTransitionsFrom(deferredEvents: Set<Event>): Set<Event> {
+        val eventsFromOutgoingTriggers = outgoing.flatMap { transition -> transition.triggers.map { trigger -> trigger.event.name } }
+        return deferredEvents.filter { event -> event.name in eventsFromOutgoingTriggers }.toSet()
     }
 
     private fun fireCompletionEvent(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext): Boolean {

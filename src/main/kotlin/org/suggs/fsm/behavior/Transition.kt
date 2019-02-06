@@ -7,7 +7,6 @@ import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.traits.Fireable
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
-import org.suggs.fsm.execution.NamespaceObjectMapper
 
 class Transition(name: String,
                  val type: TransitionKind,
@@ -37,11 +36,11 @@ class Transition(name: String,
     }
 
     fun isFireableFor(event: BusinessEvent): Boolean {
-        return oneOfTheTriggersIsFiredby(event) && guardEvaluatesFor(event)
+        return oneOfTheTriggersIsFiredBy(event.type) && guardEvaluatesFor(event)
     }
 
-    private fun oneOfTheTriggersIsFiredby(event: BusinessEvent): Boolean {
-        return triggers.map { it.event }.contains(anEventCalled(event.type).build())
+    fun oneOfTheTriggersIsFiredBy(eventType: String): Boolean {
+        return triggers.map { it.event }.contains(anEventCalled(eventType).build())
     }
 
     private fun guardEvaluatesFor(event: BusinessEvent): Boolean {

@@ -33,5 +33,9 @@ abstract class NamedElement(val name: String)
         return name.hashCode()
     }
 
+    override fun toString(): String {
+        return "NamedElement(name='$name')"
+    }
+
 
 }

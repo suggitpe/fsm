@@ -5,21 +5,24 @@ import org.suggs.fsm.behavior.Event
 import java.time.LocalDateTime
 
 open class StubFsmStateManager : FsmStateManager {
-
     var state: String = ""
-    val deferredEvents = HashSet<Event>()
-    val audits = ArrayList<Audit>()
 
+    val deferredEvents = ArrayList<Event>()
+    val audits = ArrayList<Audit>()
     companion object {
+
         val log = LoggerFactory.getLogger(this::class.java)!!
     }
-
     override fun storeDeferredEvents(vararg events: Event) {
         deferredEvents.addAll(events)
     }
 
     override fun getDeferredEvents(): Set<Event> {
-        return deferredEvents
+        return deferredEvents.toSet()
+    }
+
+    override fun removeDeferredEvent(eventName: String) {
+        deferredEvents.removeIf{ it.name == eventName}
     }
 
     override fun storeActiveState(state: String) {
