@@ -22,7 +22,7 @@ class DeferredEventsTest {
         writePumlToFile(generateUmlFor(fsmWithDeferredAndAutomatedTransitionsPrototype().build()), "deferredAndAutomatedTransitions.puml")
     }
 
-    @Test fun `handles simple events to transition to new state and records transitions`() {
+    @Test fun `fires deferred events automatically`() {
         val executionEnvironment = createAStateMachineContextWithDeferredEvents()
         sendEventsToDeferIn(executionEnvironment)
         assertThat(stateManager.deferredEvents.size == 2)

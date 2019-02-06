@@ -52,7 +52,7 @@ open class State(name: String,
         if (!fireCompletionEvent(event, fsmExecutionContext)) {
             //val deferredEvents = fsmExecutionContext.stateManager.getDeferredEvents().filter { ev -> ev.name in deferrableTriggers.map { tg -> tg.event.name } }
             val triggeringDeferredEvents = findEventsThatFireTransitionsFrom(fsmExecutionContext.stateManager.getDeferredEvents())
-            if(triggeringDeferredEvents.size > 1) {
+            if(triggeringDeferredEvents.isNotEmpty()) {
                 val triggeredEvent = triggeringDeferredEvents.first().name
                 fsmExecutionContext.stateManager.removeDeferredEvent(triggeredEvent)
                 log.debug("Firing deferred event $triggeredEvent")

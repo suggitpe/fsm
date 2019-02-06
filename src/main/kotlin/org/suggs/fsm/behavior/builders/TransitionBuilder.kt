@@ -46,6 +46,12 @@ class TransitionBuilder(val name: String, val type: TransitionKind) {
         return this
     }
 
+    fun triggeredBy(vararg events: EventBuilder): TransitionBuilder{
+        triggers.removeIf { it.name == COMPLETION_EVENT_NAME }
+        events.map { triggers.add(aTriggerCalled("").firedWith(it)) }
+        return this
+    }
+
     fun withEffects(vararg newEffects: BehaviorBuilder): TransitionBuilder {
         effects.addAll(newEffects)
         return this
