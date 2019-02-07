@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.3.0'
+        kotlinVersion = '1.3.21'
     }
     repositories {
         jcenter()
@@ -26,18 +26,15 @@ defaultTasks 'clean', 'build'
     dependencies {
         implementation libs.kotlin,
                 libs.kotlinReflect,
-                libs.slf4j,
-                'org.springframework:spring-context:5.1.2.RELEASE'
+                libs.slf4j
 
         testImplementation libs.test.junitApi,
                 libs.test.assertj,
-                libs.test.mockito,
-                'easymock:easymock:1.1'
+                libs.test.mockito
 
         testRuntimeOnly libs.test.junitEngine,
                 libs.logback
     }
-
 
     ext {
         sourceCompatibility = 1.8
