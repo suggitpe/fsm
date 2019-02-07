@@ -14,7 +14,7 @@ class PseudoStateBuilder(name: String,
         throw IllegalStateException("You cannot define deferrable triggers on a pseudo state")
     }
 
-    override fun withEntryBehavior(behaviorBuilder: BehaviorBuilder): VertexBuilder {
+    override fun withEntryBehavior(behavior: BehaviorBuilder): VertexBuilder {
         throw IllegalStateException("You cannot define entry and exit behaviors on pseudo states")
     }
 

@@ -8,7 +8,7 @@ interface FsmStateManager {
 
     fun getActiveState(): String
 
-    fun storeDeferredEvents(vararg event: Event)
+    fun storeDeferredEvents(vararg events: Event)
 
     fun getDeferredEvents(): Set<Event>
 

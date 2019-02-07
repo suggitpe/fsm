@@ -14,7 +14,7 @@ class RegionBuilderTest {
                     anInitialPseudoStateCalled("INIT"),
                     aSimpleStateCalled("STATE_1"))
             .withTransitions(
-                    anExternalTransitionCalled("start").startingAt("INIT").endingAt("STATE_1"))
+                    anExternalTransitionCalled("transition").startingAt("INIT").endingAt("STATE_1"))
             .build()
 
     @Test
@@ -31,8 +31,9 @@ class RegionBuilderTest {
 
     @Test
     fun `joins transitions to vertexes`() {
-        region.transitions.values.map { assertThat(it.source != null) }
-        region.transitions.values.map { assertThat(it.target != null) }
+        assertThat(region.transitions.values.first().name).isEqualTo("transition")
+        assertThat(region.transitions.values.first().source.name).isEqualTo("INIT")
+        assertThat(region.transitions.values.first().target.name).isEqualTo("STATE_1")
     }
 
     @Test

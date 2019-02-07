@@ -13,6 +13,7 @@ open class StubFsmStateManager : FsmStateManager {
 
         val log = LoggerFactory.getLogger(this::class.java)!!
     }
+
     override fun storeDeferredEvents(vararg events: Event) {
         deferredEvents.addAll(events)
     }

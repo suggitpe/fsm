@@ -10,7 +10,7 @@ import org.suggs.fsm.execution.UnprocessableEventException
 
 open class State(name: String,
                  container: Region,
-                 val deferrableTriggers: Set<Trigger>,
+                 private val deferrableTriggers: Set<Trigger>,
                  val entryBehavior: Behavior,
                  val exitBehavior: Behavior)
     : Processable, Vertex(name, container) {
