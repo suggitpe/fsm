@@ -20,7 +20,7 @@ class DeferredEventsTest {
         executionEnvironment.handleEvent(aBusinessEventCalled("realEvent"))
 
         stateManager.printAudits()
-        assertThat(theResultingState()).endsWith("Final")
+        assertThat(theResultingState()).endsWith("final")
     }
 
     @Test fun `transitions automatic transitions over deferred events`() {
@@ -31,7 +31,7 @@ class DeferredEventsTest {
         executionEnvironment.handleEvent(aBusinessEventCalled("realEvent"))
 
         stateManager.printAudits()
-        assertThat(theResultingState()).endsWith("State3")
+        assertThat(theResultingState()).endsWith("state3")
     }
 
     private fun sendEventsToDeferIn(executionEnvironment: FsmExecutionEnvironment) {

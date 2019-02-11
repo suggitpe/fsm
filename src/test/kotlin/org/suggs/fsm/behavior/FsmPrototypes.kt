@@ -55,27 +55,27 @@ object FsmPrototypes {
             aStateMachineCalled("context").withRegion(
                     aRegionCalled("region0")
                             .withVertices(
-                                    anInitialPseudoStateCalled("Initial"),
-                                    aSimpleStateCalled("State1")
+                                    anInitialPseudoStateCalled("initial"),
+                                    aSimpleStateCalled("state1")
                                             .withDeferrableTriggers(
                                                     aTriggerCalled("State1_DE1").firedWith(anEventCalled("deferredEvent1")),
                                                     aTriggerCalled("State1_DE3").firedWith(anEventCalled("deferredEvent2"))),
-                                    aSimpleStateCalled("State2")
+                                    aSimpleStateCalled("state2")
                                             .withDeferrableTriggers(
                                                     aTriggerCalled("State2_DE1").firedWith(anEventCalled("deferredEvent1")),
                                                     aTriggerCalled("State2_DE3").firedWith(anEventCalled("deferredEvent2"))),
-                                    aSimpleStateCalled("State3")
+                                    aSimpleStateCalled("state3")
                                             .withDeferrableTriggers(
                                                     aTriggerCalled("State3_DE1").firedWith(anEventCalled("deferredEvent2"))),
-                                    aSimpleStateCalled("State4"),
-                                    aFinalStateCalled("Final")
+                                    aSimpleStateCalled("state4"),
+                                    aFinalStateCalled("final")
                             )
                             .withTransitions(
-                                    anExternalTransitionCalled("region0_trigger1").startingAt("Initial").endingAt("State1"),
-                                    anExternalTransitionCalled("region0_trigger2").startingAt("State1").endingAt("State2").triggeredBy(anEventCalled("realEvent")),
-                                    anExternalTransitionCalled("region0_trigger3").startingAt("State2").endingAt("State3"),
-                                    anExternalTransitionCalled("region0_trigger4").startingAt("State3").endingAt("State4").triggeredBy(anEventCalled("deferredEvent1")),
-                                    anExternalTransitionCalled("region0_trigger5").startingAt("State4").endingAt("Final").triggeredBy(anEventCalled("deferredEvent2"))
+                                    anExternalTransitionCalled("region0_trigger1").startingAt("initial").endingAt("state1"),
+                                    anExternalTransitionCalled("region0_trigger2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("realEvent")),
+                                    anExternalTransitionCalled("region0_trigger3").startingAt("state2").endingAt("state3"),
+                                    anExternalTransitionCalled("region0_trigger4").startingAt("state3").endingAt("state4").triggeredBy(anEventCalled("deferredEvent1")),
+                                    anExternalTransitionCalled("region0_trigger5").startingAt("state4").endingAt("final").triggeredBy(anEventCalled("deferredEvent2"))
                             )
             )
 
@@ -83,31 +83,31 @@ object FsmPrototypes {
             aStateMachineCalled("context").withRegion(
                     aRegionCalled("region0")
                             .withVertices(
-                                    anInitialPseudoStateCalled("Initial"),
-                                    aSimpleStateCalled("State1")
+                                    anInitialPseudoStateCalled("initial"),
+                                    aSimpleStateCalled("state1")
                                             .withDeferrableTriggers(
                                                     aTriggerCalled("S1_DT1").firedWith(anEventCalled("deferredEvent1")),
                                                     aTriggerCalled("S1_DT2").firedWith(anEventCalled("deferredEvent2"))),
-                                    aSimpleStateCalled("State2")
+                                    aSimpleStateCalled("state2")
                                             .withDeferrableTriggers(
                                                     aTriggerCalled("S2_DT1").firedWith(anEventCalled("deferredEvent1")),
                                                     aTriggerCalled("S2_DT2").firedWith(anEventCalled("deferredEvent2"))
                                             ),
-                                    aSimpleStateCalled("State3"),
-                                    aSimpleStateCalled("State4"),
-                                    aSimpleStateCalled("State5"),
-                                    aFinalStateCalled("Final")
+                                    aSimpleStateCalled("state3"),
+                                    aSimpleStateCalled("state4"),
+                                    aSimpleStateCalled("state5"),
+                                    aFinalStateCalled("final")
                             )
                             .withTransitions(
-                                    anExternalTransitionCalled("T1").startingAt("Initial").endingAt("State1"),
-                                    anExternalTransitionCalled("T2").startingAt("State1").endingAt("State2").triggeredBy(anEventCalled("realEvent")),
-                                    anExternalTransitionCalled("T3").startingAt("State2").endingAt("State3").triggeredBy(anEventCalled("deferredEvent1")),
-                                    anExternalTransitionCalled("T4").startingAt("State2").endingAt("State4"),
-                                    anExternalTransitionCalled("T5").startingAt("State2").endingAt("State5").triggeredBy(anEventCalled("deferredEvent2")),
-                                    anExternalTransitionCalled("T6").startingAt("State4").endingAt("State3").triggeredBy(anEventCalled("deferredEvent1")),
-                                    anExternalTransitionCalled("T7").startingAt("State4").endingAt("State5").triggeredBy(anEventCalled("deferredEvent2")),
-                                    anExternalTransitionCalled("T8").startingAt("State4").endingAt("Final").triggeredBy(anEventCalled("otherEvent")),
-                                    anExternalTransitionCalled("T9").startingAt("State5").endingAt("Final").triggeredBy(anEventCalled("deferredEvent1"))
+                                    anExternalTransitionCalled("T1").startingAt("initial").endingAt("state1"),
+                                    anExternalTransitionCalled("T2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("realEvent")),
+                                    anExternalTransitionCalled("T3").startingAt("state2").endingAt("state3").triggeredBy(anEventCalled("deferredEvent1")),
+                                    anExternalTransitionCalled("T4").startingAt("state2").endingAt("state4"),
+                                    anExternalTransitionCalled("T5").startingAt("state2").endingAt("state5").triggeredBy(anEventCalled("deferredEvent2")),
+                                    anExternalTransitionCalled("T6").startingAt("state4").endingAt("state3").triggeredBy(anEventCalled("deferredEvent1")),
+                                    anExternalTransitionCalled("T7").startingAt("state4").endingAt("state5").triggeredBy(anEventCalled("deferredEvent2")),
+                                    anExternalTransitionCalled("T8").startingAt("state4").endingAt("final").triggeredBy(anEventCalled("otherEvent")),
+                                    anExternalTransitionCalled("T9").startingAt("state5").endingAt("final").triggeredBy(anEventCalled("deferredEvent1"))
                             )
             )
 
@@ -116,17 +116,17 @@ object FsmPrototypes {
             aStateMachineCalled("context").withRegion(
                     aRegionCalled("region0")
                             .withVertices(
-                                    anInitialPseudoStateCalled("Initial"),
-                                    aSimpleStateCalled("State1")
+                                    anInitialPseudoStateCalled("initial"),
+                                    aSimpleStateCalled("state1")
                                             .withEntryBehavior(aBehaviorCalled("doLoggingEntryAction()").withAction { log.debug("entry action for $it") })
                                             .withExitBehavior(aBehaviorCalled("doLoggingExitAction()").withAction { log.debug("exit action for $it") }),
-                                    aSimpleStateCalled("State2"),
-                                    aSimpleStateCalled("State3")
+                                    aSimpleStateCalled("state2"),
+                                    aSimpleStateCalled("state3")
                             )
                             .withTransitions(
-                                    anExternalTransitionCalled("region0_trigger1").startingAt("Initial").endingAt("State1").triggeredBy(anEventCalled("e1")),
-                                    anExternalTransitionCalled("region0_trigger2").startingAt("State1").endingAt("State2").triggeredBy(anEventCalled("internalEven_trigger1")),
-                                    anExternalTransitionCalled("region0_trigger3").startingAt("State1").endingAt("State3").triggeredBy(anEventCalled("internalEven_trigger2"))
+                                    anExternalTransitionCalled("region0_trigger1").startingAt("initial").endingAt("state1").triggeredBy(anEventCalled("e1")),
+                                    anExternalTransitionCalled("region0_trigger2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("internalEven_trigger1")),
+                                    anExternalTransitionCalled("region0_trigger3").startingAt("state1").endingAt("state3").triggeredBy(anEventCalled("internalEven_trigger2"))
                             )
             )
 
