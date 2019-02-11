@@ -4,26 +4,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithDeferredAndAutomatedTransitionsPrototype
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithDeferredTransitionsPrototype
-import org.suggs.fsm.stubs.BusinessEventStub
 import org.suggs.fsm.stubs.BusinessEventStub.Companion.aBusinessEventCalled
 import org.suggs.fsm.stubs.StubFsmStateManager
-import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.generateUmlFor
-import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.writePumlToFile
 
 class DeferredEventsTest {
 
     private val stateManager: StubFsmStateManager = StubFsmStateManager()
     private val fsmExecutionContext: FsmExecutionContext = FsmExecutionContext(stateManager)
-
-    @Test
-    fun `describes state machines with deferred events`() {
-        writePumlToFile(generateUmlFor(fsmWithDeferredTransitionsPrototype().build()), "deferredTransitions.puml")
-    }
-
-    @Test
-    fun `describes state machine with deferred and automated transitions`() {
-        writePumlToFile(generateUmlFor(fsmWithDeferredAndAutomatedTransitionsPrototype().build()), "deferredAndAutomatedTransitions.puml")
-    }
 
     @Test fun `fires deferred events automatically`() {
         val executionEnvironment = createAStateMachineContextWithDeferredEvents()

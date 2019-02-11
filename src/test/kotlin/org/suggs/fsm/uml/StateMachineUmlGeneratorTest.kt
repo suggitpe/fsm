@@ -16,6 +16,16 @@ class StateMachineUmlGeneratorTest {
     }
 
     @Test
+    fun `describes state machines with deferred events`() {
+        writePumlToFile(generateUmlFor(FsmPrototypes.fsmWithDeferredTransitionsPrototype().build()), "deferredTransitions.puml")
+    }
+
+    @Test
+    fun `describes state machine with deferred and automated transitions`() {
+        writePumlToFile(generateUmlFor(FsmPrototypes.fsmWithDeferredAndAutomatedTransitionsPrototype().build()), "deferredAndAutomatedTransitions.puml")
+    }
+
+    @Test
     fun `describes composite state machines`() {
         writePumlToFile(generateUmlFor(nestedStateStateMachinePrototype().build()), "compositeFsm.puml")
     }

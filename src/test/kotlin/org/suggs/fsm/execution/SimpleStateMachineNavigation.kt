@@ -20,8 +20,6 @@ class SimpleStateMachineNavigation {
         executionEnvironment = createAStateMachineContextWithSimpleRouting()
     }
 
-
-
     @Test fun `does not transition if the events do not fire triggers`() {
         assertThrows<UnprocessableEventException> { executionEnvironment.handleEvent(aSimpleEventCalled("goNorth")) }
         assertThat(theResultingState()).endsWith("middle")
