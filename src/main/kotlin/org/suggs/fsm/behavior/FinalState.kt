@@ -2,16 +2,15 @@ package org.suggs.fsm.behavior
 
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
-import org.suggs.fsm.execution.NamespaceObjectMapper
 
 class FinalState(name: String,
-                 container: Region,
+                 container: Namespace,
                  entryBehavior: Behavior,
                  exitBehavior: Behavior)
     : State(name, container, HashSet(), entryBehavior, exitBehavior) {
 
     override fun enter(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        fsmExecutionContext.stateManager.storeActiveState(getQualifiedName())
+        fsmExecutionContext.stateManager.storeActiveState(deriveQualifiedName())
         // TODO send a completion event to the composite state if it exists
     }
 

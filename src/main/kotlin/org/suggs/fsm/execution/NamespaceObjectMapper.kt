@@ -19,7 +19,7 @@ class NamespaceObjectMapper {
     }
 
     fun registerElement(namedElement: NamedElement) {
-        namedElements[namedElement.getQualifiedName()] = namedElement
+        namedElements[namedElement.deriveQualifiedName()] = namedElement
     }
 
     fun retrieveStateCalled(activeStateName: String): State? {

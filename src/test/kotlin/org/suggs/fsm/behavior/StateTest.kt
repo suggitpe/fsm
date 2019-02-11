@@ -12,6 +12,9 @@ import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
 import org.suggs.fsm.execution.*
+import org.suggs.fsm.stubs.NamespaceStub
+import org.suggs.fsm.stubs.NamespaceStub.Companion.aNamespaceStub
+import org.suggs.fsm.stubs.StubFsmStateManager
 
 class StateTest {
 
@@ -21,7 +24,7 @@ class StateTest {
         val state = simpleRegionOfStatesAndTransitions.findStateCalled("S0")
         fsmExecutionContext.stateManager.storeActiveState("S0")
         state.processEvent(aStubEventFor("validEvent"), fsmExecutionContext)
-        assertThat(fsmExecutionContext.stateManager.getActiveState()).isEqualTo("FS")
+        assertThat(fsmExecutionContext.stateManager.getActiveState()).endsWith("FS")
     }
 
     @Test fun `does not transition to other states unless valid transition`() {
@@ -73,7 +76,7 @@ class StateTest {
                             aTriggerCalled("T1").firedWith(anEventCalled("event1")),
                             aTriggerCalled("T2").firedWith(anEventCalled("event2"))
                     ))
-            .build()
+            .build(aNamespaceStub())
 
     private val simpleRegionOfStatesAndTransitions = aRegionCalled("testRegion")
             .withVertices(
@@ -88,7 +91,7 @@ class StateTest {
                             aTriggerCalled("TG2").firedWith(anEventCalled("anotherValidEvent"))
                     )
             )
-            .build()
+            .build(aNamespaceStub())
 
     private val simpleRegionWithMultipleValidTransitionns = aRegionCalled("testRegion")
             .withVertices(aSimpleStateCalled("S1"), aSimpleStateCalled("S2"))
@@ -97,5 +100,5 @@ class StateTest {
                             aTriggerCalled("TG1").firedWith(anEventCalled("validEvent"))),
                     anExternalTransitionCalled("T2").startingAt("S1").endingAt("S2").triggeredBy(
                             aTriggerCalled("TG2").firedWith(anEventCalled("validEvent")))
-            ).build()
+            ).build(aNamespaceStub())
 }

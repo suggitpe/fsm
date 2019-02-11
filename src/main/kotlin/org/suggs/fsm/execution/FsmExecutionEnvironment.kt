@@ -24,10 +24,10 @@ class FsmExecutionEnvironment(private val stateMachineDefinition: BehavioredClas
         if (activeStateName.isBlank()) {
             log.debug("No active state exists for ${event.identifier}, initialising to pseudostate for top region")
             var initialState = (stateMachineDefinition.ownedBehavior as StateMachine).region.getInitialState()
-            fsmExecutionContext.stateManager.storeActiveState(initialState.name)
+            fsmExecutionContext.stateManager.storeActiveState(initialState.deriveQualifiedName())
             initialState.enter(event, fsmExecutionContext)
             activeStateName = fsmExecutionContext.stateManager.getActiveState()
-        } else if (activeStateName == TRANSITIONING) {
+        } else if (activeStateName.endsWith(TRANSITIONING)) {
             throw IllegalStateException("The current active state is in an incomplete state")
         }
 

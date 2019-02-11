@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.suggs.fsm.behavior.BehavioredClassifier
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithTwoOutcomesPrototype
-import org.suggs.fsm.uml.StateMachineUmlGenerator
+import org.suggs.fsm.stubs.StubFsmStateManager
 import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.generateUmlFor
 import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.writePumlToFile
 
@@ -20,42 +20,39 @@ class SimpleStateMachineNavigation {
         executionEnvironment = createAStateMachineContextWithSimpleRouting()
     }
 
-    @Test
-    fun `describes simple state machines with two routes`() {
-        writePumlToFile(generateUmlFor(fsmWithTwoOutcomesPrototype().build()), "simpleFsmLeftAndRight.puml")
-    }
+
 
     @Test fun `does not transition if the events do not fire triggers`() {
         assertThrows<UnprocessableEventException> { executionEnvironment.handleEvent(aSimpleEventCalled("goNorth")) }
-        assertThat(theResultingState()).isEqualTo("Middle")
+        assertThat(theResultingState()).endsWith("middle")
 
         stateManager.printAudits()
     }
 
     @Test fun `transitions from existing states`() {
-        stateManager.storeActiveState("Left")
+        stateManager.storeActiveState("context::region0::left")
         executionEnvironment.handleEvent(aSimpleEventCalled("finish"))
-        assertThat(theResultingState()).isEqualTo("End")
+        assertThat(theResultingState()).endsWith("end")
 
         stateManager.printAudits()
     }
 
     @Test fun `transitions different directions depending on the event type - goLeft`() {
         executionEnvironment.handleEvent(aSimpleEventCalled("goLeft"))
-        assertThat(theResultingState()).isEqualTo("Left")
+        assertThat(theResultingState()).endsWith("left")
 
         executionEnvironment.handleEvent(aSimpleEventCalled("finish"))
-        assertThat(theResultingState()).isEqualTo("End")
+        assertThat(theResultingState()).endsWith("end")
 
         stateManager.printAudits()
     }
 
     @Test fun `transitions different directions depending on the event type - goRight`() {
         executionEnvironment.handleEvent(aSimpleEventCalled("goRight"))
-        assertThat(theResultingState()).isEqualTo("Right")
+        assertThat(theResultingState()).endsWith("right")
 
         executionEnvironment.handleEvent(aSimpleEventCalled("finish"))
-        assertThat(theResultingState()).isEqualTo("End")
+        assertThat(theResultingState()).endsWith("end")
 
         stateManager.printAudits()
     }

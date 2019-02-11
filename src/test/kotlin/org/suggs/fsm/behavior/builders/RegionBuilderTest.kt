@@ -6,6 +6,8 @@ import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
 import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTransitionCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
+import org.suggs.fsm.stubs.NamespaceStub
+import org.suggs.fsm.stubs.NamespaceStub.Companion.aNamespaceStub
 
 class RegionBuilderTest {
 
@@ -15,12 +17,12 @@ class RegionBuilderTest {
                     aSimpleStateCalled("STATE_1"))
             .withTransitions(
                     anExternalTransitionCalled("transition").startingAt("INIT").endingAt("STATE_1"))
-            .build()
+            .build(aNamespaceStub())
 
     @Test
     fun `can build an empty region`() {
-        assertThat(aRegionCalled("foo").build().vertices).isEmpty()
-        assertThat(aRegionCalled("bar").build().transitions).isEmpty()
+        assertThat(aRegionCalled("foo").build(aNamespaceStub()).vertices).isEmpty()
+        assertThat(aRegionCalled("bar").build(aNamespaceStub()).transitions).isEmpty()
     }
 
     @Test

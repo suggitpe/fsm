@@ -4,6 +4,9 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithDeferredAndAutomatedTransitionsPrototype
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithDeferredTransitionsPrototype
+import org.suggs.fsm.stubs.BusinessEventStub
+import org.suggs.fsm.stubs.BusinessEventStub.Companion.aBusinessEventCalled
+import org.suggs.fsm.stubs.StubFsmStateManager
 import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.generateUmlFor
 import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.writePumlToFile
 
@@ -27,10 +30,10 @@ class DeferredEventsTest {
         sendEventsToDeferIn(executionEnvironment)
         assertThat(stateManager.deferredEvents.size == 2)
 
-        executionEnvironment.handleEvent(aSimpleEventCalled("realEvent"))
+        executionEnvironment.handleEvent(aBusinessEventCalled("realEvent"))
 
         stateManager.printAudits()
-        assertThat(theResultingState()).isEqualTo("Final")
+        assertThat(theResultingState()).endsWith("Final")
     }
 
     @Test fun `transitions automatic transitions over deferred events`() {
@@ -38,18 +41,17 @@ class DeferredEventsTest {
         sendEventsToDeferIn(executionEnvironment)
         assertThat(stateManager.deferredEvents.size == 2)
 
-        executionEnvironment.handleEvent(aSimpleEventCalled("realEvent"))
+        executionEnvironment.handleEvent(aBusinessEventCalled("realEvent"))
 
         stateManager.printAudits()
-        assertThat(theResultingState()).isEqualTo("State3")
+        assertThat(theResultingState()).endsWith("State3")
     }
 
     private fun sendEventsToDeferIn(executionEnvironment: FsmExecutionEnvironment) {
-        executionEnvironment.handleEvent(aSimpleEventCalled("deferredEvent1"))
-        executionEnvironment.handleEvent(aSimpleEventCalled("deferredEvent2"))
+        executionEnvironment.handleEvent(aBusinessEventCalled("deferredEvent1"))
+        executionEnvironment.handleEvent(aBusinessEventCalled("deferredEvent2"))
     }
 
-    private fun aSimpleEventCalled(eventName: String): BusinessEvent = BusinessEvent(eventName, BusinessObjectIdentifier("domain", "id", 0))
     private fun theResultingState() = stateManager.getActiveState()
 
     private fun fsmWithDeferredTransitions() = fsmWithDeferredTransitionsPrototype().build()

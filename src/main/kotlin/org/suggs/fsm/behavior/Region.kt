@@ -3,9 +3,10 @@ package org.suggs.fsm.behavior
 import org.suggs.fsm.execution.NamespaceObjectMapper
 
 class Region(name: String,
+             container: Namespace,
              var vertices: Map<String, Vertex> = HashMap(),
              var transitions: Map<String, Transition> = HashMap())
-    : Namespace(name) {
+    : Namespace(name, container) {
 
     fun getInitialState(): Vertex {
         val pseudoState = vertices.values.find { it -> it is PseudoState && it.isInitialPseudoState() }
@@ -15,11 +16,6 @@ class Region(name: String,
 
     fun findStateCalled(stateName: String): State {
         return vertices[stateName] as State
-    }
-
-    fun getAncestorList(): List<Region> {
-        // TODO: if this is a composite state we need to traverse to owning region
-        return ArrayList()
     }
 
     override fun registerMembersWithNamespace(namespaceContext: NamespaceObjectMapper) {

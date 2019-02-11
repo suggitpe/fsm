@@ -11,12 +11,14 @@ import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
 import org.suggs.fsm.behavior.builders.StateBuilder.Companion.aStateCalled
 import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTransitionCalled
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
+import org.suggs.fsm.stubs.NamespaceStub
+import org.suggs.fsm.stubs.NamespaceStub.Companion.aNamespaceStub
 
 class TransitionBuilderTest {
 
     private val log = getLogger(this::class.java)
 
-    private val region = aRegionCalled("testRegion").build()
+    private val region = aRegionCalled("testRegion").build(aNamespaceStub())
     private val vertices: Map<String, Vertex> = listOf(aStateCalled("STATE1").build(region), aStateCalled("STATE2").build(region)).map { it.name to it }.toMap()
 
     private lateinit var transitionPrototype: TransitionBuilder

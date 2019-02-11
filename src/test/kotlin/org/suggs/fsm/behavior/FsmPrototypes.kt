@@ -17,42 +17,42 @@ object FsmPrototypes {
     private val log = LoggerFactory.getLogger(this::class.java)
 
     fun simpleFsmPrototype() =
-            aStateMachineCalled("Simple State Machine").withRegion(
-                    RegionBuilder.aRegionCalled("region")
+            aStateMachineCalled("context").withRegion(
+                    RegionBuilder.aRegionCalled("region0")
                             .withVertices(
-                                    anInitialPseudoStateCalled("Initial"),
-                                    aSimpleStateCalled("State1"),
-                                    aSimpleStateCalled("State2"),
-                                    aFinalStateCalled("Final"))
+                                    anInitialPseudoStateCalled("initial"),
+                                    aSimpleStateCalled("state1"),
+                                    aSimpleStateCalled("state2"),
+                                    aFinalStateCalled("final"))
                             .withTransitions(
-                                    anExternalTransitionCalled("_trigger1").startingAt("Initial").endingAt("State1"),
-                                    anExternalTransitionCalled("_trigger2").startingAt("State1").endingAt("State2").triggeredBy(anEventCalled("realEvent")),
-                                    anExternalTransitionCalled("_trigger3").startingAt("State2").endingAt("Final")
+                                    anExternalTransitionCalled("_trigger1").startingAt("initial").endingAt("state1"),
+                                    anExternalTransitionCalled("_trigger2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("realEvent")),
+                                    anExternalTransitionCalled("_trigger3").startingAt("state2").endingAt("final")
                             )
             )
 
 
     fun fsmWithTwoOutcomesPrototype() =
-            aStateMachineCalled("Simple State Machine with two routes").withRegion(
+            aStateMachineCalled("context").withRegion(
                     RegionBuilder.aRegionCalled("region0")
                             .withVertices(
-                                    anInitialPseudoStateCalled("Start"),
-                                    aSimpleStateCalled("Middle"),
-                                    aSimpleStateCalled("Left"),
-                                    aSimpleStateCalled("Right"),
-                                    aFinalStateCalled("End"))
+                                    anInitialPseudoStateCalled("start"),
+                                    aSimpleStateCalled("middle"),
+                                    aSimpleStateCalled("left"),
+                                    aSimpleStateCalled("right"),
+                                    aFinalStateCalled("end"))
                             .withTransitions(
-                                    anExternalTransitionCalled("_trigger1").startingAt("Start").endingAt("Middle"),
-                                    anExternalTransitionCalled("_trigger2").startingAt("Middle").endingAt("Left").triggeredBy(anEventCalled("goLeft")),
-                                    anExternalTransitionCalled("_trigger3").startingAt("Middle").endingAt("Right").triggeredBy(anEventCalled("goRight")),
-                                    anExternalTransitionCalled("_trigger4").startingAt("Left").endingAt("End").triggeredBy(anEventCalled("finish")),
-                                    anExternalTransitionCalled("_trigger5").startingAt("Right").endingAt("End").triggeredBy(anEventCalled("finish"))
+                                    anExternalTransitionCalled("_trigger1").startingAt("start").endingAt("middle"),
+                                    anExternalTransitionCalled("_trigger2").startingAt("middle").endingAt("left").triggeredBy(anEventCalled("goLeft")),
+                                    anExternalTransitionCalled("_trigger3").startingAt("middle").endingAt("right").triggeredBy(anEventCalled("goRight")),
+                                    anExternalTransitionCalled("_trigger4").startingAt("left").endingAt("end").triggeredBy(anEventCalled("finish")),
+                                    anExternalTransitionCalled("_trigger5").startingAt("right").endingAt("end").triggeredBy(anEventCalled("finish"))
                             )
             )
 
 
     fun fsmWithDeferredTransitionsPrototype() =
-            aStateMachineCalled("State Machine with deferred transitions").withRegion(
+            aStateMachineCalled("context").withRegion(
                     aRegionCalled("region0")
                             .withVertices(
                                     anInitialPseudoStateCalled("Initial"),
@@ -80,7 +80,7 @@ object FsmPrototypes {
             )
 
     fun fsmWithDeferredAndAutomatedTransitionsPrototype() =
-            aStateMachineCalled("Simple state machine with deferred and automated transitions").withRegion(
+            aStateMachineCalled("context").withRegion(
                     aRegionCalled("region0")
                             .withVertices(
                                     anInitialPseudoStateCalled("Initial"),
@@ -113,7 +113,7 @@ object FsmPrototypes {
 
 
     fun fsmWithEntryAndExitBehaviorsPrototype() =
-            aStateMachineCalled("Simple State Machine with entry and exit behaviors").withRegion(
+            aStateMachineCalled("context").withRegion(
                     aRegionCalled("region0")
                             .withVertices(
                                     anInitialPseudoStateCalled("Initial"),
@@ -132,7 +132,7 @@ object FsmPrototypes {
 
 
     fun nestedStateStateMachinePrototype() =
-            aStateMachineCalled("Composite State machine").withRegion(
+            aStateMachineCalled("context").withRegion(
                     aRegionCalled("region0")
                             .withVertices(
                                     anInitialPseudoStateCalled("Initial"),

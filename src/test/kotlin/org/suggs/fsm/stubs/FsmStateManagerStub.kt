@@ -1,7 +1,8 @@
-package org.suggs.fsm.execution
+package org.suggs.fsm.stubs
 
 import org.slf4j.LoggerFactory
 import org.suggs.fsm.behavior.Event
+import org.suggs.fsm.execution.FsmStateManager
 import java.time.LocalDateTime
 
 open class StubFsmStateManager : FsmStateManager {
@@ -10,7 +11,6 @@ open class StubFsmStateManager : FsmStateManager {
     val deferredEvents = ArrayList<Event>()
     val audits = ArrayList<Audit>()
     companion object {
-
         val log = LoggerFactory.getLogger(this::class.java)!!
     }
 

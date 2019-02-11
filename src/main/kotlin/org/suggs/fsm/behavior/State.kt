@@ -9,7 +9,7 @@ import org.suggs.fsm.execution.FsmExecutionContext
 import org.suggs.fsm.execution.UnprocessableEventException
 
 open class State(name: String,
-                 container: Region,
+                 container: Namespace,
                  private val deferrableTriggers: Set<Trigger>,
                  val entryBehavior: Behavior,
                  val exitBehavior: Behavior)
@@ -47,12 +47,11 @@ open class State(name: String,
 
     override fun enter(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
         log.debug("Entering state [$name]")
-        fsmExecutionContext.stateManager.storeActiveState(getQualifiedName())
+        fsmExecutionContext.stateManager.storeActiveState(deriveQualifiedName())
 
         if (!fireCompletionEvent(event, fsmExecutionContext)) {
-            //val deferredEvents = fsmExecutionContext.stateManager.getDeferredEvents().filter { ev -> ev.name in deferrableTriggers.map { tg -> tg.event.name } }
             val triggeringDeferredEvents = findEventsThatFireTransitionsFrom(fsmExecutionContext.stateManager.getDeferredEvents())
-            if(triggeringDeferredEvents.isNotEmpty()) {
+            if (triggeringDeferredEvents.isNotEmpty()) {
                 val triggeredEvent = triggeringDeferredEvents.first().name
                 fsmExecutionContext.stateManager.removeDeferredEvent(triggeredEvent)
                 log.debug("Firing deferred event $triggeredEvent")
@@ -81,14 +80,13 @@ open class State(name: String,
         }
     }
 
-
     override fun doEntryAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
         entryBehavior.execute(event)
     }
 
     override fun exit(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
         log.debug("Exiting state [$name]")
-        fsmExecutionContext.stateManager.storeActiveState(TRANSITIONING)
+        fsmExecutionContext.stateManager.storeActiveState(deriveQualifiedName().replaceAfterLast("::", TRANSITIONING))
     }
 
     override fun doExitAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {

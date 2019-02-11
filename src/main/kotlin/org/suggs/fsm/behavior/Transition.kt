@@ -57,7 +57,7 @@ class Transition(name: String,
             // TODO: region exit for composite state in the right order
             // TOTO: least common ancestor
 
-            Transition.log.debug("Transitioning from state [${source.name}] to state [${target.name}] with [${event.type}] event")
+            Transition.log.debug("Transitioning from state [${source.deriveQualifiedName()}] to state [${target.deriveQualifiedName()}] with [${event.type}] event")
 
             source.exit(event, fsmExecutionContext)
             source.doExitAction(event, fsmExecutionContext)

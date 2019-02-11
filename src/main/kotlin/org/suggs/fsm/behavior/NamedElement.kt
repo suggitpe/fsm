@@ -6,14 +6,29 @@ import org.suggs.fsm.execution.NamespaceObjectMapper
 abstract class NamedElement(val name: String)
     : NamespaceRegisterable {
 
-    fun getQualifiedName(): String {
-        return name
+    private var namespace: Namespace? = null
+    private var qualifiedName: String = ""
+
+    constructor(name: String, namespace: Namespace?) : this(name) {
+        this.namespace = namespace
     }
 
-    open fun registerMembersWithNamespace(namespaceContext: NamespaceObjectMapper){
+    fun deriveQualifiedName(): String {
+        if (qualifiedName.isNullOrBlank()) {
+
+            qualifiedName = when {
+                namespace == null -> name
+                namespace!!.name.isBlank() -> ""
+                else -> namespace!!.deriveQualifiedName() + "::" + name
+            }
+        }
+        return qualifiedName
     }
 
-    override fun registerWithNamespace(namespaceContext: NamespaceObjectMapper){
+    open fun registerMembersWithNamespace(namespaceContext: NamespaceObjectMapper) {
+    }
+
+    override fun registerWithNamespace(namespaceContext: NamespaceObjectMapper) {
         namespaceContext.registerElement(this)
         registerMembersWithNamespace(namespaceContext)
     }

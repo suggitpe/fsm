@@ -6,8 +6,8 @@ import org.suggs.fsm.execution.FsmExecutionContext
 import org.suggs.fsm.execution.NamespaceObjectMapper
 
 class PseudoState(name: String,
-                  container: Region,
-                  val kind: PseudoStateKind)
+                  container: Namespace,
+                  private val kind: PseudoStateKind)
     : Vertex(name, container) {
 
     companion object {
@@ -25,15 +25,12 @@ class PseudoState(name: String,
     }
 
     override fun doEntryAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        // no action applies
     }
 
     override fun exit(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        log.debug("Exiting PseudoState $name")
-        // no exit behavior applies
+        log.debug("Exiting PseudoState ${deriveQualifiedName()}")
     }
 
     override fun doExitAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        // no action applies
     }
 }

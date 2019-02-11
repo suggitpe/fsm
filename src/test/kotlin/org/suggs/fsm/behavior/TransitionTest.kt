@@ -16,7 +16,8 @@ import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalle
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.BusinessObjectIdentifier
 import org.suggs.fsm.execution.FsmExecutionContext
-import org.suggs.fsm.execution.StubFsmStateManager
+import org.suggs.fsm.stubs.NamespaceStub.Companion.aNamespaceStub
+import org.suggs.fsm.stubs.StubFsmStateManager
 
 class TransitionTest {
 
@@ -40,7 +41,7 @@ class TransitionTest {
                                 aTriggerCalled("trigger").firedWith(anEventCalled("event"))
                         )
                 )
-                .build()
+                .build(aNamespaceStub())
     }
 
     @Test fun `external transitions fire exit and entry behaviours`() {

@@ -8,10 +8,10 @@ import org.suggs.fsm.behavior.traits.Exitable
  * source or destination of any number of transitionBuilders.
  */
 abstract class Vertex(name: String,
-                      val container: Region,
+                      container: Namespace,
                       val incoming: MutableSet<Transition> = HashSet(),
                       val outgoing: MutableSet<Transition> = HashSet())
-    : Enterable, Exitable, NamedElement(name){
+    : Enterable, Exitable, NamedElement(name, container){
 
     fun addOutgoingTransition(transition: Transition){
         outgoing.add(transition)
@@ -19,10 +19,5 @@ abstract class Vertex(name: String,
 
     fun addIncomingTransition(transition: Transition){
         incoming.add(transition)
-    }
-
-    fun getAncestorList(): List<Region>{
-        // convert to a singleton method if we need to optimise
-        return listOf(container) + container.getAncestorList()
     }
 }
