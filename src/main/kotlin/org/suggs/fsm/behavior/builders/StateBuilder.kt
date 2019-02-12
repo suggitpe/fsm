@@ -5,7 +5,7 @@ import org.suggs.fsm.behavior.State
 import org.suggs.fsm.behavior.Vertex
 import org.suggs.fsm.behavior.builders.EmptyBehaviourBuilder.Companion.anEmptyBehavior
 
-class StateBuilder(name: String)
+open class StateBuilder(name: String)
     : VertexBuilder(name) {
 
     companion object {
@@ -14,9 +14,9 @@ class StateBuilder(name: String)
         }
     }
 
-    private val deferrableTriggers: MutableSet<TriggerBuilder> = HashSet()
-    private var entryBehavior: BehaviorBuilder = anEmptyBehavior()
-    private var exitBehavior: BehaviorBuilder = anEmptyBehavior()
+    protected val deferrableTriggers: MutableSet<TriggerBuilder> = HashSet()
+    protected var entryBehavior: BehaviorBuilder = anEmptyBehavior()
+    protected var exitBehavior: BehaviorBuilder = anEmptyBehavior()
 
     override fun withDeferrableTriggers(vararg newTriggers: TriggerBuilder): VertexBuilder {
         deferrableTriggers.addAll(newTriggers)

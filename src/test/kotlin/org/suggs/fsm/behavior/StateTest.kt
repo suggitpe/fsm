@@ -12,7 +12,6 @@ import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
 import org.suggs.fsm.execution.*
-import org.suggs.fsm.stubs.NamespaceStub
 import org.suggs.fsm.stubs.NamespaceStub.Companion.aNamespaceStub
 import org.suggs.fsm.stubs.StubFsmStateManager
 

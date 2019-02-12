@@ -11,7 +11,6 @@ import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
 import org.suggs.fsm.behavior.builders.StateBuilder.Companion.aStateCalled
 import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTransitionCalled
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
-import org.suggs.fsm.stubs.NamespaceStub
 import org.suggs.fsm.stubs.NamespaceStub.Companion.aNamespaceStub
 
 class TransitionBuilderTest {

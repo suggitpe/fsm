@@ -6,7 +6,6 @@ import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
 import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTransitionCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
-import org.suggs.fsm.stubs.NamespaceStub
 import org.suggs.fsm.stubs.NamespaceStub.Companion.aNamespaceStub
 
 class RegionBuilderTest {

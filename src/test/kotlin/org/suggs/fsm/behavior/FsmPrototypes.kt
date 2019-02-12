@@ -124,9 +124,9 @@ object FsmPrototypes {
                                     aSimpleStateCalled("state3")
                             )
                             .withTransitions(
-                                    anExternalTransitionCalled("region0_trigger1").startingAt("initial").endingAt("state1").triggeredBy(anEventCalled("e1")),
-                                    anExternalTransitionCalled("region0_trigger2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("internalEven_trigger1")),
-                                    anExternalTransitionCalled("region0_trigger3").startingAt("state1").endingAt("state3").triggeredBy(anEventCalled("internalEven_trigger2"))
+                                    anExternalTransitionCalled("region0_trans1").startingAt("initial").endingAt("state1").triggeredBy(anEventCalled("e1")),
+                                    anExternalTransitionCalled("region0_trans2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("internalEven_trigger1")),
+                                    anExternalTransitionCalled("region0_trans3").startingAt("state1").endingAt("state3").triggeredBy(anEventCalled("internalEven_trigger2"))
                             )
             )
 
@@ -135,24 +135,23 @@ object FsmPrototypes {
             aStateMachineCalled("context").withRegion(
                     aRegionCalled("region0")
                             .withVertices(
-                                    anInitialPseudoStateCalled("Initial"),
-                                    aSimpleStateCalled("region0_S0"),
-                                    aCompositeStateCalled("State1")
-                                            .withRegion(aRegionCalled("R1")
-                                                    .withVertices(
-                                                            anInitialPseudoStateCalled("R1_IS"),
-                                                            aSimpleStateCalled("R1_S1"),
-                                                            aFinalStateCalled("R1_FS"))
-                                                    .withTransitions(
-
-                                                    )
-                                            ),
-                                    aFinalStateCalled("Final"))
-                            .withTransitions(
-                                    anExternalTransitionCalled("region0_T0").startingAt("Initial").endingAt("region0_S0"),
-                                    anExternalTransitionCalled("region0_trigger1").startingAt("region0_S0").endingAt("State1"),
-                                    anExternalTransitionCalled("region0_trigger2").startingAt("State1").endingAt("Final")
+                                    anInitialPseudoStateCalled("initial"),
+                                    aSimpleStateCalled("state1"),
+                                    aSimpleStateCalled("state2"),
+                                    aCompositeStateCalled("state3"),
+                                    aFinalStateCalled("final")
                             )
+                            .withTransitions(
+                                    anExternalTransitionCalled("trans1").startingAt("initial").endingAt("state1"),
+                                    anExternalTransitionCalled("trans2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("succeeded")),
+                                    anExternalTransitionCalled("trans3").startingAt("state1").endingAt("final").triggeredBy(anEventCalled("aborted")),
+                                    anExternalTransitionCalled("trans4").startingAt("state2").endingAt("final").triggeredBy(anEventCalled("aborted")),
+                                    anExternalTransitionCalled("trans5").startingAt("state2").endingAt("state3").triggeredBy(anEventCalled("succeeded")),
+                                    anExternalTransitionCalled("trans6").startingAt("state3").endingAt("final").triggeredBy(anEventCalled("succeeded")),
+                                    anExternalTransitionCalled("trans7").startingAt("state3").endingAt("final").triggeredBy(anEventCalled("aborted")),
+                                    anExternalTransitionCalled("trans8").startingAt("state3").endingAt("state3").triggeredBy(anEventCalled("failed"))
+                            )
+
             )
 
 }

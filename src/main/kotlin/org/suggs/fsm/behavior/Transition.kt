@@ -39,14 +39,13 @@ class Transition(name: String,
         return oneOfTheTriggersIsFiredBy(event.type) && guardEvaluatesFor(event)
     }
 
-    fun oneOfTheTriggersIsFiredBy(eventType: String): Boolean {
+    private fun oneOfTheTriggersIsFiredBy(eventType: String): Boolean {
         return triggers.map { it.event }.contains(anEventCalled(eventType).build())
     }
 
     private fun guardEvaluatesFor(event: BusinessEvent): Boolean {
         return guard.evaluate(event)
     }
-
 
     interface TransitionBehaviour {
         fun fire(transition: Transition, event: BusinessEvent, fsmExecutionContext: FsmExecutionContext)

@@ -8,7 +8,7 @@ import org.suggs.fsm.behavior.Vertex
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
 
-class TransitionBuilder(val name: String, val type: TransitionKind) {
+class TransitionBuilder(var name: String, val type: TransitionKind) {
 
     companion object {
         // for transitions that
@@ -46,7 +46,7 @@ class TransitionBuilder(val name: String, val type: TransitionKind) {
         return this
     }
 
-    fun triggeredBy(vararg events: EventBuilder): TransitionBuilder{
+    fun triggeredBy(vararg events: EventBuilder): TransitionBuilder {
         triggers.removeIf { it.name == COMPLETION_EVENT_NAME }
         events.map { triggers.add(aTriggerCalled("").firedWith(it)) }
         return this
