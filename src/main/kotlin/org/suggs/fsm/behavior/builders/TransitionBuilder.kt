@@ -1,10 +1,7 @@
 package org.suggs.fsm.behavior.builders
 
-import org.suggs.fsm.behavior.EmptyConstraint
+import org.suggs.fsm.behavior.*
 import org.suggs.fsm.behavior.Event.Companion.COMPLETION_EVENT_NAME
-import org.suggs.fsm.behavior.Transition
-import org.suggs.fsm.behavior.TransitionKind
-import org.suggs.fsm.behavior.Vertex
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
 
@@ -58,13 +55,11 @@ class TransitionBuilder(var name: String, val type: TransitionKind) {
     }
 
     fun build(vertices: Map<String, Vertex>): Transition {
-        return Transition(name,
-                type,
-                vertices.getValue(startState),
-                vertices.getValue(endState),
-                triggers.map { it.build() }.toSet(),
-                EmptyConstraint(),
-                effects.map { it.build() }.toSet())
+        return when (type) {
+            TransitionKind.EXTERNAL -> ExternalTransition(name, vertices.getValue(startState), vertices.getValue(endState), triggers.map { it.build() }.toSet(), EmptyConstraint(), effects.map { it.build() }.toSet())
+            TransitionKind.INTERNAL -> InternalTransition(name, vertices.getValue(startState), vertices.getValue(endState), triggers.map { it.build() }.toSet(), EmptyConstraint(), effects.map { it.build() }.toSet())
+            else -> throw IllegalStateException("Unknow transition type")
+        }
     }
 
 }
