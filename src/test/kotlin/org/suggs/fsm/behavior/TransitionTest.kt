@@ -45,14 +45,14 @@ class TransitionTest {
     }
 
     @Test fun `external transitions fire exit and entry behaviours`() {
-        val externalTransition = ExternalTransition("T1", sourceState, targetState)
+        val externalTransition = Transition("T1", EXTERNAL, sourceState, targetState)
         externalTransition.fire(event, fsmExecutionContext)
         verify(sourceState, times(1)).doExitAction(event, fsmExecutionContext)
         verify(targetState, times(1)).doEntryAction(event, fsmExecutionContext)
     }
 
     @Test fun `internal transitions do not fire exit and entry behaviors`() {
-        val internalTransition = InternalTransition("T1", sourceState, targetState)
+        val internalTransition = Transition("T1", INTERNAL, sourceState, targetState)
         internalTransition.fire(event, fsmExecutionContext)
         verify(sourceState, never()).doExitAction(event, fsmExecutionContext)
         verify(targetState, never()).doEntryAction(event, fsmExecutionContext)
