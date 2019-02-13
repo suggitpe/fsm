@@ -1,10 +1,12 @@
 package org.suggs.fsm.behavior
 
+import org.suggs.fsm.behavior.traits.Named
+import org.suggs.fsm.behavior.traits.Namespace
 import org.suggs.fsm.behavior.traits.NamespaceRegisterable
 import org.suggs.fsm.execution.NamespaceObjectMapper
 
-abstract class NamedElement(val name: String)
-    : NamespaceRegisterable {
+abstract class NamedElement(override val name: String)
+    : NamespaceRegisterable, Named {
 
     private var namespace: Namespace? = null
     private var qualifiedName: String = ""
@@ -13,7 +15,7 @@ abstract class NamedElement(val name: String)
         this.namespace = namespace
     }
 
-    fun deriveQualifiedName(): String {
+    override fun deriveQualifiedName(): String {
         if (qualifiedName.isNullOrBlank()) {
 
             qualifiedName = when {

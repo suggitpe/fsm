@@ -4,7 +4,7 @@ import org.suggs.fsm.execution.NamespaceObjectMapper
 
 class BehavioredClassifier(name: String,
                            val ownedBehavior: Behavior)
-    : Namespace(name) {
+    : NamedElementContainer(name) {
 
     override fun registerMembersWithNamespace(namespaceContext: NamespaceObjectMapper) {
         ownedBehavior.registerWithNamespace(namespaceContext)

@@ -2,6 +2,7 @@ package org.suggs.fsm.behavior
 
 import org.suggs.fsm.behavior.traits.Enterable
 import org.suggs.fsm.behavior.traits.Exitable
+import org.suggs.fsm.behavior.traits.Namespace
 
 /**
  * Vertex is named element which is an abstraction of a node in a state machine graph. In general, it can be the

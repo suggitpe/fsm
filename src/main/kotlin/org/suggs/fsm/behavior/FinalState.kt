@@ -1,5 +1,6 @@
 package org.suggs.fsm.behavior
 
+import org.suggs.fsm.behavior.traits.Namespace
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
 

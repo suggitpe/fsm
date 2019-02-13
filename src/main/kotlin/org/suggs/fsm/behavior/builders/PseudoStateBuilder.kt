@@ -1,6 +1,6 @@
 package org.suggs.fsm.behavior.builders
 
-import org.suggs.fsm.behavior.Namespace
+import org.suggs.fsm.behavior.NamedElementContainer
 import org.suggs.fsm.behavior.PseudoState
 import org.suggs.fsm.behavior.PseudoStateKind
 import org.suggs.fsm.behavior.Vertex
@@ -22,7 +22,7 @@ class PseudoStateBuilder(name: String,
         throw IllegalStateException("You cannot define entry and exit behaviors on pseudo states")
     }
 
-    override fun build(container: Namespace): Vertex {
+    override fun build(container: NamedElementContainer): Vertex {
         return PseudoState(name, container, pseudoStateKind)
     }
 

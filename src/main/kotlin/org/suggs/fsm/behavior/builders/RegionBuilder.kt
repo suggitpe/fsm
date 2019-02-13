@@ -1,6 +1,6 @@
 package org.suggs.fsm.behavior.builders
 
-import org.suggs.fsm.behavior.Namespace
+import org.suggs.fsm.behavior.NamedElementContainer
 import org.suggs.fsm.behavior.Region
 
 class RegionBuilder(val name: String) {
@@ -24,7 +24,7 @@ class RegionBuilder(val name: String) {
         return this
     }
 
-    fun build(container: Namespace): Region {
+    fun build(container: NamedElementContainer): Region {
         val region = Region(name, container)
         val vertices = vertexBuilders.map { it.name to it.build(region) }.toMap()
         val transitions = transitionBuilders.map { it.name to it.build(vertices) }.toMap()

@@ -1,8 +1,8 @@
 package org.suggs.fsm.stubs
 
-import org.suggs.fsm.behavior.Namespace
+import org.suggs.fsm.behavior.NamedElementContainer
 
-class NamespaceStub(name: String) : Namespace(name, setOf()) {
+class NamespaceStub(name: String) : NamedElementContainer(name, setOf()) {
     companion object {
         fun aNamespaceStub(): NamespaceStub {
             return NamespaceStub("Context")

@@ -3,10 +3,9 @@ package org.suggs.fsm.behavior
 import org.slf4j.LoggerFactory
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
-import org.suggs.fsm.execution.NamespaceObjectMapper
 
 class PseudoState(name: String,
-                  container: Namespace,
+                  container: NamedElementContainer,
                   private val kind: PseudoStateKind)
     : Vertex(name, container) {
 

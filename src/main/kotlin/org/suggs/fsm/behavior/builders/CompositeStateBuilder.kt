@@ -1,9 +1,8 @@
 package org.suggs.fsm.behavior.builders
 
-import org.suggs.fsm.behavior.Namespace
+import org.suggs.fsm.behavior.NamedElementContainer
 import org.suggs.fsm.behavior.State
 import org.suggs.fsm.behavior.Vertex
-import org.suggs.fsm.behavior.builders.EmptyBehaviourBuilder.Companion.anEmptyBehavior
 
 class CompositeStateBuilder(name: String) :
         StateBuilder(name) {
@@ -14,7 +13,7 @@ class CompositeStateBuilder(name: String) :
         return this
     }
 
-    override fun build(container: Namespace): Vertex {
+    override fun build(container: NamedElementContainer): Vertex {
         return State(name,
                 container,
                 deferrableTriggers.map { it.build() }.toSet(),

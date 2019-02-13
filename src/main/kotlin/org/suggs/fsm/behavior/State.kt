@@ -3,6 +3,7 @@ package org.suggs.fsm.behavior
 import org.slf4j.LoggerFactory
 import org.suggs.fsm.behavior.Event.Companion.COMPLETION_EVENT_NAME
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
+import org.suggs.fsm.behavior.traits.Namespace
 import org.suggs.fsm.behavior.traits.Processable
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext

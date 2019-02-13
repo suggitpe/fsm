@@ -1,7 +1,7 @@
 package org.suggs.fsm.behavior.builders
 
 import org.suggs.fsm.behavior.FinalState
-import org.suggs.fsm.behavior.Namespace
+import org.suggs.fsm.behavior.NamedElementContainer
 import org.suggs.fsm.behavior.Vertex
 import org.suggs.fsm.behavior.builders.EmptyBehaviourBuilder.Companion.anEmptyBehavior
 
@@ -20,7 +20,7 @@ class FinalStateBuilder(name: String)
         throw IllegalStateException("You cannot define exit behaviors on final states")
     }
 
-    override fun build(container: Namespace): Vertex {
+    override fun build(container: NamedElementContainer): Vertex {
         return FinalState(name,
                 container,
                 anEmptyBehavior().build(),
