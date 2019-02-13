@@ -138,7 +138,18 @@ object FsmPrototypes {
                                     anInitialPseudoStateCalled("initial"),
                                     aSimpleStateCalled("state1"),
                                     aSimpleStateCalled("state2"),
-                                    aCompositeStateCalled("state3"),
+                                    aCompositeStateCalled("state3").withRegion(
+                                            aRegionCalled("region1").
+                                                    withVertices(
+                                                            anInitialPseudoStateCalled("initial"),
+                                                            aSimpleStateCalled("state1"),
+                                                            aSimpleStateCalled("state2")
+                                                    )
+                                                    .withTransitions(
+                                                            anExternalTransitionCalled("trans1").startingAt("initial").endingAt("state1"),
+                                                            anExternalTransitionCalled("trans2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("enough"))
+                                                    )
+                                    ),
                                     aFinalStateCalled("final")
                             )
                             .withTransitions(
