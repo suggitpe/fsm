@@ -8,7 +8,7 @@ import org.suggs.fsm.behavior.Event.Companion.COMPLETION_EVENT_NAME
 import org.suggs.fsm.behavior.Vertex
 import org.suggs.fsm.behavior.builders.BehaviorBuilder.Companion.aBehaviorCalled
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
-import org.suggs.fsm.behavior.builders.StateBuilder.Companion.aStateCalled
+import org.suggs.fsm.behavior.builders.SimpleStateBuilder.Companion.aStateCalled
 import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTransitionCalled
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
 import org.suggs.fsm.stubs.NamespaceStub.Companion.aNamespaceStub

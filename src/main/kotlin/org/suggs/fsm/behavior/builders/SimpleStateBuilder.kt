@@ -1,16 +1,16 @@
 package org.suggs.fsm.behavior.builders
 
 import org.suggs.fsm.behavior.NamedElementContainer
-import org.suggs.fsm.behavior.State
+import org.suggs.fsm.behavior.SimpleState
 import org.suggs.fsm.behavior.Vertex
 import org.suggs.fsm.behavior.builders.EmptyBehaviourBuilder.Companion.anEmptyBehavior
 
-open class StateBuilder(name: String)
+open class SimpleStateBuilder(name: String)
     : VertexBuilder(name) {
 
     companion object {
-        fun aStateCalled(name: String): StateBuilder {
-            return StateBuilder(name)
+        fun aStateCalled(name: String): SimpleStateBuilder {
+            return SimpleStateBuilder(name)
         }
     }
 
@@ -34,7 +34,7 @@ open class StateBuilder(name: String)
     }
 
     override fun build(container: NamedElementContainer): Vertex {
-        return State(name,
+        return SimpleState(name,
                 container,
                 deferrableTriggers.map { it.build() }.toSet(),
                 entryBehavior.build(),

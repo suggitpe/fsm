@@ -1,25 +1,33 @@
 package org.suggs.fsm.behavior.builders
 
 import org.suggs.fsm.behavior.NamedElementContainer
-import org.suggs.fsm.behavior.PseudoStateKind
+import org.suggs.fsm.behavior.PseudoStateKind.*
 import org.suggs.fsm.behavior.Vertex
 
 abstract class VertexBuilder(val name: String) {
     companion object {
 
-        fun anInitialPseudoStateCalled(name: String): VertexBuilder {
-            return PseudoStateBuilder(name, PseudoStateKind.INITIAL)
+        fun anInitialPseudoStateCalled(name: String): PseudoStateBuilder {
+            return PseudoStateBuilder(name, INITIAL)
         }
 
-        fun aSimpleStateCalled(name: String): VertexBuilder {
-            return StateBuilder(name)
+        fun anEntryPointPseudoStateCalled(name: String): PseudoStateBuilder {
+            return PseudoStateBuilder(name, ENTRY_POINT)
+        }
+
+        fun anExitPointPseudoStateCalled(name: String): PseudoStateBuilder {
+            return PseudoStateBuilder(name, EXIT_POINT)
+        }
+
+        fun aSimpleStateCalled(name: String): SimpleStateBuilder {
+            return SimpleStateBuilder(name)
         }
 
         fun aCompositeStateCalled(name: String): CompositeStateBuilder {
             return CompositeStateBuilder(name)
         }
 
-        fun aFinalStateCalled(name: String): VertexBuilder {
+        fun aFinalStateCalled(name: String): FinalStateBuilder {
             return FinalStateBuilder(name)
         }
 

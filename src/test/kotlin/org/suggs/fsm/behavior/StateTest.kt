@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
-import org.suggs.fsm.behavior.builders.StateBuilder.Companion.aStateCalled
+import org.suggs.fsm.behavior.builders.SimpleStateBuilder.Companion.aStateCalled
 import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTransitionCalled
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
