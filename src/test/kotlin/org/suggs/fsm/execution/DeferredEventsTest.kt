@@ -40,11 +40,7 @@ class DeferredEventsTest {
     }
 
     private fun theResultingState() = stateManager.getActiveState()
-
-    private fun fsmWithDeferredTransitions() = fsmWithDeferredTransitionsPrototype().build()
-    private fun fsmWithDeferredAndAutomatedTransitions() = fsmWithDeferredAndAutomatedTransitionsPrototype().build()
-
-    private fun createAStateMachineContextWithDeferredEvents() = FsmExecutionEnvironment(fsmWithDeferredTransitions(), fsmExecutionContext)
-    private fun createAStatemachineWithDeferredAndAutomaticTransitions() = FsmExecutionEnvironment(fsmWithDeferredAndAutomatedTransitions(), fsmExecutionContext)
+    private fun createAStateMachineContextWithDeferredEvents() = FsmExecutionEnvironment(fsmWithDeferredTransitionsPrototype().build(), fsmExecutionContext)
+    private fun createAStatemachineWithDeferredAndAutomaticTransitions() = FsmExecutionEnvironment(fsmWithDeferredAndAutomatedTransitionsPrototype().build(), fsmExecutionContext)
 
 }

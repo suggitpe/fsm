@@ -56,7 +56,6 @@ class SimpleStateMachineNavigation {
     }
 
     private fun aSimpleEventCalled(eventName: String): BusinessEvent = BusinessEvent(eventName, BusinessObjectIdentifier("domain", "id", 0))
-    private fun simpleStateMachineWithTwoOutcomes(): BehavioredClassifier = fsmWithTwoOutcomesPrototype().build()
-    private fun createAStateMachineContextWithSimpleRouting() = FsmExecutionEnvironment(simpleStateMachineWithTwoOutcomes(), fsmExecutionContext)
+    private fun createAStateMachineContextWithSimpleRouting() = FsmExecutionEnvironment(fsmWithTwoOutcomesPrototype().build(), fsmExecutionContext)
     private fun theResultingState() = stateManager.getActiveState()
 }

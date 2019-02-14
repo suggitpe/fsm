@@ -15,11 +15,6 @@ class FsmExecutionEnvironmentTest {
     private val stateManager: StubFsmStateManager = StubFsmStateManager()
     private val fsmExecutionContext: FsmExecutionContext = FsmExecutionContext(stateManager)
 
-    @Test
-    fun `describes simple state machines`() {
-        writePumlToFile(generateUmlFor(simpleFsmPrototype().build()), "simpleFsm.puml")
-    }
-
     @Test fun `handles simple events to transition to new state and records transitions`() {
         val executionEnvironment = createAStateMachineContextWithSimpleStates()
         executionEnvironment.handleEvent(aBusinessEventCalled("realEvent"))
@@ -28,7 +23,6 @@ class FsmExecutionEnvironmentTest {
         stateManager.printAudits()
     }
 
-    private fun simpleStateMachine(): BehavioredClassifier = simpleFsmPrototype().build()
-    private fun createAStateMachineContextWithSimpleStates() = FsmExecutionEnvironment(simpleStateMachine(), fsmExecutionContext)
+    private fun createAStateMachineContextWithSimpleStates() = FsmExecutionEnvironment(simpleFsmPrototype().build(), fsmExecutionContext)
     private fun theResultingState() = stateManager.getActiveState()
 }

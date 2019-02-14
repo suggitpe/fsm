@@ -1,5 +1,6 @@
 package org.suggs.fsm.behavior.builders
 
+import org.suggs.fsm.behavior.CompositeState
 import org.suggs.fsm.behavior.NamedElementContainer
 import org.suggs.fsm.behavior.SimpleState
 import org.suggs.fsm.behavior.Vertex
@@ -14,11 +15,13 @@ class CompositeStateBuilder(name: String) :
     }
 
     override fun build(container: NamedElementContainer): Vertex {
-        return SimpleState(name,
+        val compositeState = CompositeState(name,
                 container,
                 deferrableTriggers.map { it.build() }.toSet(),
                 entryBehavior.build(),
                 exitBehavior.build())
+        compositeState.region = region.build(compositeState)
+        return compositeState
     }
 
 }
