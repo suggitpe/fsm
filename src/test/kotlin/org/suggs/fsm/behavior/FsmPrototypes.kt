@@ -147,7 +147,8 @@ object FsmPrototypes {
                                                     )
                                                     .withTransitions(
                                                             anExternalTransitionCalled("trans1").startingAt("initial").endingAt("state1"),
-                                                            anExternalTransitionCalled("trans2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("enough"))
+                                                            anExternalTransitionCalled("trans2").startingAt("state1").endingAt("state1").triggeredBy(anEventCalled("New Data")),
+                                                            anExternalTransitionCalled("trans3").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("enough"))
                                                     )
                                     ),
                                     aFinalStateCalled("final")
