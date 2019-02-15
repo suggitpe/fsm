@@ -12,17 +12,11 @@ class SimpleState(name: String,
                   exitBehavior: Behavior)
     : State(name, container, deferrableTriggers, entryBehavior, exitBehavior) {
 
-    override fun doEntryAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        entryBehavior.execute(event)
-    }
+
 
     override fun exit(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
         log.debug("Exiting state [$name]")
         fsmExecutionContext.stateManager.storeActiveState(deriveQualifiedName().replaceAfterLast("::", TRANSITIONING))
-    }
-
-    override fun doExitAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        exitBehavior.execute(event)
     }
 
     override fun enter(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {

@@ -50,4 +50,11 @@ abstract class State(name: String,
         return deferredEvents.filter { event -> event.name in eventsFromOutgoingTriggers }.toSet()
     }
 
+    override fun doEntryAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
+        entryBehavior.execute(event)
+    }
+
+    override fun doExitAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
+        exitBehavior.execute(event)
+    }
 }

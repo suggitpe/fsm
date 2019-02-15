@@ -18,17 +18,8 @@ class CompositeState(name: String,
         throw NotImplementedError()
     }
 
-    override fun doEntryAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        throw NotImplementedError()
-    }
-
     override fun exit(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
         throw NotImplementedError()
     }
-
-    override fun doExitAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        throw NotImplementedError()
-    }
-
 
 }
