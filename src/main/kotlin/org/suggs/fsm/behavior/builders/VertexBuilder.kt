@@ -1,8 +1,8 @@
 package org.suggs.fsm.behavior.builders
 
-import org.suggs.fsm.behavior.NamedElementContainer
 import org.suggs.fsm.behavior.PseudoStateKind.*
 import org.suggs.fsm.behavior.Vertex
+import org.suggs.fsm.behavior.traits.Namespace
 
 abstract class VertexBuilder(val name: String) {
     companion object {
@@ -36,6 +36,6 @@ abstract class VertexBuilder(val name: String) {
     abstract fun withDeferrableTriggers(vararg newTriggers: TriggerBuilder): VertexBuilder
     abstract fun withEntryBehavior(behavior: BehaviorBuilder): VertexBuilder
     abstract fun withExitBehavior(behavior: BehaviorBuilder): VertexBuilder
-    abstract fun build(container: NamedElementContainer): Vertex
+    abstract fun build(container: Namespace): Vertex
 
 }

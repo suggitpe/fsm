@@ -12,14 +12,17 @@ class CompositeState(name: String,
     : State(name, container, deferrableTriggers, entryBehavior, exitBehavior), Namespace {
 
     lateinit var region: Region
+    lateinit var entryPoint: PseudoState
+    lateinit var exitPoint: PseudoState
     override val ownedMembers: Set<NamedElement> = HashSet()
 
     override fun enter(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        throw NotImplementedError()
+        fsmExecutionContext.stateManager.storeActiveState(deriveQualifiedName())
+        entryPoint.enter(event, fsmExecutionContext)
     }
 
     override fun exit(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        throw NotImplementedError()
+        exitPoint.exit(event, fsmExecutionContext)
     }
 
 }

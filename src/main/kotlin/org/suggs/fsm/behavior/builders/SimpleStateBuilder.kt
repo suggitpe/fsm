@@ -1,9 +1,9 @@
 package org.suggs.fsm.behavior.builders
 
-import org.suggs.fsm.behavior.NamedElementContainer
 import org.suggs.fsm.behavior.SimpleState
 import org.suggs.fsm.behavior.Vertex
 import org.suggs.fsm.behavior.builders.EmptyBehaviourBuilder.Companion.anEmptyBehavior
+import org.suggs.fsm.behavior.traits.Namespace
 
 open class SimpleStateBuilder(name: String)
     : VertexBuilder(name) {
@@ -33,7 +33,7 @@ open class SimpleStateBuilder(name: String)
         return this
     }
 
-    override fun build(container: NamedElementContainer): Vertex {
+    override fun build(container: Namespace): Vertex {
         return SimpleState(name,
                 container,
                 deferrableTriggers.map { it.build() }.toSet(),
