@@ -13,8 +13,8 @@ abstract class Vertex(name: String,
                       val incoming: MutableSet<Transition> = HashSet(),
                       val outgoing: MutableSet<Transition> = HashSet())
     : Enterable, Exitable, NamedElement(name, container){
-
-    fun addOutgoingTransition(transition: Transition){
+    
+        fun addOutgoingTransition(transition: Transition){
         outgoing.add(transition)
     }
 

@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.suggs.fsm.behavior.FinalState.Companion.DEFAULT_FINAL_STATE_NAME
 import org.suggs.fsm.behavior.builders.FsmPrototypes.nestedStateStateMachinePrototype
 import org.suggs.fsm.stubs.BusinessEventStub
 import org.suggs.fsm.stubs.StubFsmStateManager
@@ -25,7 +26,7 @@ class CompositeStateTransitionTest {
 
         stateManager.printAudits()
 
-        assertThat(theResultingState()).endsWith("final")
+        assertThat(theResultingState()).endsWith(DEFAULT_FINAL_STATE_NAME)
     }
 
     @Test fun `handles abort event to final`() {
@@ -33,16 +34,16 @@ class CompositeStateTransitionTest {
 
         stateManager.printAudits()
 
-        assertThat(theResultingState()).endsWith("final")
+        assertThat(theResultingState()).endsWith(DEFAULT_FINAL_STATE_NAME)
     }
 
-    @Test fun `handles series of events to aborted`(){
+    @Test fun `handles series of events to aborted`() {
         executionEnvironment.handleEvent(BusinessEventStub.aBusinessEventCalled("succeeded"))
         executionEnvironment.handleEvent(BusinessEventStub.aBusinessEventCalled("aborted"))
 
         stateManager.printAudits()
 
-        assertThat(theResultingState()).endsWith("final")
+        assertThat(theResultingState()).endsWith(DEFAULT_FINAL_STATE_NAME)
     }
 
     private fun createAStateMachineContextWithCompositeStates() = FsmExecutionEnvironment(nestedStateStateMachinePrototype().build(), fsmExecutionContext)

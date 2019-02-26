@@ -1,10 +1,8 @@
 package org.suggs.fsm.behavior.builders
 
-import org.suggs.fsm.behavior.EmptyConstraint
+import org.suggs.fsm.behavior.*
 import org.suggs.fsm.behavior.Event.Companion.COMPLETION_EVENT_NAME
-import org.suggs.fsm.behavior.Transition
-import org.suggs.fsm.behavior.TransitionKind
-import org.suggs.fsm.behavior.Vertex
+import org.suggs.fsm.behavior.FinalState.Companion.DEFAULT_FINAL_STATE_NAME
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
 
@@ -35,8 +33,18 @@ class TransitionBuilder(var name: String, val type: TransitionKind) {
         return this
     }
 
+    fun startingAtInitialState(): TransitionBuilder {
+        startState = PseudoStateKind.INITIAL.toString()
+        return this
+    }
+
     fun endingAt(stateName: String): TransitionBuilder {
         endState = stateName
+        return this
+    }
+
+    fun endingAtFinalState(): TransitionBuilder {
+        endState = DEFAULT_FINAL_STATE_NAME
         return this
     }
 

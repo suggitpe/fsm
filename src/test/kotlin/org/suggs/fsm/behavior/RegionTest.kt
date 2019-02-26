@@ -14,7 +14,7 @@ class RegionTest {
 
     @Test
     fun `regions have initial states`() {
-                val region = aRegionCalled("foo").withVertices(
+        val region = aRegionCalled("foo").withVertices(
                 anInitialPseudoStateCalled("initial"),
                 aSimpleStateCalled("state"),
                 aFinalStateCalled("final")
@@ -30,6 +30,6 @@ class RegionTest {
                 aFinalStateCalled("final")
         ).build(aNamespaceStub())
 
-        assertThrows<IllegalStateException>{region.getInitialState()}
+        assertThrows<IllegalStateException> { region.getInitialState() }
     }
 }

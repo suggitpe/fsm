@@ -10,5 +10,5 @@ enum class PseudoStateKind {
     CHOICE,
     ENTRY_POINT,
     EXIT_POINT,
-    TERMINATE
+    TERMINATE;
 }

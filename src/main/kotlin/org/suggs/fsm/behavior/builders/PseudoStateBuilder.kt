@@ -8,6 +8,7 @@ class PseudoStateBuilder(name: String,
                          private val pseudoStateKind: PseudoStateKind)
     : VertexBuilder(name) {
 
+    constructor(pseudoStateKind: PseudoStateKind): this(pseudoStateKind.toString(), pseudoStateKind)
 
     override fun withDeferrableTriggers(vararg newTriggers: TriggerBuilder): VertexBuilder {
         throw IllegalStateException("You cannot define deferrable triggers on a pseudo state")

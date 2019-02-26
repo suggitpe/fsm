@@ -1,12 +1,15 @@
 package org.suggs.fsm.behavior.builders
 
 import org.suggs.fsm.behavior.FinalState
+import org.suggs.fsm.behavior.FinalState.Companion.DEFAULT_FINAL_STATE_NAME
 import org.suggs.fsm.behavior.Vertex
 import org.suggs.fsm.behavior.builders.EmptyBehaviourBuilder.Companion.anEmptyBehavior
 import org.suggs.fsm.behavior.traits.Namespace
 
 class FinalStateBuilder(name: String)
     : VertexBuilder(name) {
+
+    constructor() : this(DEFAULT_FINAL_STATE_NAME)
 
     override fun withDeferrableTriggers(vararg newTriggers: TriggerBuilder): VertexBuilder {
         throw IllegalStateException("You cannot set deferrable triggers on a final state")

@@ -27,4 +27,8 @@ class Region(name: String,
     fun findTransitionCalled(transitionName: String): Transition {
         return transitions[transitionName] as Transition
     }
+
+//    fun addVertex(vararg newVertices: Vertex) {
+//        newVertices.map{vertices.}
+//    }
 }

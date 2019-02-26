@@ -11,12 +11,16 @@ abstract class VertexBuilder(val name: String) {
             return PseudoStateBuilder(name, INITIAL)
         }
 
-        fun anEntryPointPseudoStateCalled(name: String): PseudoStateBuilder {
-            return PseudoStateBuilder(name, ENTRY_POINT)
+        fun anInitialPseudoState(): PseudoStateBuilder{
+            return PseudoStateBuilder(INITIAL)
         }
 
-        fun anExitPointPseudoStateCalled(name: String): PseudoStateBuilder {
-            return PseudoStateBuilder(name, EXIT_POINT)
+        fun anEntryPointPseudoState(): PseudoStateBuilder {
+            return PseudoStateBuilder(ENTRY_POINT)
+        }
+
+        fun anExitPointPseudoState(): PseudoStateBuilder {
+            return PseudoStateBuilder(EXIT_POINT)
         }
 
         fun aSimpleStateCalled(name: String): SimpleStateBuilder {
@@ -29,6 +33,10 @@ abstract class VertexBuilder(val name: String) {
 
         fun aFinalStateCalled(name: String): FinalStateBuilder {
             return FinalStateBuilder(name)
+        }
+
+        fun aFinalState(): FinalStateBuilder{
+            return FinalStateBuilder()
         }
 
     }

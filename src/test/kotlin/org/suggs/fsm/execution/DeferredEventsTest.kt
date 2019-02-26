@@ -2,6 +2,7 @@ package org.suggs.fsm.execution
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.suggs.fsm.behavior.FinalState.Companion.DEFAULT_FINAL_STATE_NAME
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithDeferredAndAutomatedTransitionsPrototype
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithDeferredTransitionsPrototype
 import org.suggs.fsm.stubs.BusinessEventStub.Companion.aBusinessEventCalled
@@ -20,7 +21,7 @@ class DeferredEventsTest {
         executionEnvironment.handleEvent(aBusinessEventCalled("realEvent"))
 
         stateManager.printAudits()
-        assertThat(theResultingState()).endsWith("final")
+        assertThat(theResultingState()).endsWith(DEFAULT_FINAL_STATE_NAME)
     }
 
     @Test fun `transitions automatic transitions over deferred events`() {

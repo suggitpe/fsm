@@ -10,6 +10,10 @@ class FinalState(name: String,
                  exitBehavior: Behavior)
     : State(name, container, HashSet(), entryBehavior, exitBehavior) {
 
+    companion object {
+        const val DEFAULT_FINAL_STATE_NAME = "FINAL"
+    }
+
     override fun enter(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
         fsmExecutionContext.stateManager.storeActiveState(deriveQualifiedName())
         // TODO send a completion event to the composite state if it exists

@@ -18,7 +18,7 @@ class FsmExecutionEnvironmentTest {
     @Test fun `handles simple events to transition to new state and records transitions`() {
         val executionEnvironment = createAStateMachineContextWithSimpleStates()
         executionEnvironment.handleEvent(aBusinessEventCalled("realEvent"))
-        assertThat(theResultingState()).endsWith("final")
+        assertThat(theResultingState()).endsWith("FINAL")
 
         stateManager.printAudits()
     }
