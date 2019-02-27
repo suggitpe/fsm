@@ -10,7 +10,7 @@ class Region(name: String,
     : NamedElementContainer(name, container) {
 
     fun getInitialState(): Vertex {
-        val pseudoState = vertices.values.find { it -> it is PseudoState && it.isInitialPseudoState() }
+        val pseudoState = vertices.values.find { it is PseudoState && it.isInitialPseudoState() }
         if (pseudoState != null) return pseudoState
         else throw IllegalStateException("No initial state defined for region $name")
     }
@@ -28,7 +28,4 @@ class Region(name: String,
         return transitions[transitionName] as Transition
     }
 
-//    fun addVertex(vararg newVertices: Vertex) {
-//        newVertices.map{vertices.}
-//    }
 }

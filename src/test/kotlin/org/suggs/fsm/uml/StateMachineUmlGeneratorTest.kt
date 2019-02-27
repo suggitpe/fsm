@@ -6,6 +6,7 @@ import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithEntryAndExitBehavior
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithTwoOutcomesPrototype
 import org.suggs.fsm.behavior.builders.FsmPrototypes.nestedStateStateMachinePrototype
 import org.suggs.fsm.behavior.builders.FsmPrototypes.simpleFsmPrototype
+import org.suggs.fsm.behavior.builders.FsmPrototypes.simpleNestedStatemachineProtoType
 import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.generateUmlFor
 import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.writePumlToFile
 
@@ -29,6 +30,11 @@ class StateMachineUmlGeneratorTest {
     @Test
     fun `describes state machine with deferred and automated transitions`() {
         writePumlToFile(generateUmlFor(FsmPrototypes.fsmWithDeferredAndAutomatedTransitionsPrototype().build()), "deferredAndAutomatedTransitions.puml")
+    }
+
+    @Test
+    fun `describes a simple composite State machine`(){
+        writePumlToFile(generateUmlFor(simpleNestedStatemachineProtoType().build()), "simpleCompositeFsm.puml")
     }
 
     @Test

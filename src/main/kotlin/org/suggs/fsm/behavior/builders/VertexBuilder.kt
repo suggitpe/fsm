@@ -1,8 +1,8 @@
 package org.suggs.fsm.behavior.builders
 
 import org.suggs.fsm.behavior.PseudoStateKind.*
+import org.suggs.fsm.behavior.Region
 import org.suggs.fsm.behavior.Vertex
-import org.suggs.fsm.behavior.traits.Namespace
 
 abstract class VertexBuilder(val name: String) {
     companion object {
@@ -11,7 +11,7 @@ abstract class VertexBuilder(val name: String) {
             return PseudoStateBuilder(name, INITIAL)
         }
 
-        fun anInitialPseudoState(): PseudoStateBuilder{
+        fun anInitialPseudoState(): PseudoStateBuilder {
             return PseudoStateBuilder(INITIAL)
         }
 
@@ -35,7 +35,7 @@ abstract class VertexBuilder(val name: String) {
             return FinalStateBuilder(name)
         }
 
-        fun aFinalState(): FinalStateBuilder{
+        fun aFinalState(): FinalStateBuilder {
             return FinalStateBuilder()
         }
 
@@ -44,6 +44,6 @@ abstract class VertexBuilder(val name: String) {
     abstract fun withDeferrableTriggers(vararg newTriggers: TriggerBuilder): VertexBuilder
     abstract fun withEntryBehavior(behavior: BehaviorBuilder): VertexBuilder
     abstract fun withExitBehavior(behavior: BehaviorBuilder): VertexBuilder
-    abstract fun build(container: Namespace): Vertex
+    abstract fun build(container: Region): Vertex
 
 }

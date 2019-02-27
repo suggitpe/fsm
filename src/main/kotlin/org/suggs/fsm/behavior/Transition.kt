@@ -70,7 +70,7 @@ class Transition(name: String,
 
     inner class InternalTransitionBehavior : TransitionBehaviour {
         override fun fire(transition: Transition, event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-            Transition.log.debug("Internally transitioning from ${source.name} to ${target.name}")
+            Transition.log.debug("Internally transitioning from [${source.name}] to [${target.name}]")
 
             source.exit(event, fsmExecutionContext)
 

@@ -9,7 +9,7 @@ import org.suggs.fsm.behavior.traits.Namespace
  * source or destination of any number of transitionBuilders.
  */
 abstract class Vertex(name: String,
-                      container: Namespace,
+                      val container: Region,
                       val incoming: MutableSet<Transition> = HashSet(),
                       val outgoing: MutableSet<Transition> = HashSet())
     : Enterable, Exitable, NamedElement(name, container){

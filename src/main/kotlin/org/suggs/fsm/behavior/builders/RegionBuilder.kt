@@ -1,5 +1,6 @@
 package org.suggs.fsm.behavior.builders
 
+import org.suggs.fsm.behavior.PseudoStateKind
 import org.suggs.fsm.behavior.Region
 import org.suggs.fsm.behavior.traits.Namespace
 
@@ -22,6 +23,12 @@ class RegionBuilder(val name: String) {
     fun withTransitions(vararg transitions: TransitionBuilder): RegionBuilder {
         this.transitionBuilders.addAll(transitions)
         return this
+    }
+
+    fun findInitialStateVertex(): VertexBuilder{
+        val initialStateBuilder = vertexBuilders.find { it is PseudoStateBuilder && it.pseudoStateKind == PseudoStateKind.INITIAL }
+        if(initialStateBuilder != null ) return initialStateBuilder
+        else throw IllegalStateException("Could not find initial state builder in region builder $name")
     }
 
     fun build(container: Namespace): Region {

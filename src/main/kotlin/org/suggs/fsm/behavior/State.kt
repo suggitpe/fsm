@@ -9,7 +9,7 @@ import org.suggs.fsm.execution.FsmExecutionContext
 import org.suggs.fsm.execution.UnprocessableEventException
 
 abstract class State(name: String,
-                     container: Namespace,
+                     container: Region,
                      private val deferrableTriggers: Set<Trigger>,
                      val entryBehavior: Behavior,
                      val exitBehavior: Behavior)

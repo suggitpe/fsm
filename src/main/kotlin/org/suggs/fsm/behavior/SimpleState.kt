@@ -1,17 +1,15 @@
 package org.suggs.fsm.behavior
 
-import org.suggs.fsm.behavior.traits.Namespace
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
 import org.suggs.fsm.execution.UnprocessableEventException
 
 class SimpleState(name: String,
-                  container: Namespace,
+                  container: Region,
                   private val deferrableTriggers: Set<Trigger>,
                   entryBehavior: Behavior,
                   exitBehavior: Behavior)
     : State(name, container, deferrableTriggers, entryBehavior, exitBehavior) {
-
 
 
     override fun exit(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {

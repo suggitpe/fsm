@@ -3,7 +3,6 @@ package org.suggs.fsm.uml
 import org.slf4j.LoggerFactory
 import org.suggs.fsm.behavior.*
 import java.io.File
-import java.lang.StringBuilder
 
 class StateMachineUmlGenerator {
 
@@ -31,7 +30,7 @@ class StateMachineUmlGenerator {
                 |@enduml""".trimMargin()
         }
 
-        fun generateUmlFor(machine: StateMachine): String{
+        fun generateUmlFor(machine: StateMachine): String {
             return generateUmlFor(machine.region)
         }
 
@@ -39,12 +38,12 @@ class StateMachineUmlGenerator {
             val puml = StringBuilder()
 
             puml.append("\n' states ....")
-            for(state in region.vertices.values){
-                puml.append("\n${createUmlDefinitionFor(state, region.name)}")
+            for (vertex in region.vertices.values) {
+                puml.append("\n${createUmlDefinitionFor(vertex, region.name)}")
             }
 
             puml.append("\n\n' transitions ...")
-            for(transition in region.transitions.values){
+            for (transition in region.transitions.values) {
                 puml.append("\n${createUmlSyntaxFor(transition, region.name)}")
             }
 
@@ -76,8 +75,7 @@ class StateMachineUmlGenerator {
                 is CompositeState -> {
                     """State ${prefix}_${vertex.name} { ${createEntryBehaviorFor(vertex)} ${createExitBehaviorFor(vertex)}
                         | ${generateUmlFor(vertex.region)}
-                        |}
-                    """.trimMargin()
+                        |}""".trimMargin()
                 }
                 else -> ""
             }
@@ -97,7 +95,10 @@ class StateMachineUmlGenerator {
         fun createUmlSyntaxFor(element: NamedElement, prefix: String): String {
             return when (element) {
                 is Transition -> {
-                    "${createUmlSyntaxFor(element.source, prefix)} --> ${createUmlSyntaxFor(element.target, prefix)} ${addTriggersFor(element)}"
+                    if (element.type != TransitionKind.INTERNAL)
+                        "${createUmlSyntaxFor(element.source, prefix)} --> ${createUmlSyntaxFor(element.target, prefix)} ${addTriggersFor(element)}"
+                    else
+                        ""
                 }
                 is PseudoState -> "[*]"
                 is FinalState -> "[*]"

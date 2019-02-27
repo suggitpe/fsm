@@ -2,7 +2,6 @@ package org.suggs.fsm.behavior
 
 import org.slf4j.LoggerFactory
 import org.suggs.fsm.behavior.PseudoStateKind.*
-import org.suggs.fsm.behavior.traits.Namespace
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
 
@@ -11,14 +10,14 @@ import org.suggs.fsm.execution.FsmExecutionContext
  * support the different pseudo state types.
  */
 class PseudoState(name: String,
-                  container: Namespace,
+                  container: Region,
                   private val kind: PseudoStateKind)
     : Vertex(name, container) {
 
     private var behavior: PseudoStateBehaviour = when (kind) {
         INITIAL -> InitialPseudoStateBehavior()
-        ENTRY_POINT -> EntryPointPseudoStateBehavoir()
-        EXIT_POINT -> ExitPointPseudoStateBehavoir()
+        ENTRY_POINT -> EntryPointPseudoStateBehavior()
+        EXIT_POINT -> ExitPointPseudoStateBehavior()
         else -> throw IllegalStateException("Trying to initialise unsupported PseudoStateBehaviour")
     }
 
@@ -62,9 +61,10 @@ class PseudoState(name: String,
         }
     }
 
-    inner class EntryPointPseudoStateBehavoir : PseudoStateBehaviour {
+    inner class EntryPointPseudoStateBehavior : PseudoStateBehaviour {
+
         override fun enter(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-            if(outgoing.size != 1)
+            if (outgoing.size != 1)
                 throw IllegalStateException("Entry point Pseudostate must have exactly 1 outgoing transition")
             outgoing.first().fire(event, fsmExecutionContext)
         }
@@ -73,7 +73,7 @@ class PseudoState(name: String,
         }
     }
 
-    inner class ExitPointPseudoStateBehavoir : PseudoStateBehaviour {
+    inner class ExitPointPseudoStateBehavior : PseudoStateBehaviour {
         override fun enter(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
         }
 

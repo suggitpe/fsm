@@ -132,6 +132,33 @@ object FsmPrototypes {
                             )
             )
 
+    fun simpleNestedStatemachineProtoType() =
+            aStateMachineCalled("context").withRegion(
+                        aRegionCalled("region0")
+                                .withVertices(
+                                        anInitialPseudoStateCalled("initial"),
+                                        aSimpleStateCalled("simpleState"),
+                                        aCompositeStateCalled("compositeState").withRegion(
+                                                aRegionCalled("region1")
+                                                        .withVertices(
+                                                                anInitialPseudoStateCalled("initial"),
+                                                                aSimpleStateCalled("internalState"),
+                                                                aFinalStateCalled("final")
+                                                        )
+                                                        .withTransitions(
+                                                                anExternalTransitionCalled("transition1").startingAt("initial").endingAt("internalState"),
+                                                                anExternalTransitionCalled("transition2").startingAt("internalState").endingAt("final").triggeredBy(anEventCalled("event2"))
+                                                        )
+                                        ),
+                                        aFinalStateCalled("final")
+                                )
+                                .withTransitions(
+                                        anExternalTransitionCalled("transition1").startingAt("initial").endingAt("simpleState"),
+                                        anExternalTransitionCalled("transition2").startingAt("simpleState").endingAt("compositeState").triggeredBy(anEventCalled("event1")),
+                                        anExternalTransitionCalled("transition3").startingAt("compositeState").endingAt("final")
+                                )
+                    )
+
 
     fun nestedStateStateMachinePrototype() =
             aStateMachineCalled("context").withRegion(

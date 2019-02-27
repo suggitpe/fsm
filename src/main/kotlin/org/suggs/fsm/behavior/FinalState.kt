@@ -5,7 +5,7 @@ import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
 
 class FinalState(name: String,
-                 container: Namespace,
+                 container: Region,
                  entryBehavior: Behavior,
                  exitBehavior: Behavior)
     : State(name, container, HashSet(), entryBehavior, exitBehavior) {
