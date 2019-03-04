@@ -2,7 +2,6 @@ package org.suggs.fsm.behavior
 
 import org.slf4j.LoggerFactory
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
-import org.suggs.fsm.behavior.traits.Namespace
 import org.suggs.fsm.behavior.traits.Processable
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
@@ -37,9 +36,11 @@ abstract class State(name: String,
         }
     }
 
-    private fun findFireableTransitionsFor(event: BusinessEvent): Set<Transition> {
-        return outgoing.filter { it.isFireableFor(event) }.toSet()
-    }
+    protected fun findFireableTransitionsFor(event: BusinessEvent): Set<Transition>
+            = outgoing.filter { it.isFireableFor(event) }.toSet().union(findInheritedTransactionsFromContainingRegion(event))
+
+    private fun findInheritedTransactionsFromContainingRegion(event: BusinessEvent): Set<Transition>
+            = container.container.findInheritedFireableTransitionsFor(event)
 
     fun weCanDefer(businessEvent: BusinessEvent): Boolean {
         return deferrableTriggers.map { it.event }.contains(anEventCalled(businessEvent.type).build())

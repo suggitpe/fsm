@@ -10,13 +10,12 @@ import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTra
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
-import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoState
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.BusinessObjectIdentifier
 import org.suggs.fsm.execution.FsmExecutionContext
 import org.suggs.fsm.execution.UnprocessableEventException
-import org.suggs.fsm.stubs.NamespaceStub.Companion.aNamespaceStub
+import org.suggs.fsm.stubs.RegionContainerStub.Companion.aRegionContainerStub
 import org.suggs.fsm.stubs.StubFsmStateManager
 
 class StateTest {
@@ -79,7 +78,7 @@ class StateTest {
                             aTriggerCalled("T1").firedWith(anEventCalled("event1")),
                             aTriggerCalled("T2").firedWith(anEventCalled("event2"))
                     ))
-            .build(aNamespaceStub())
+            .build(aRegionContainerStub())
 
     private val simpleRegionOfStatesAndTransitions = aRegionCalled("testRegion")
             .withVertices(
@@ -94,7 +93,7 @@ class StateTest {
                             aTriggerCalled("TG2").firedWith(anEventCalled("anotherValidEvent"))
                     )
             )
-            .build(aNamespaceStub())
+            .build(aRegionContainerStub())
 
     private val simpleRegionWithMultipleValidTransitionns = aRegionCalled("testRegion")
             .withVertices(aSimpleStateCalled("S1"), aSimpleStateCalled("S2"))
@@ -103,5 +102,5 @@ class StateTest {
                             aTriggerCalled("TG1").firedWith(anEventCalled("validEvent"))),
                     anExternalTransitionCalled("T2").startingAt("S1").endingAt("S2").triggeredBy(
                             aTriggerCalled("TG2").firedWith(anEventCalled("validEvent")))
-            ).build(aNamespaceStub())
+            ).build(aRegionContainerStub())
 }

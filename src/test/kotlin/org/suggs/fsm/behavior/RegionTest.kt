@@ -8,6 +8,7 @@ import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
 import org.suggs.fsm.stubs.NamespaceStub.Companion.aNamespaceStub
+import org.suggs.fsm.stubs.RegionContainerStub.Companion.aRegionContainerStub
 
 class RegionTest {
 
@@ -18,7 +19,7 @@ class RegionTest {
                 anInitialPseudoStateCalled("initial"),
                 aSimpleStateCalled("state"),
                 aFinalStateCalled("final")
-        ).build(aNamespaceStub())
+        ).build(aRegionContainerStub())
 
         assertThat(region.getInitialState().name).isEqualTo("initial")
     }
@@ -28,7 +29,7 @@ class RegionTest {
         val region = aRegionCalled("foo").withVertices(
                 aSimpleStateCalled("state"),
                 aFinalStateCalled("final")
-        ).build(aNamespaceStub())
+        ).build(aRegionContainerStub())
 
         assertThrows<IllegalStateException> { region.getInitialState() }
     }

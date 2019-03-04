@@ -11,7 +11,6 @@ class SimpleState(name: String,
                   exitBehavior: Behavior)
     : State(name, container, deferrableTriggers, entryBehavior, exitBehavior) {
 
-
     override fun exit(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
         log.debug("Exiting state [$name]")
         fsmExecutionContext.stateManager.storeActiveState(deriveQualifiedName().replaceAfterLast("::", TRANSITIONING))

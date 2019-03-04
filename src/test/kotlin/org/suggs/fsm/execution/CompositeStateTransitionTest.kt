@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.suggs.fsm.behavior.FinalState.Companion.DEFAULT_FINAL_STATE_NAME
 import org.suggs.fsm.behavior.builders.FsmPrototypes.simpleNestedStatemachineProtoType
 import org.suggs.fsm.stubs.BusinessEventStub
 import org.suggs.fsm.stubs.StubFsmStateManager
@@ -37,6 +36,6 @@ class CompositeStateTransitionTest {
         assertThat(theResultingState()).endsWith("region0::final")
     }
 
-   private fun createAStateMachineContextWithCompositeStates() = FsmExecutionEnvironment(simpleNestedStatemachineProtoType().build(), fsmExecutionContext)
+    private fun createAStateMachineContextWithCompositeStates() = FsmExecutionEnvironment(simpleNestedStatemachineProtoType().build(), fsmExecutionContext)
     private fun theResultingState() = stateManager.getActiveState()
 }

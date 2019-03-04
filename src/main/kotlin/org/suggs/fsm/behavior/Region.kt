@@ -1,10 +1,10 @@
 package org.suggs.fsm.behavior
 
-import org.suggs.fsm.behavior.traits.Namespace
+import org.suggs.fsm.behavior.traits.RegionContainer
 import org.suggs.fsm.execution.NamespaceObjectMapper
 
 class Region(name: String,
-             container: Namespace,
+             var container: RegionContainer,
              var vertices: Map<String, Vertex> = HashMap(),
              var transitions: Map<String, Transition> = HashMap())
     : NamedElementContainer(name, container) {

@@ -31,8 +31,8 @@ class CompositeStateBuilder(name: String) :
                 .startingAt(entryPointBuilder.name)
                 .endingAt(region.findInitialStateVertex().name))
         compositeState.region = region.build(compositeState)
-        compositeState.entryPoint = compositeState.region.vertices["ENTRY_POINT"] as Enterable
-        compositeState.exitPoint = compositeState.region.vertices["EXIT_POINT"] as Exitable
+        compositeState.entryPoint = compositeState.region.vertices[ENTRY_POINT.toString()] as Enterable
+        compositeState.exitPoint = compositeState.region.vertices[EXIT_POINT.toString()] as Exitable
         return compositeState
     }
 }

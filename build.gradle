@@ -13,47 +13,47 @@ buildscript {
 defaultTasks 'clean', 'build'
 
 
-    apply from: "$rootDir/dependencies.gradle"
-    apply plugin: 'kotlin'
+apply from: "$rootDir/dependencies.gradle"
+apply plugin: 'kotlin'
 
-    group = 'org.suggs.fsm'
+group = 'org.suggs.fsm'
 
-    repositories {
-        clear()
-        jcenter()
+repositories {
+    clear()
+    jcenter()
+}
+
+dependencies {
+    implementation libs.kotlin,
+            libs.kotlinReflect,
+            libs.slf4j
+
+    testImplementation libs.test.junitApi,
+            libs.test.assertj,
+            libs.test.mockito
+
+    testRuntimeOnly libs.test.junitEngine,
+            libs.logback
+}
+
+ext {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+test {
+    useJUnitPlatform()
+}
+
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
     }
-
-    dependencies {
-        implementation libs.kotlin,
-                libs.kotlinReflect,
-                libs.slf4j
-
-        testImplementation libs.test.junitApi,
-                libs.test.assertj,
-                libs.test.mockito
-
-        testRuntimeOnly libs.test.junitEngine,
-                libs.logback
+}
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
     }
-
-    ext {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
-
-    test {
-        useJUnitPlatform()
-    }
-
-    compileKotlin {
-        kotlinOptions {
-            freeCompilerArgs = ["-Xjsr305=strict"]
-            jvmTarget = "1.8"
-        }
-    }
-    compileTestKotlin {
-        kotlinOptions {
-            freeCompilerArgs = ["-Xjsr305=strict"]
-            jvmTarget = "1.8"
-        }
-    }
+}

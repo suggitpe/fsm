@@ -4,11 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.suggs.fsm.behavior.BehavioredClassifier
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithTwoOutcomesPrototype
 import org.suggs.fsm.stubs.StubFsmStateManager
-import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.generateUmlFor
-import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.writePumlToFile
 
 class SimpleStateMachineNavigation {
 
