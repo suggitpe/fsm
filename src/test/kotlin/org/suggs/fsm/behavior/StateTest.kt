@@ -1,8 +1,8 @@
 package org.suggs.fsm.behavior
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
 import org.suggs.fsm.behavior.builders.SimpleStateBuilder.Companion.aStateCalled
@@ -32,13 +32,17 @@ class StateTest {
     @Test fun `does not transition to other states unless valid transition`() {
         val state = simpleRegionOfStatesAndTransitions.findStateCalled("S0")
         fsmExecutionContext.stateManager.storeActiveState("S0")
-        assertThrows<UnprocessableEventException> { state.processEvent(aStubEventFor("irrelevantEvent"), fsmExecutionContext) }
+        assertThatExceptionOfType(UnprocessableEventException::class.java).isThrownBy {
+            state.processEvent(aStubEventFor("irrelevantEvent"), fsmExecutionContext)
+        }
         assertThat(fsmExecutionContext.stateManager.getActiveState()).isEqualTo("S0")
     }
 
     @Test fun `throws exception if it has more than one valid transaction`() {
         val state = simpleRegionWithMultipleValidTransitionns.findStateCalled("S1")
-        assertThrows<RuntimeException> { state.processEvent(aStubEventFor("validEvent"), fsmExecutionContext) }
+        assertThatExceptionOfType(RuntimeException::class.java).isThrownBy {
+            state.processEvent(aStubEventFor("validEvent"), fsmExecutionContext)
+        }
     }
 
     @Test fun `can identify deferable events`() {

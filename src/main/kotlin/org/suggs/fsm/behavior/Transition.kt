@@ -13,7 +13,7 @@ class Transition(name: String,
                  val source: Vertex,
                  val target: Vertex,
                  val triggers: Set<Trigger> = HashSet(),
-                 val guard: Constraint = EmptyConstraint(),
+                 val guard: Constraint = EmptyGuardConstraint(),
                  val effects: Set<Behavior> = HashSet())
     : Fireable, NamedElementContainer(name) {
 
@@ -36,14 +36,14 @@ class Transition(name: String,
     }
 
     fun isFireableFor(event: BusinessEvent): Boolean {
-        return oneOfTheTriggersIsFiredBy(event.type) && guardEvaluatesFor(event)
+        return oneOfTheTriggersIsFiredBy(event.type) && guardEvaluatesTrueFor(event)
     }
 
     private fun oneOfTheTriggersIsFiredBy(eventType: String): Boolean {
         return triggers.map { it.event }.contains(anEventCalled(eventType).build())
     }
 
-    private fun guardEvaluatesFor(event: BusinessEvent): Boolean {
+    private fun guardEvaluatesTrueFor(event: BusinessEvent): Boolean {
         return guard.evaluate(event)
     }
 

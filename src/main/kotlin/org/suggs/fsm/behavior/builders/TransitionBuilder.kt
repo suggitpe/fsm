@@ -5,6 +5,7 @@ import org.suggs.fsm.behavior.Event.Companion.COMPLETION_EVENT_NAME
 import org.suggs.fsm.behavior.FinalState.Companion.DEFAULT_FINAL_STATE_NAME
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
+import org.suggs.fsm.execution.BusinessEvent
 
 class TransitionBuilder(var name: String, val type: TransitionKind) {
 
@@ -23,6 +24,7 @@ class TransitionBuilder(var name: String, val type: TransitionKind) {
     private val effects: MutableSet<BehaviorBuilder> = HashSet()
     lateinit var startState: String
     lateinit var endState: String
+    private var constraint: Constraint = EmptyGuardConstraint()
 
     init {
         triggers.add(aTriggerCalled(COMPLETION_EVENT_NAME).firedWith(anEventCalled(COMPLETION_EVENT_NAME)))
@@ -60,6 +62,16 @@ class TransitionBuilder(var name: String, val type: TransitionKind) {
         return this
     }
 
+    fun guardedBy(constraint: Constraint): TransitionBuilder{
+        this.constraint = constraint
+        return this
+    }
+
+    fun guardedBy(effect: (BusinessEvent) -> Boolean): TransitionBuilder{
+        this.constraint = SimpleGuardConstraint(effect)
+        return this
+    }
+
     fun withEffects(vararg newEffects: BehaviorBuilder): TransitionBuilder {
         effects.addAll(newEffects)
         return this
@@ -71,7 +83,7 @@ class TransitionBuilder(var name: String, val type: TransitionKind) {
                 vertices.getValue(startState),
                 vertices.getValue(endState),
                 triggers.map { it.build() }.toSet(),
-                EmptyConstraint(),
+                constraint,
                 effects.map { it.build() }.toSet())
     }
 
