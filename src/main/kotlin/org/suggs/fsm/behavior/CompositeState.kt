@@ -2,7 +2,6 @@ package org.suggs.fsm.behavior
 
 import org.suggs.fsm.behavior.traits.Enterable
 import org.suggs.fsm.behavior.traits.Exitable
-import org.suggs.fsm.behavior.traits.Namespace
 import org.suggs.fsm.behavior.traits.RegionContainer
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
@@ -11,8 +10,8 @@ import org.suggs.fsm.execution.NamespaceObjectMapper
 class CompositeState(name: String,
                      container: Region,
                      deferrableTriggers: Set<Trigger>,
-                     entryBehavior: Behavior,
-                     exitBehavior: Behavior)
+                     entryBehavior: Behaviour,
+                     exitBehavior: Behaviour)
     : State(name, container, deferrableTriggers, entryBehavior, exitBehavior), RegionContainer {
 
     lateinit var region: Region

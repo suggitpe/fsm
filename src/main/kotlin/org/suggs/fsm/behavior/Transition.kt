@@ -14,7 +14,7 @@ class Transition(name: String,
                  val target: Vertex,
                  val triggers: Set<Trigger> = HashSet(),
                  val guard: Constraint = EmptyGuardConstraint(),
-                 val effects: Set<Behavior> = HashSet())
+                 val effects: Set<Behaviour> = HashSet())
     : Fireable, NamedElementContainer(name) {
 
     private val behaviour = initialiseBehaviourFrom(type)

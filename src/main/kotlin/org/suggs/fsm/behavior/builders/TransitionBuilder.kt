@@ -68,7 +68,7 @@ class TransitionBuilder(var name: String, val type: TransitionKind) {
     }
 
     fun guardedBy(effect: (BusinessEvent) -> Boolean): TransitionBuilder{
-        this.constraint = SimpleGuardConstraint(effect)
+        this.constraint = SimpleGuardConstraint("ANONYMOUS", effect)
         return this
     }
 

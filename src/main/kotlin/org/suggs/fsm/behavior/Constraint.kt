@@ -1,19 +1,20 @@
 package org.suggs.fsm.behavior
 
+import org.suggs.fsm.behavior.traits.Named
 import org.suggs.fsm.execution.BusinessEvent
 
-interface Constraint {
+interface Constraint : Named {
 
     fun evaluate(event: BusinessEvent): Boolean
 }
 
-class EmptyGuardConstraint : Constraint {
+class EmptyGuardConstraint : NamedElement("EMPTY"), Constraint {
     override fun evaluate(event: BusinessEvent): Boolean {
         return true
     }
 }
 
-class SimpleGuardConstraint(private val guardFunction: (BusinessEvent) -> Boolean) : Constraint {
+class SimpleGuardConstraint(name: String, private val guardFunction: (BusinessEvent) -> Boolean) : NamedElement(name), Constraint {
     override fun evaluate(event: BusinessEvent): Boolean {
         return guardFunction(event)
     }

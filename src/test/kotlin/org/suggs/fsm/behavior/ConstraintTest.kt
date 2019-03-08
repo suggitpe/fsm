@@ -6,12 +6,12 @@ import org.suggs.fsm.stubs.BusinessEventStub.Companion.aBusinessEventCalled
 
 class ConstraintTest {
 
-    @Test fun `EmptyGuardConstraints always evaluate to true`(){
+    @Test fun `EmptyGuardConstraints always evaluate to true`() {
         assertThat(EmptyGuardConstraint().evaluate(aBusinessEventCalled("stub event"))).isEqualTo(true)
     }
 
-    @Test fun `guard constrains evaluate to their function`(){
-        assertThat(SimpleGuardConstraint {false}.evaluate(aBusinessEventCalled("stub event"))).isEqualTo(false)
+    @Test fun `guard constrains evaluate to their function`() {
+        assertThat(SimpleGuardConstraint("Stub Domain Guard") { false }.evaluate(aBusinessEventCalled("stub event"))).isEqualTo(false)
     }
 
 }

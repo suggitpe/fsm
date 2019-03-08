@@ -13,6 +13,7 @@ import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoState
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
+import org.suggs.fsm.execution.BusinessEvent
 
 object FsmPrototypes {
 
@@ -132,32 +133,32 @@ object FsmPrototypes {
                             )
             )
 
-    fun simpleNestedStatemachineProtoType() =
+    fun simpleNestedStatemachineProtoType(finalTransitionGuard: (BusinessEvent) -> Boolean) =
             aStateMachineCalled("context").withRegion(
-                        aRegionCalled("region0")
-                                .withVertices(
-                                        anInitialPseudoStateCalled("initial"),
-                                        aSimpleStateCalled("simpleState"),
-                                        aCompositeStateCalled("compositeState").withRegion(
-                                                aRegionCalled("region1")
-                                                        .withVertices(
-                                                                anInitialPseudoStateCalled("initial"),
-                                                                aSimpleStateCalled("internalState"),
-                                                                aFinalStateCalled("final")
-                                                        )
-                                                        .withTransitions(
-                                                                anExternalTransitionCalled("transition1").startingAt("initial").endingAt("internalState"),
-                                                                anExternalTransitionCalled("transition2").startingAt("internalState").endingAt("final").triggeredBy(anEventCalled("event2"))
-                                                        )
-                                        ),
-                                        aFinalStateCalled("final")
-                                )
-                                .withTransitions(
-                                        anExternalTransitionCalled("transition1").startingAt("initial").endingAt("simpleState"),
-                                        anExternalTransitionCalled("transition2").startingAt("simpleState").endingAt("compositeState").triggeredBy(anEventCalled("event1")),
-                                        anExternalTransitionCalled("transition3").startingAt("compositeState").endingAt("final")
-                                )
-                    )
+                    aRegionCalled("region0")
+                            .withVertices(
+                                    anInitialPseudoStateCalled("initial"),
+                                    aSimpleStateCalled("simpleState"),
+                                    aCompositeStateCalled("compositeState").withRegion(
+                                            aRegionCalled("region1")
+                                                    .withVertices(
+                                                            anInitialPseudoStateCalled("initial"),
+                                                            aSimpleStateCalled("internalState"),
+                                                            aFinalStateCalled("final")
+                                                    )
+                                                    .withTransitions(
+                                                            anExternalTransitionCalled("transition1").startingAt("initial").endingAt("internalState"),
+                                                            anExternalTransitionCalled("transition2").startingAt("internalState").endingAt("final").triggeredBy(anEventCalled("event2"))
+                                                    )
+                                    ),
+                                    aFinalStateCalled("final")
+                            )
+                            .withTransitions(
+                                    anExternalTransitionCalled("transition1").startingAt("initial").endingAt("simpleState"),
+                                    anExternalTransitionCalled("transition2").startingAt("simpleState").endingAt("compositeState").triggeredBy(anEventCalled("event1")),
+                                    anExternalTransitionCalled("transition3").startingAt("compositeState").endingAt("final").guardedBy(finalTransitionGuard)
+                            )
+            )
 
 
     fun nestedStateStateMachinePrototype() =

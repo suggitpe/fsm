@@ -12,7 +12,7 @@ class StateMachineUmlGenerator {
         private val log = LoggerFactory.getLogger(this::class.java)
 
 
-        fun generateUmlFor(stateMachine: BehavioredClassifier): String {
+        fun generateUmlFor(stateMachine: BehaviouredClassifier): String {
             return """
                 |@startuml
                 |skinparam backgroundColor LightYellow
@@ -92,7 +92,7 @@ class StateMachineUmlGenerator {
         }
 
 
-        fun createUmlSyntaxFor(element: NamedElement, prefix: String): String {
+        private fun createUmlSyntaxFor(element: NamedElement, prefix: String): String {
             return when (element) {
                 is Transition -> {
                     if (element.type != TransitionKind.INTERNAL)
@@ -110,7 +110,10 @@ class StateMachineUmlGenerator {
         private fun addTriggersFor(transition: Transition): String {
             if (transition.triggers.isNotEmpty()
                     && transition.triggers.first().name != Event.COMPLETION_EVENT_NAME) {
-                return ": ${transition.triggers.first().event.name}"
+                return ": (${transition.triggers.first().event.name})"
+            }
+            if(transition.guard.name != "EMPTY"){
+                return ": [${transition.guard.name}]"
             }
             return ""
         }

@@ -27,8 +27,7 @@ abstract class NamedElement(override val name: String)
         return qualifiedName
     }
 
-    open fun registerMembersWithNamespace(namespaceContext: NamespaceObjectMapper) {
-    }
+    open fun registerMembersWithNamespace(namespaceContext: NamespaceObjectMapper) {}
 
     override fun registerWithNamespace(namespaceContext: NamespaceObjectMapper) {
         namespaceContext.registerElement(this)

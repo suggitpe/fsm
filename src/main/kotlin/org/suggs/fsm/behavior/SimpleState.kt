@@ -7,8 +7,8 @@ import org.suggs.fsm.execution.UnprocessableEventException
 class SimpleState(name: String,
                   container: Region,
                   private val deferrableTriggers: Set<Trigger>,
-                  entryBehavior: Behavior,
-                  exitBehavior: Behavior)
+                  entryBehavior: Behaviour,
+                  exitBehavior: Behaviour)
     : State(name, container, deferrableTriggers, entryBehavior, exitBehavior) {
 
     override fun exit(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {

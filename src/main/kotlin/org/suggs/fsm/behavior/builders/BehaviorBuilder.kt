@@ -1,6 +1,6 @@
 package org.suggs.fsm.behavior.builders
 
-import org.suggs.fsm.behavior.Behavior
+import org.suggs.fsm.behavior.Behaviour
 import org.suggs.fsm.execution.BusinessEvent
 
 open class BehaviorBuilder(val name: String) {
@@ -19,13 +19,13 @@ open class BehaviorBuilder(val name: String) {
         return this
     }
 
-    fun build(): Behavior {
-        return Behavior(name, executableFunction)
+    fun build(): Behaviour {
+        return Behaviour(name, executableFunction)
     }
 
 }
 
-class EmptyBehaviourBuilder()
+class EmptyBehaviourBuilder
     : BehaviorBuilder("EMPTY") {
 
     companion object {

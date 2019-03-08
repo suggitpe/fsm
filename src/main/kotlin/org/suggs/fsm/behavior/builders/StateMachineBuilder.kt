@@ -1,6 +1,6 @@
 package org.suggs.fsm.behavior.builders
 
-import org.suggs.fsm.behavior.BehavioredClassifier
+import org.suggs.fsm.behavior.BehaviouredClassifier
 import org.suggs.fsm.behavior.StateMachine
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
 
@@ -19,11 +19,11 @@ class StateMachineBuilder(val name: String) {
         return this
     }
 
-    fun build(): BehavioredClassifier {
+    fun build(): BehaviouredClassifier {
         val stateMachine = StateMachine(name)
         val builtRegion = region.build(stateMachine)
         stateMachine.region = builtRegion
-        return BehavioredClassifier("context", stateMachine)
+        return BehaviouredClassifier("context", stateMachine)
     }
 
 

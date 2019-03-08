@@ -2,8 +2,8 @@ package org.suggs.fsm.behavior
 
 import org.suggs.fsm.execution.NamespaceObjectMapper
 
-class BehavioredClassifier(name: String,
-                           val ownedBehavior: Behavior)
+class BehaviouredClassifier(name: String,
+                            val ownedBehavior: Behaviour)
     : NamedElementContainer(name) {
 
     override fun registerMembersWithNamespace(namespaceContext: NamespaceObjectMapper) {

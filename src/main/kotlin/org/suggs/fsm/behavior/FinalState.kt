@@ -1,13 +1,12 @@
 package org.suggs.fsm.behavior
 
-import org.suggs.fsm.behavior.traits.Namespace
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
 
 class FinalState(name: String,
                  container: Region,
-                 entryBehavior: Behavior,
-                 exitBehavior: Behavior)
+                 entryBehavior: Behaviour,
+                 exitBehavior: Behaviour)
     : State(name, container, HashSet(), entryBehavior, exitBehavior) {
 
     companion object {

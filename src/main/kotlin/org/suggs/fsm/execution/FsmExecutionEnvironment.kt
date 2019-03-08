@@ -1,11 +1,11 @@
 package org.suggs.fsm.execution
 
 import org.slf4j.LoggerFactory
-import org.suggs.fsm.behavior.BehavioredClassifier
+import org.suggs.fsm.behavior.BehaviouredClassifier
 import org.suggs.fsm.behavior.State.Companion.TRANSITIONING
 import org.suggs.fsm.behavior.StateMachine
 
-class FsmExecutionEnvironment(private val stateMachineDefinition: BehavioredClassifier,
+class FsmExecutionEnvironment(private val stateMachineDefinition: BehaviouredClassifier,
                               private val fsmExecutionContext: FsmExecutionContext) {
 
     companion object {

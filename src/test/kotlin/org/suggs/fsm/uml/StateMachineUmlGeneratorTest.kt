@@ -33,8 +33,8 @@ class StateMachineUmlGeneratorTest {
     }
 
     @Test
-    fun `describes a simple composite State machine`(){
-        writePumlToFile(generateUmlFor(simpleNestedStatemachineProtoType().build()), "simpleCompositeFsm.puml")
+    fun `describes a simple composite State machine`() {
+        writePumlToFile(generateUmlFor(simpleNestedStatemachineProtoType { true }.build()), "simpleCompositeFsm.puml")
     }
 
     @Test

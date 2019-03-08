@@ -1,7 +1,7 @@
 package org.suggs.fsm.execution
 
 import org.slf4j.LoggerFactory
-import org.suggs.fsm.behavior.BehavioredClassifier
+import org.suggs.fsm.behavior.BehaviouredClassifier
 import org.suggs.fsm.behavior.NamedElement
 import org.suggs.fsm.behavior.State
 
@@ -13,7 +13,7 @@ class NamespaceObjectMapper {
 
     private val namedElements: MutableMap<String, NamedElement> = HashMap()
 
-    fun initialise(stateMachineDefinition: BehavioredClassifier) {
+    fun initialise(stateMachineDefinition: BehaviouredClassifier) {
         log.debug("Initialising namespace context with named elements in the FSM")
         stateMachineDefinition.registerWithNamespace(this)
     }

@@ -5,7 +5,7 @@ import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.NamespaceObjectMapper
 
 class StateMachine(name: String)
-    : Behavior(name, {}), RegionContainer {
+    : Behaviour(name, {}), RegionContainer {
 
     lateinit var region: Region
 

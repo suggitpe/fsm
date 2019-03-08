@@ -6,10 +6,11 @@ import org.suggs.fsm.execution.FsmStateManager
 import java.time.LocalDateTime
 
 open class StubFsmStateManager : FsmStateManager {
-    var state: String = ""
 
+    private var state: String = ""
     val deferredEvents = ArrayList<Event>()
-    val audits = ArrayList<Audit>()
+    private val audits = ArrayList<Audit>()
+
     companion object {
         val log = LoggerFactory.getLogger(this::class.java)!!
     }
