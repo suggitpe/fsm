@@ -6,6 +6,7 @@ import org.suggs.fsm.behavior.FinalState.Companion.DEFAULT_FINAL_STATE_NAME
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithDeferredAndAutomatedTransitionsPrototype
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithDeferredTransitionsPrototype
 import org.suggs.fsm.stubs.BusinessEventStub.Companion.aBusinessEventCalled
+import org.suggs.fsm.stubs.BusinessObjectReferenceStub.Companion.aBOReferenceForTest
 import org.suggs.fsm.stubs.StubFsmStateManager
 
 class DeferredEventsTest {
@@ -40,7 +41,7 @@ class DeferredEventsTest {
         executionEnvironment.handleEvent(aBusinessEventCalled("deferredEvent2"))
     }
 
-    private fun theResultingState() = stateManager.getActiveState()
+    private fun theResultingState() = stateManager.getActiveState(aBOReferenceForTest())
     private fun createAStateMachineContextWithDeferredEvents() = FsmExecutionEnvironment(fsmWithDeferredTransitionsPrototype().build(), fsmExecutionContext)
     private fun createAStatemachineWithDeferredAndAutomaticTransitions() = FsmExecutionEnvironment(fsmWithDeferredAndAutomatedTransitionsPrototype().build(), fsmExecutionContext)
 

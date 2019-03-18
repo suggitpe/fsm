@@ -11,6 +11,7 @@ import org.suggs.fsm.behavior.traits.Exitable
 
 class CompositeStateBuilder(name: String) :
         SimpleStateBuilder(name) {
+
     lateinit var region: RegionBuilder
     private val entryPointBuilder: PseudoStateBuilder = PseudoStateBuilder(ENTRY_POINT)
     private val exitPointBuilder: PseudoStateBuilder = PseudoStateBuilder(EXIT_POINT)

@@ -1,5 +1,6 @@
 package org.suggs.fsm.behavior
 
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.suggs.fsm.behavior.TransitionKind.EXTERNAL
 import org.suggs.fsm.behavior.TransitionKind.INTERNAL
@@ -14,13 +15,13 @@ class Transition(name: String,
                  val target: Vertex,
                  val triggers: Set<Trigger> = HashSet(),
                  val guard: Constraint = EmptyGuardConstraint(),
-                 val effects: Set<Behaviour> = HashSet())
+                 val effects: Set<Behavior> = HashSet())
     : Fireable, NamedElementContainer(name) {
 
     private val behaviour = initialiseBehaviourFrom(type)
 
     companion object {
-        val log = LoggerFactory.getLogger(this::class.java)!!
+        val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
     private fun initialiseBehaviourFrom(kind: TransitionKind): TransitionBehaviour {

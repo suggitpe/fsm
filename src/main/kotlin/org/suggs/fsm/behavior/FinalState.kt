@@ -1,12 +1,13 @@
 package org.suggs.fsm.behavior
 
+import org.suggs.fsm.behavior.Event.Companion.COMPLETION_EVENT_NAME
 import org.suggs.fsm.execution.BusinessEvent
 import org.suggs.fsm.execution.FsmExecutionContext
 
 class FinalState(name: String,
                  container: Region,
-                 entryBehavior: Behaviour,
-                 exitBehavior: Behaviour)
+                 entryBehavior: Behavior,
+                 exitBehavior: Behavior)
     : State(name, container, HashSet(), entryBehavior, exitBehavior) {
 
     companion object {
@@ -15,7 +16,8 @@ class FinalState(name: String,
 
     override fun enter(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
         fsmExecutionContext.stateManager.storeActiveState(deriveQualifiedName())
-        // TODO send a completion event to the composite state if it exists
+        val completionEvent = BusinessEvent(COMPLETION_EVENT_NAME, event.identifier)
+        container.container.processEvent(completionEvent, fsmExecutionContext)
     }
 
     override fun doEntryAction(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {

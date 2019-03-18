@@ -1,6 +1,6 @@
 package org.suggs.fsm.behavior.builders
 
-import org.suggs.fsm.behavior.Behaviour
+import org.suggs.fsm.behavior.Behavior
 import org.suggs.fsm.execution.BusinessEvent
 
 open class BehaviorBuilder(val name: String) {
@@ -9,7 +9,6 @@ open class BehaviorBuilder(val name: String) {
         fun aBehaviorCalled(name: String): BehaviorBuilder {
             return BehaviorBuilder(name)
         }
-
     }
 
     private var executableFunction: (BusinessEvent) -> Unit = {}
@@ -19,8 +18,8 @@ open class BehaviorBuilder(val name: String) {
         return this
     }
 
-    fun build(): Behaviour {
-        return Behaviour(name, executableFunction)
+    fun build(): Behavior {
+        return Behavior(name, executableFunction)
     }
 
 }

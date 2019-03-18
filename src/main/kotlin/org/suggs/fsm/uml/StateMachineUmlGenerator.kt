@@ -12,7 +12,7 @@ class StateMachineUmlGenerator {
         private val log = LoggerFactory.getLogger(this::class.java)
 
 
-        fun generateUmlFor(stateMachine: BehaviouredClassifier): String {
+        fun generateUmlFor(stateMachine: BehavioredClassifier): String {
             return """
                 |@startuml
                 |skinparam backgroundColor LightYellow
@@ -25,7 +25,7 @@ class StateMachineUmlGenerator {
                 |FontName Impact
                 |}
                 |
-                |${generateUmlFor(stateMachine.ownedBehavior as StateMachine)}
+                |${generateUmlFor(stateMachine.stateMachine)}
                 |
                 |@enduml""".trimMargin()
         }

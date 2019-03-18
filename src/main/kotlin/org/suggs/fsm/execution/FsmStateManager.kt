@@ -6,7 +6,7 @@ interface FsmStateManager {
 
     fun storeActiveState(state: String)
 
-    fun getActiveState(): String
+    fun getActiveState(businessObjectReference: BusinessObjectReference): String
 
     fun storeDeferredEvents(vararg events: Event)
 

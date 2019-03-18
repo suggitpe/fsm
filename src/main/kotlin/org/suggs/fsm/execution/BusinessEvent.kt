@@ -1,7 +1,7 @@
 package org.suggs.fsm.execution
 
-open class BusinessEvent(val type: String,
-                    val identifier: BusinessObjectIdentifier){
+data class BusinessEvent(val type: String,
+                         val identifier: BusinessObjectReference) {
 
     override fun toString(): String {
         return "BusinessEvent(type='$type', identifier=$identifier)"

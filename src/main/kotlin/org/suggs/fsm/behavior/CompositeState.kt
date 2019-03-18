@@ -10,8 +10,8 @@ import org.suggs.fsm.execution.NamespaceObjectMapper
 class CompositeState(name: String,
                      container: Region,
                      deferrableTriggers: Set<Trigger>,
-                     entryBehavior: Behaviour,
-                     exitBehavior: Behaviour)
+                     entryBehavior: Behavior,
+                     exitBehavior: Behavior)
     : State(name, container, deferrableTriggers, entryBehavior, exitBehavior), RegionContainer {
 
     lateinit var region: Region

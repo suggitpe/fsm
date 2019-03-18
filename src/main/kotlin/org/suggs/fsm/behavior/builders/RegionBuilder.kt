@@ -5,6 +5,7 @@ import org.suggs.fsm.behavior.Region
 import org.suggs.fsm.behavior.traits.RegionContainer
 
 class RegionBuilder(val name: String) {
+
     companion object {
 
         fun aRegionCalled(name: String): RegionBuilder {

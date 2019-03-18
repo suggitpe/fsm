@@ -12,7 +12,7 @@ import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
 import org.suggs.fsm.execution.BusinessEvent
-import org.suggs.fsm.execution.BusinessObjectIdentifier
+import org.suggs.fsm.execution.BusinessObjectReference
 import org.suggs.fsm.execution.FsmExecutionContext
 import org.suggs.fsm.execution.UnprocessableEventException
 import org.suggs.fsm.stubs.RegionContainerStub.Companion.aRegionContainerStub
@@ -25,17 +25,23 @@ class StateTest {
     @Test fun `transitions to new state when valid transition`() {
         val state = simpleRegionOfStatesAndTransitions.findStateCalled("S0")
         fsmExecutionContext.stateManager.storeActiveState("S0")
-        state.processEvent(aStubEventFor("validEvent"), fsmExecutionContext)
-        assertThat(fsmExecutionContext.stateManager.getActiveState()).endsWith("FS")
+        val event = aStubEventFor("validEvent")
+
+        state.processEvent(event, fsmExecutionContext)
+
+        assertThat(fsmExecutionContext.stateManager.getActiveState(event.identifier)).endsWith("FS")
     }
 
     @Test fun `does not transition to other states unless valid transition`() {
         val state = simpleRegionOfStatesAndTransitions.findStateCalled("S0")
         fsmExecutionContext.stateManager.storeActiveState("S0")
+        val event = aStubEventFor("irrelevantEvent")
+
         assertThatExceptionOfType(UnprocessableEventException::class.java).isThrownBy {
-            state.processEvent(aStubEventFor("irrelevantEvent"), fsmExecutionContext)
+            state.processEvent(event, fsmExecutionContext)
         }
-        assertThat(fsmExecutionContext.stateManager.getActiveState()).isEqualTo("S0")
+
+        assertThat(fsmExecutionContext.stateManager.getActiveState(event.identifier)).isEqualTo("S0")
     }
 
     @Test fun `throws exception if it has more than one valid transaction`() {
@@ -73,7 +79,7 @@ class StateTest {
     }
 
     private fun aStubEventFor(name: String): BusinessEvent {
-        return BusinessEvent(name, BusinessObjectIdentifier("", "", 0))
+        return BusinessEvent(name, BusinessObjectReference("", "", 0))
     }
 
     private val simpleRegionWithOneStateContainingDeferableTriggers = aRegionCalled("testRegion").withVertices(

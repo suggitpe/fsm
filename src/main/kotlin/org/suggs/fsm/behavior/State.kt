@@ -1,5 +1,6 @@
 package org.suggs.fsm.behavior
 
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.traits.Processable
@@ -10,12 +11,12 @@ import org.suggs.fsm.execution.UnprocessableEventException
 abstract class State(name: String,
                      container: Region,
                      private val deferrableTriggers: Set<Trigger>,
-                     val entryBehavior: Behaviour,
-                     val exitBehavior: Behaviour)
+                     val entryBehavior: Behavior,
+                     val exitBehavior: Behavior)
     : Processable, Vertex(name, container) {
 
     companion object {
-        val log = LoggerFactory.getLogger(this::class.java)!!
+        val log: Logger = LoggerFactory.getLogger(this::class.java)
         const val TRANSITIONING = "TRANSITIONING"
     }
 
@@ -36,11 +37,9 @@ abstract class State(name: String,
         }
     }
 
-    protected fun findFireableTransitionsFor(event: BusinessEvent): Set<Transition>
-            = outgoing.filter { it.isFireableFor(event) }.toSet().union(findInheritedTransactionsFromContainingRegion(event))
+    protected fun findFireableTransitionsFor(event: BusinessEvent): Set<Transition> = outgoing.filter { it.isFireableFor(event) }.toSet().union(findInheritedTransactionsFromContainingRegion(event))
 
-    private fun findInheritedTransactionsFromContainingRegion(event: BusinessEvent): Set<Transition>
-            = container.container.findInheritedFireableTransitionsFor(event)
+    private fun findInheritedTransactionsFromContainingRegion(event: BusinessEvent): Set<Transition> = container.container.findInheritedFireableTransitionsFor(event)
 
     fun weCanDefer(businessEvent: BusinessEvent): Boolean {
         return deferrableTriggers.map { it.event }.contains(anEventCalled(businessEvent.type).build())

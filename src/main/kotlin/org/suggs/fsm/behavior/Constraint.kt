@@ -4,7 +4,6 @@ import org.suggs.fsm.behavior.traits.Named
 import org.suggs.fsm.execution.BusinessEvent
 
 interface Constraint : Named {
-
     fun evaluate(event: BusinessEvent): Boolean
 }
 

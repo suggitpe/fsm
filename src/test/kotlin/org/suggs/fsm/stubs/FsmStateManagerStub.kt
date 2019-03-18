@@ -2,6 +2,7 @@ package org.suggs.fsm.stubs
 
 import org.slf4j.LoggerFactory
 import org.suggs.fsm.behavior.Event
+import org.suggs.fsm.execution.BusinessObjectReference
 import org.suggs.fsm.execution.FsmStateManager
 import java.time.LocalDateTime
 
@@ -33,7 +34,7 @@ open class StubFsmStateManager : FsmStateManager {
         log.debug("Recording state change to [$state]")
     }
 
-    override fun getActiveState(): String {
+    override fun getActiveState(businessObjectReference: BusinessObjectReference): String {
         return state
     }
 

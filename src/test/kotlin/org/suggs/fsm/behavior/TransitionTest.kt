@@ -14,7 +14,7 @@ import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTra
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.execution.BusinessEvent
-import org.suggs.fsm.execution.BusinessObjectIdentifier
+import org.suggs.fsm.execution.BusinessObjectReference
 import org.suggs.fsm.execution.FsmExecutionContext
 import org.suggs.fsm.stubs.RegionContainerStub.Companion.aRegionContainerStub
 import org.suggs.fsm.stubs.StubFsmStateManager
@@ -25,7 +25,7 @@ class TransitionTest {
 
     @Mock private lateinit var sourceState: State
     @Mock private lateinit var targetState: State
-    @Mock private lateinit var event: BusinessEvent
+    private var event = aBusinessEventCalled("testEvent")
     private var fsmStateManager = StubFsmStateManager()
     private var fsmExecutionContext = FsmExecutionContext(fsmStateManager)
 
@@ -69,6 +69,6 @@ class TransitionTest {
     }
 
     private fun aBusinessEventCalled(name: String): BusinessEvent {
-        return BusinessEvent(name, BusinessObjectIdentifier("", "", 0))
+        return BusinessEvent(name, BusinessObjectReference("", "", 0))
     }
 }

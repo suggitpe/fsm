@@ -1,5 +1,6 @@
 package org.suggs.fsm.behavior
 
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.suggs.fsm.behavior.PseudoStateKind.*
 import org.suggs.fsm.execution.BusinessEvent
@@ -22,7 +23,7 @@ class PseudoState(name: String,
     }
 
     companion object {
-        val log = LoggerFactory.getLogger(this::class.java)!!
+        val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
 
     fun isInitialPseudoState(): Boolean {

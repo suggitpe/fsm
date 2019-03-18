@@ -2,11 +2,10 @@ package org.suggs.fsm.execution
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.FsmPrototypes.simpleNestedStatemachineProtoType
-import org.suggs.fsm.stubs.BusinessEventStub
 import org.suggs.fsm.stubs.BusinessEventStub.Companion.aBusinessEventCalled
+import org.suggs.fsm.stubs.BusinessObjectReferenceStub.Companion.aBOReferenceForTest
 import org.suggs.fsm.stubs.StubDomainObject
 import org.suggs.fsm.stubs.StubFsmStateManager
 
@@ -52,5 +51,5 @@ class CompositeStateTransitionTest {
     }
 
     private fun createAStateMachineContextWithCompositeStates() = FsmExecutionEnvironment(simpleNestedStatemachineProtoType{domainObject.areYouComplete()}.build(), fsmExecutionContext)
-    private fun theResultingState() = stateManager.getActiveState()
+    private fun theResultingState() = stateManager.getActiveState(aBOReferenceForTest())
 }
