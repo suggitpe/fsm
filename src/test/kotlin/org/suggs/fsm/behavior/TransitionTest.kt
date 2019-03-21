@@ -10,7 +10,7 @@ import org.suggs.fsm.behavior.TransitionKind.EXTERNAL
 import org.suggs.fsm.behavior.TransitionKind.INTERNAL
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
-import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTransitionCalled
+import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.aTransitionCalled
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.execution.BusinessEvent
@@ -37,7 +37,7 @@ class TransitionTest {
                         aSimpleStateCalled("state2")
                 )
                 .withTransitions(
-                        anExternalTransitionCalled("transition").startingAt("state1").endingAt("state2").triggeredBy(
+                        aTransitionCalled("transition").startingAt("state1").endingAt("state2").triggeredBy(
                                 aTriggerCalled("trigger").firedWith(anEventCalled("event"))
                         )
                 )

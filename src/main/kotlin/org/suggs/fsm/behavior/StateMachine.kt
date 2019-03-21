@@ -25,7 +25,6 @@ class StateMachine(name: String)
     }
 
     override fun processEvent(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        log.debug("Ignoring state machine event processing")
     }
 
 

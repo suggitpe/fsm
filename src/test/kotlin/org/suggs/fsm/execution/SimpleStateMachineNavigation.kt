@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithTwoOutcomesPrototype
+import org.suggs.fsm.behavior.builders.*
 import org.suggs.fsm.stubs.BusinessObjectReferenceStub.Companion.aBOReferenceForTest
 import org.suggs.fsm.stubs.StubFsmStateManager
 
@@ -56,4 +56,24 @@ class SimpleStateMachineNavigation {
     private fun aSimpleEventCalled(eventName: String): BusinessEvent = BusinessEvent(eventName, BusinessObjectReference("domain", "id", 0))
     private fun createAStateMachineContextWithSimpleRouting() = FsmExecutionEnvironment(fsmWithTwoOutcomesPrototype().build(), fsmExecutionContext)
     private fun theResultingState() = stateManager.getActiveState(aBOReferenceForTest())
+
+    companion object {
+        fun fsmWithTwoOutcomesPrototype() =
+                StateMachineBuilder.aStateMachineCalled("context").withRegion(
+                        RegionBuilder.aRegionCalled("region0")
+                                .withVertices(
+                                        VertexBuilder.anInitialPseudoStateCalled("start"),
+                                        VertexBuilder.aSimpleStateCalled("middle"),
+                                        VertexBuilder.aSimpleStateCalled("left"),
+                                        VertexBuilder.aSimpleStateCalled("right"),
+                                        VertexBuilder.aFinalStateCalled("end"))
+                                .withTransitions(
+                                        TransitionBuilder.aTransitionCalled("_trigger1").startingAt("start").endingAt("middle"),
+                                        TransitionBuilder.aTransitionCalled("_trigger2").startingAt("middle").endingAt("left").triggeredBy(EventBuilder.anEventCalled("goLeft")),
+                                        TransitionBuilder.aTransitionCalled("_trigger3").startingAt("middle").endingAt("right").triggeredBy(EventBuilder.anEventCalled("goRight")),
+                                        TransitionBuilder.aTransitionCalled("_trigger4").startingAt("left").endingAt("end").triggeredBy(EventBuilder.anEventCalled("finish")),
+                                        TransitionBuilder.aTransitionCalled("_trigger5").startingAt("right").endingAt("end").triggeredBy(EventBuilder.anEventCalled("finish"))
+                                )
+                )
+    }
 }

@@ -1,12 +1,14 @@
 package org.suggs.fsm.uml
 
 import org.junit.jupiter.api.Test
-import org.suggs.fsm.behavior.builders.FsmPrototypes
 import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithEntryAndExitBehaviorsPrototype
-import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithTwoOutcomesPrototype
 import org.suggs.fsm.behavior.builders.FsmPrototypes.nestedStateStateMachinePrototype
-import org.suggs.fsm.behavior.builders.FsmPrototypes.simpleFsmPrototype
-import org.suggs.fsm.behavior.builders.FsmPrototypes.simpleNestedStatemachineProtoType
+import org.suggs.fsm.execution.CompositeStateTransitionTest.Companion.simpleNestedStatemachineProtoType
+import org.suggs.fsm.execution.CompositeStateUsingGuardActionToExit.Companion.nestedStateStateMachineWithGuardExitPrototype
+import org.suggs.fsm.execution.DeferredEventsTest.Companion.fsmWithDeferredAndAutomatedTransitionsPrototype
+import org.suggs.fsm.execution.DeferredEventsTest.Companion.fsmWithDeferredTransitionsPrototype
+import org.suggs.fsm.execution.FsmExecutionEnvironmentTest.Companion.simpleFsmPrototype
+import org.suggs.fsm.execution.SimpleStateMachineNavigation.Companion.fsmWithTwoOutcomesPrototype
 import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.generateUmlFor
 import org.suggs.fsm.uml.StateMachineUmlGenerator.Companion.writePumlToFile
 
@@ -24,12 +26,12 @@ class StateMachineUmlGeneratorTest {
 
     @Test
     fun `describes state machines with deferred events`() {
-        writePumlToFile(generateUmlFor(FsmPrototypes.fsmWithDeferredTransitionsPrototype().build()), "deferredTransitions.puml")
+        writePumlToFile(generateUmlFor(fsmWithDeferredTransitionsPrototype().build()), "deferredTransitions.puml")
     }
 
     @Test
     fun `describes state machine with deferred and automated transitions`() {
-        writePumlToFile(generateUmlFor(FsmPrototypes.fsmWithDeferredAndAutomatedTransitionsPrototype().build()), "deferredAndAutomatedTransitions.puml")
+        writePumlToFile(generateUmlFor(fsmWithDeferredAndAutomatedTransitionsPrototype().build()), "deferredAndAutomatedTransitions.puml")
     }
 
     @Test
@@ -40,6 +42,11 @@ class StateMachineUmlGeneratorTest {
     @Test
     fun `describes composite state machines`() {
         writePumlToFile(generateUmlFor(nestedStateStateMachinePrototype().build()), "compositeFsm.puml")
+    }
+
+    @Test
+    fun `describes a composite state machine with guard condition to close`() {
+        writePumlToFile(generateUmlFor(nestedStateStateMachineWithGuardExitPrototype { true }.build()), "compositeWithGuardExitFsm.puml")
     }
 
     @Test

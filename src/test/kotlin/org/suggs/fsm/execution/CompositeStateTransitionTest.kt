@@ -3,7 +3,7 @@ package org.suggs.fsm.execution
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.suggs.fsm.behavior.builders.FsmPrototypes.simpleNestedStatemachineProtoType
+import org.suggs.fsm.behavior.builders.*
 import org.suggs.fsm.stubs.BusinessEventStub.Companion.aBusinessEventCalled
 import org.suggs.fsm.stubs.BusinessObjectReferenceStub.Companion.aBOReferenceForTest
 import org.suggs.fsm.stubs.StubDomainObject
@@ -41,7 +41,7 @@ class CompositeStateTransitionTest {
         assertThat(theResultingState()).endsWith("region0::final")
     }
 
-    @Test fun `transitions away from composite states if no guard conditions`(){
+    @Test fun `transitions away from composite states if no guard conditions`() {
         domainObject.complete = true
         executionEnvironment.handleEvent(aBusinessEventCalled("event1"))
 
@@ -50,6 +50,35 @@ class CompositeStateTransitionTest {
         assertThat(theResultingState()).endsWith("region0::final")
     }
 
-    private fun createAStateMachineContextWithCompositeStates() = FsmExecutionEnvironment(simpleNestedStatemachineProtoType{domainObject.areYouComplete()}.build(), fsmExecutionContext)
+    private fun createAStateMachineContextWithCompositeStates() = FsmExecutionEnvironment(simpleNestedStatemachineProtoType { domainObject.areYouComplete() }.build(), fsmExecutionContext)
     private fun theResultingState() = stateManager.getActiveState(aBOReferenceForTest())
+
+    companion object {
+        fun simpleNestedStatemachineProtoType(finalTransitionGuard: (BusinessEvent) -> Boolean) =
+                StateMachineBuilder.aStateMachineCalled("context").withRegion(
+                        RegionBuilder.aRegionCalled("region0")
+                                .withVertices(
+                                        VertexBuilder.anInitialPseudoStateCalled("initial"),
+                                        VertexBuilder.aSimpleStateCalled("simpleState"),
+                                        VertexBuilder.aCompositeStateCalled("compositeState").withRegion(
+                                                RegionBuilder.aRegionCalled("region1")
+                                                        .withVertices(
+                                                                VertexBuilder.anInitialPseudoStateCalled("initial"),
+                                                                VertexBuilder.aSimpleStateCalled("internalState"),
+                                                                VertexBuilder.aFinalStateCalled("final")
+                                                        )
+                                                        .withTransitions(
+                                                                TransitionBuilder.aTransitionCalled("transition1").startingAt("initial").endingAt("internalState"),
+                                                                TransitionBuilder.aTransitionCalled("transition2").startingAt("internalState").endingAt("final").triggeredBy(EventBuilder.anEventCalled("event2"))
+                                                        )
+                                        ),
+                                        VertexBuilder.aFinalStateCalled("final")
+                                )
+                                .withTransitions(
+                                        TransitionBuilder.aTransitionCalled("transition1").startingAt("initial").endingAt("simpleState"),
+                                        TransitionBuilder.aTransitionCalled("transition2").startingAt("simpleState").endingAt("compositeState").triggeredBy(EventBuilder.anEventCalled("event1")),
+                                        TransitionBuilder.aTransitionCalled("transition3").startingAt("compositeState").endingAt("final").guardedBy(finalTransitionGuard)
+                                )
+                )
+    }
 }

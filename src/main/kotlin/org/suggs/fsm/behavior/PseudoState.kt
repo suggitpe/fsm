@@ -66,7 +66,7 @@ class PseudoState(name: String,
 
         override fun enter(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
             if (outgoing.size != 1)
-                throw IllegalStateException("Entry point Pseudostate must have exactly 1 outgoing transition")
+                throw IllegalStateException("Entry point PseudoState must have exactly 1 outgoing transition")
             outgoing.first().fire(event, fsmExecutionContext)
         }
 

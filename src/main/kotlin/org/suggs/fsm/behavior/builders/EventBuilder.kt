@@ -2,7 +2,7 @@ package org.suggs.fsm.behavior.builders
 
 import org.suggs.fsm.behavior.Event
 
-data class EventBuilder(val name: String) {
+class EventBuilder(val name: String) {
 
     companion object {
 

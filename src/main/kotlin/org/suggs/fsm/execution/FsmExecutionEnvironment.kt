@@ -22,7 +22,7 @@ class FsmExecutionEnvironment(private val stateMachineDefinition: BehavioredClas
 
         if (activeStateName.isBlank()) {
             log.debug("No active state exists for ${event.identifier}, initialising to PseudoState for top region")
-            var initialState = stateMachineDefinition.stateMachine.region.getInitialState()
+            val initialState = stateMachineDefinition.stateMachine.region.getInitialState()
             fsmExecutionContext.stateManager.storeActiveState(initialState.deriveQualifiedName())
             initialState.enter(event, fsmExecutionContext)
             activeStateName = fsmExecutionContext.stateManager.getActiveState(event.identifier)
@@ -30,15 +30,15 @@ class FsmExecutionEnvironment(private val stateMachineDefinition: BehavioredClas
             throw IllegalStateException("The current active state is in an incomplete state")
         }
 
-        var currentState = fsmExecutionContext.namespaceContext.retrieveStateCalled(activeStateName)
-        currentState!!.processEvent(event, fsmExecutionContext)
+        val currentState = fsmExecutionContext.namespaceContext.retrieveStateCalled(activeStateName)
+        currentState.processEvent(event, fsmExecutionContext)
 
         activeStateName = fsmExecutionContext.stateManager.getActiveState(event.identifier)
-        checkTransitionedIntoValidState(activeStateName, event, fsmExecutionContext.namespaceContext)
+        checkTransitionedIntoValidState(activeStateName, event)
     }
 
-    private fun checkTransitionedIntoValidState(activeStateName: String, event: BusinessEvent, namespaceContext: NamespaceObjectMapper) {
-        if (activeStateName.isBlank() || namespaceContext.retrieveStateCalled(activeStateName) == null) {
+    private fun checkTransitionedIntoValidState(activeStateName: String, event: BusinessEvent) {
+        if (activeStateName.isBlank()) {
             throw IllegalStateException("After processing we have entered state [$activeStateName], but this is an unregistered state")
         }
 

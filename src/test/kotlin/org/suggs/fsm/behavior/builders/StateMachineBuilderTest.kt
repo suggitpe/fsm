@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
 import org.suggs.fsm.behavior.builders.StateMachineBuilder.Companion.aStateMachineCalled
-import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTransitionCalled
+import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.aTransitionCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoState
@@ -20,11 +20,11 @@ class StateMachineBuilderTest {
                             aSimpleStateCalled("R0_S2"),
                             aFinalStateCalled("FINAL"))
                     .withTransitions(
-                            anExternalTransitionCalled("R0_T0").startingAtInitialState().endingAt("R0_S0"),
-                            anExternalTransitionCalled("R0_T1").startingAt("R0_S0").endingAt("R0_S1"),
-                            anExternalTransitionCalled("R0_T2").startingAt("R0_S0").endingAt("R0_S2"),
-                            anExternalTransitionCalled("R0_T3").startingAt("R0_S1").endingAt("FINAL"),
-                            anExternalTransitionCalled("R0_T4").startingAt("R0_S2").endingAt("FINAL")
+                            aTransitionCalled("R0_T0").startingAtInitialState().endingAt("R0_S0"),
+                            aTransitionCalled("R0_T1").startingAt("R0_S0").endingAt("R0_S1"),
+                            aTransitionCalled("R0_T2").startingAt("R0_S0").endingAt("R0_S2"),
+                            aTransitionCalled("R0_T3").startingAt("R0_S1").endingAt("FINAL"),
+                            aTransitionCalled("R0_T4").startingAt("R0_S2").endingAt("FINAL")
                     )).build()
 
     @Test

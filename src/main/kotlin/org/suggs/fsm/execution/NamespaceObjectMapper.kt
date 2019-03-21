@@ -22,7 +22,7 @@ class NamespaceObjectMapper {
         namedElements[namedElement.deriveQualifiedName()] = namedElement
     }
 
-    fun retrieveStateCalled(activeStateName: String): State? {
+    fun retrieveStateCalled(activeStateName: String): State {
         return namedElements[activeStateName] as State
     }
 

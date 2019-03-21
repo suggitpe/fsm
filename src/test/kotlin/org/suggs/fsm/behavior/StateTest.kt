@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
 import org.suggs.fsm.behavior.builders.SimpleStateBuilder.Companion.aStateCalled
-import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.anExternalTransitionCalled
+import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.aTransitionCalled
 import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
@@ -97,8 +97,8 @@ class StateTest {
                     aFinalStateCalled("FS")
             )
             .withTransitions(
-                    anExternalTransitionCalled("T1").startingAt("IS").endingAt("S0"),
-                    anExternalTransitionCalled("T2").startingAt("S0").endingAt("FS").triggeredBy(
+                    aTransitionCalled("T1").startingAt("IS").endingAt("S0"),
+                    aTransitionCalled("T2").startingAt("S0").endingAt("FS").triggeredBy(
                             aTriggerCalled("TG1").firedWith(anEventCalled("validEvent")),
                             aTriggerCalled("TG2").firedWith(anEventCalled("anotherValidEvent"))
                     )
@@ -108,9 +108,9 @@ class StateTest {
     private val simpleRegionWithMultipleValidTransitionns = aRegionCalled("testRegion")
             .withVertices(aSimpleStateCalled("S1"), aSimpleStateCalled("S2"))
             .withTransitions(
-                    anExternalTransitionCalled("T1").startingAt("S1").endingAt("S2").triggeredBy(
+                    aTransitionCalled("T1").startingAt("S1").endingAt("S2").triggeredBy(
                             aTriggerCalled("TG1").firedWith(anEventCalled("validEvent"))),
-                    anExternalTransitionCalled("T2").startingAt("S1").endingAt("S2").triggeredBy(
+                    aTransitionCalled("T2").startingAt("S1").endingAt("S2").triggeredBy(
                             aTriggerCalled("TG2").firedWith(anEventCalled("validEvent")))
             ).build(aRegionContainerStub())
 }

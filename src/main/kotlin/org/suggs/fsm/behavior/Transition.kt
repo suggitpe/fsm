@@ -55,7 +55,7 @@ class Transition(name: String,
     inner class ExternalTransitionBehaviour : TransitionBehaviour {
         override fun fire(transition: Transition, event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
             // TODO: region exit for composite state in the right order
-            // TOTO: least common ancestor
+            // TODO: least common ancestor
 
             Transition.log.debug("Transitioning from state [${source.deriveQualifiedName()}] to state [${target.deriveQualifiedName()}] with [${event.type}] event")
 

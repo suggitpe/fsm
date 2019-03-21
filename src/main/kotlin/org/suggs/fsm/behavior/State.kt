@@ -30,7 +30,7 @@ abstract class State(name: String,
                     log.debug("Storing deferrable event [$event] for a future time")
                     fsmExecutionContext.stateManager.storeDeferredEvents(anEventCalled(event.type).build())
                 } else {
-                    log.debug("No valid transitions for [${event}] from state [$name]")
+                    log.debug("No valid transitions for [$event] from state [$name]")
                     throw UnprocessableEventException("No valid transitions from $name for $event")
                 }
             }
