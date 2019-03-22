@@ -4,7 +4,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.suggs.fsm.behavior.builders.*
+import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
+import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
+import org.suggs.fsm.behavior.builders.StateMachineBuilder.Companion.aStateMachineCalled
+import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.aTransitionCalled
+import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
+import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
+import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
 import org.suggs.fsm.stubs.BusinessObjectReferenceStub.Companion.aBOReferenceForTest
 import org.suggs.fsm.stubs.StubFsmStateManager
 
@@ -59,20 +65,20 @@ class SimpleStateMachineNavigation {
 
     companion object {
         fun fsmWithTwoOutcomesPrototype() =
-                StateMachineBuilder.aStateMachineCalled("context").withRegion(
-                        RegionBuilder.aRegionCalled("region0")
+                aStateMachineCalled("context").withRegion(
+                        aRegionCalled("region0")
                                 .withVertices(
-                                        VertexBuilder.anInitialPseudoStateCalled("start"),
-                                        VertexBuilder.aSimpleStateCalled("middle"),
-                                        VertexBuilder.aSimpleStateCalled("left"),
-                                        VertexBuilder.aSimpleStateCalled("right"),
-                                        VertexBuilder.aFinalStateCalled("end"))
+                                        anInitialPseudoStateCalled("start"),
+                                        aSimpleStateCalled("middle"),
+                                        aSimpleStateCalled("left"),
+                                        aSimpleStateCalled("right"),
+                                        aFinalStateCalled("end"))
                                 .withTransitions(
-                                        TransitionBuilder.aTransitionCalled("_trigger1").startingAt("start").endingAt("middle"),
-                                        TransitionBuilder.aTransitionCalled("_trigger2").startingAt("middle").endingAt("left").triggeredBy(EventBuilder.anEventCalled("goLeft")),
-                                        TransitionBuilder.aTransitionCalled("_trigger3").startingAt("middle").endingAt("right").triggeredBy(EventBuilder.anEventCalled("goRight")),
-                                        TransitionBuilder.aTransitionCalled("_trigger4").startingAt("left").endingAt("end").triggeredBy(EventBuilder.anEventCalled("finish")),
-                                        TransitionBuilder.aTransitionCalled("_trigger5").startingAt("right").endingAt("end").triggeredBy(EventBuilder.anEventCalled("finish"))
+                                        aTransitionCalled("_trigger1").startingAt("start").endingAt("middle"),
+                                        aTransitionCalled("_trigger2").startingAt("middle").endingAt("left").triggeredBy(anEventCalled("goLeft")),
+                                        aTransitionCalled("_trigger3").startingAt("middle").endingAt("right").triggeredBy(anEventCalled("goRight")),
+                                        aTransitionCalled("_trigger4").startingAt("left").endingAt("end").triggeredBy(anEventCalled("finish")),
+                                        aTransitionCalled("_trigger5").startingAt("right").endingAt("end").triggeredBy(anEventCalled("finish"))
                                 )
                 )
     }

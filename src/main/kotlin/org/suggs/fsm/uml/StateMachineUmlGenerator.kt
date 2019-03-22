@@ -56,7 +56,7 @@ class StateMachineUmlGenerator {
 
         private fun buildFileForOutput(filename: String): String {
             val dir = System.getenv("puml.output.dir") ?: "build/puml"
-            log.info("Writing puml to directory [$dir]")
+            log.debug("Writing puml to directory [$dir]")
             if (!File(dir).exists()) {
                 if (!File(dir).mkdirs()) throw IllegalStateException("Failed to create directory [$dir]")
             }

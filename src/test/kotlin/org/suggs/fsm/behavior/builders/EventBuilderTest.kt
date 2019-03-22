@@ -8,8 +8,7 @@ class EventBuilderTest {
 
     private val event = anEventCalled("EVENT").build()
 
-    @Test
-    fun `events are built with a name`() {
+    @Test fun `events are built with a name`() {
         assertThat(event.name).isEqualTo("EVENT")
     }
 }

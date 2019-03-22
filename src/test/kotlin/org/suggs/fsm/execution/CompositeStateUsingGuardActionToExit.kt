@@ -1,13 +1,20 @@
 package org.suggs.fsm.execution
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.suggs.fsm.behavior.builders.*
+import org.suggs.fsm.behavior.builders.ConstraintBuilder.Companion.aConstraintCalled
+import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
+import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
+import org.suggs.fsm.behavior.builders.StateMachineBuilder.Companion.aStateMachineCalled
+import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.aTransitionCalled
+import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aCompositeStateCalled
+import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalState
+import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
+import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoState
 import org.suggs.fsm.stubs.BusinessEventStub
 import org.suggs.fsm.stubs.BusinessEventStub.Companion.aBusinessEventCalled
-import org.suggs.fsm.stubs.BusinessObjectReferenceStub
+import org.suggs.fsm.stubs.BusinessObjectReferenceStub.Companion.aBOReferenceForTest
 import org.suggs.fsm.stubs.StubDomainObject
 import org.suggs.fsm.stubs.StubFsmStateManager
 
@@ -55,32 +62,32 @@ class CompositeStateUsingGuardActionToExit {
     }
 
     private fun createANestedStateStateMachineWithGuardExit() = FsmExecutionEnvironment(nestedStateStateMachineWithGuardExitPrototype { domainObject.areYouComplete() }.build(), fsmExecutionContext)
-    private fun theResultingState() = stateManager.getActiveState(BusinessObjectReferenceStub.aBOReferenceForTest())
+    private fun theResultingState() = stateManager.getActiveState(aBOReferenceForTest())
 
     companion object {
         fun nestedStateStateMachineWithGuardExitPrototype(finalTransitionGuard: (BusinessEvent) -> Boolean) =
-                StateMachineBuilder.aStateMachineCalled("context").withRegion(
-                        RegionBuilder.aRegionCalled("region0")
+                aStateMachineCalled("context").withRegion(
+                        aRegionCalled("region0")
                                 .withVertices(
-                                        VertexBuilder.anInitialPseudoState(),
-                                        VertexBuilder.aSimpleStateCalled("state1"),
-                                        VertexBuilder.aCompositeStateCalled("state2").withRegion(
-                                                RegionBuilder.aRegionCalled("region1")
+                                        anInitialPseudoState(),
+                                        aSimpleStateCalled("state1"),
+                                        aCompositeStateCalled("state2").withRegion(
+                                                aRegionCalled("region1")
                                                         .withVertices(
-                                                                VertexBuilder.anInitialPseudoState(),
-                                                                VertexBuilder.aSimpleStateCalled("processing")
+                                                                anInitialPseudoState(),
+                                                                aSimpleStateCalled("processing")
                                                         )
                                                         .withTransitions(
-                                                                TransitionBuilder.aTransitionCalled("trans1").startingAtInitialState().endingAt("processing"),
-                                                                TransitionBuilder.aTransitionCalled("trans2").startingAt("processing").endingAt("processing").triggeredBy(EventBuilder.anEventCalled("process"))
+                                                                aTransitionCalled("trans1").startingAtInitialState().endingAt("processing"),
+                                                                aTransitionCalled("trans2").startingAt("processing").endingAt("processing").triggeredBy(anEventCalled("process"))
                                                         )
                                         ),
-                                        VertexBuilder.aFinalState()
+                                        aFinalState()
                                 )
                                 .withTransitions(
-                                        TransitionBuilder.aTransitionCalled("trans1").startingAtInitialState().endingAt("state1"),
-                                        TransitionBuilder.aTransitionCalled("trans2").startingAt("state1").endingAt("state2").triggeredBy(EventBuilder.anEventCalled("event1")),
-                                        TransitionBuilder.aTransitionCalled("trans3").startingAt("state2").endingAtFinalState().guardedBy(ConstraintBuilder.aConstraintCalled("completed").withGuardCondition(finalTransitionGuard))
+                                        aTransitionCalled("trans1").startingAtInitialState().endingAt("state1"),
+                                        aTransitionCalled("trans2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("event1")),
+                                        aTransitionCalled("trans3").startingAt("state2").endingAtFinalState().guardedBy(aConstraintCalled("completed").withGuardCondition(finalTransitionGuard))
                                 )
                 )
 

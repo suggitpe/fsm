@@ -20,24 +20,21 @@ class RegionBuilderTest {
                     aTransitionCalled("transition").startingAt("INIT").endingAt("STATE_1"))
             .build(aRegionContainerStub())
 
-    @Test
-    fun `can build an empty region`() {
+    @Test fun `can build an empty region`() {
         assertAll(
                 Executable { assertThat(aRegionCalled("foo").build(aRegionContainerStub()).vertices).isEmpty() },
                 Executable { assertThat(aRegionCalled("bar").build(aRegionContainerStub()).transitions).isEmpty() }
         )
     }
 
-    @Test
-    fun `builds regions with states and transitions`() {
+    @Test fun `builds regions with states and transitions`() {
         assertAll(
                 Executable { assertThat(region.vertices.size).isEqualTo(2) },
                 Executable { assertThat(region.transitions.size).isEqualTo(1) }
         )
     }
 
-    @Test
-    fun `joins transitions to vertexes`() {
+    @Test fun `joins transitions to vertexes`() {
         assertAll(
                 Executable { assertThat(region.transitions.values.first().name).isEqualTo("transition") },
                 Executable { assertThat(region.transitions.values.first().source.name).isEqualTo("INIT") },
@@ -45,8 +42,7 @@ class RegionBuilderTest {
         )
     }
 
-    @Test
-    fun `joins vertices to transitions`() {
+    @Test fun `joins vertices to transitions`() {
         assertAll(
                 Executable { assertThat(region.vertices.getValue("INIT").incoming).hasSize(0) },
                 Executable { assertThat(region.vertices.getValue("INIT").outgoing).hasSize(1) },

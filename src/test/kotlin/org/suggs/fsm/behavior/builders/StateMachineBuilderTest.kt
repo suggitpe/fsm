@@ -27,8 +27,7 @@ class StateMachineBuilderTest {
                             aTransitionCalled("R0_T4").startingAt("R0_S2").endingAt("FINAL")
                     )).build()
 
-    @Test
-    fun `builds state machines`() {
+    @Test fun `builds state machines`() {
         assertThat(stateMachine).isNotNull
     }
 }

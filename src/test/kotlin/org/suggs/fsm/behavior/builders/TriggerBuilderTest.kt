@@ -11,8 +11,7 @@ class TriggerBuilderTest {
             .firedWith(anEventCalled("EVENT"))
             .build()
 
-    @Test
-    fun `triggers are built with events`() {
+    @Test fun `triggers are built with events`() {
         assertThat(trigger.event.name).isEqualTo("EVENT")
     }
 }

@@ -9,7 +9,6 @@ import org.suggs.fsm.execution.FsmExecutionContext
 class RegionContainerStub(name: String) : NamedElementContainer(name, setOf()), RegionContainer {
 
     override fun processEvent(event: BusinessEvent, fsmExecutionContext: FsmExecutionContext) {
-        // do nothing
     }
 
     companion object {

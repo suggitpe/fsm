@@ -1,21 +1,15 @@
 package org.suggs.fsm.behavior.builders
 
 import org.slf4j.LoggerFactory
-import org.suggs.fsm.behavior.SimpleGuardConstraint
 import org.suggs.fsm.behavior.builders.BehaviorBuilder.Companion.aBehaviorCalled
-import org.suggs.fsm.behavior.builders.ConstraintBuilder.Companion.aConstraintCalled
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
 import org.suggs.fsm.behavior.builders.StateMachineBuilder.Companion.aStateMachineCalled
 import org.suggs.fsm.behavior.builders.TransitionBuilder.Companion.aTransitionCalled
-import org.suggs.fsm.behavior.builders.TriggerBuilder.Companion.aTriggerCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aCompositeStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalState
-import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoState
-import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoStateCalled
-import org.suggs.fsm.execution.BusinessEvent
 
 object FsmPrototypes {
 
