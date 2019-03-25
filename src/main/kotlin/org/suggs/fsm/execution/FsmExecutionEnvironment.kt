@@ -17,7 +17,7 @@ class FsmExecutionEnvironment(private val stateMachineDefinition: BehavioredClas
     }
 
     fun handleEvent(event: BusinessEvent) {
-        log.debug("Handling event $event")
+        log.info("Handling event $event")
         var activeStateName = fsmExecutionContext.stateManager.getActiveState(event.identifier)
 
         if (activeStateName.isBlank()) {

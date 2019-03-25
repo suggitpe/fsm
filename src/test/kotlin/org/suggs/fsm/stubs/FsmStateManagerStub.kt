@@ -31,7 +31,7 @@ open class StubFsmStateManager : FsmStateManager {
     override fun storeActiveState(state: String) {
         this.state = state
         audits.add(Audit(state))
-        log.debug("Recording state change to [$state]")
+        log.info("Recording state change to [$state]")
     }
 
     override fun getActiveState(businessObjectReference: BusinessObjectReference): String {
@@ -41,7 +41,7 @@ open class StubFsmStateManager : FsmStateManager {
     fun printAudits() {
         val buffer = StringBuffer("Transitions audit:\n")
         audits.map { buffer.append(" - ${it.timeStamp} - ${it.event}\n") }
-        log.debug(buffer.toString())
+        log.info(buffer.toString())
     }
 }
 

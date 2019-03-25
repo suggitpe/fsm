@@ -27,7 +27,7 @@ abstract class State(name: String,
             validTransitions.size > 1 -> throw IllegalStateException("State [$name] has more than one valid transition")
             validTransitions.isEmpty() -> {
                 if (weCanDefer(event)) {
-                    log.debug("Storing deferrable event [$event] for a future time")
+                    log.info("Storing deferrable event [$event] for a future time")
                     fsmExecutionContext.stateManager.storeDeferredEvents(anEventCalled(event.type).build())
                 } else {
                     log.debug("No valid transitions for [$event] from state [$name]")

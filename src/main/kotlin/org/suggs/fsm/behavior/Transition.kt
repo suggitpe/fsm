@@ -57,7 +57,7 @@ class Transition(name: String,
             // TODO: region exit for composite state in the right order
             // TODO: call up the stack to run the exit action on owning states if necessary
 
-            Transition.log.debug("Transitioning from state [${source.deriveQualifiedName()}] to state [${target.deriveQualifiedName()}] with [${event.type}] event")
+            log.info("Transitioning [${event.identifier}] from state [${source.deriveQualifiedName()}] to state [${target.deriveQualifiedName()}] with [${event.type}] event")
 
             source.exit(event, fsmExecutionContext)
             source.doExitAction(event, fsmExecutionContext)
