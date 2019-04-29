@@ -30,7 +30,7 @@ class CompositeStateUsingGuardActionToExit {
     }
 
     @Test fun `transitions to internal processing state from initial event`() {
-        executionEnvironment.handleEvent(BusinessEventStub.aBusinessEventCalled("event1"))
+        executionEnvironment.handleEvent(aBusinessEventCalled("event1"))
 
         stateManager.printAudits()
 
