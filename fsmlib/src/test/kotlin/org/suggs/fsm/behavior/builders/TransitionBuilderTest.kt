@@ -1,5 +1,8 @@
 package org.suggs.fsm.behavior.builders
 
+import io.kotest.assertions.assertSoftly
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
@@ -27,59 +30,56 @@ class TransitionBuilderTest {
 
     private lateinit var transitionPrototype: TransitionBuilder
 
-    @BeforeEach fun `set up prototype`() {
+    @BeforeEach
+    fun `set up prototype`() {
         transitionPrototype = aTransitionCalled("transitionPrototype")
-                .startingAt("STATE1")
-                .endingAt("STATE2")
+            .startingAt("STATE1")
+            .endingAt("STATE2")
     }
 
-    @Test fun `builds transitions with states`() {
+    @Test
+    fun `builds transitions with states`() {
         val transition = transitionPrototype.build(vertices)
-        assertAll(
-                Executable { assertThat(transition.source.name).isEqualTo("STATE1") },
-                Executable { assertThat(transition.target.name).isEqualTo("STATE2") }
-        )
+
+        assertSoftly {
+            transition.source.name shouldBe "STATE1"
+            transition.target.name shouldBe "STATE2"
+        }
     }
 
-    @Test fun `builds transitions that have default COMPLETION event triggers`() {
+    @Test
+    fun `builds transitions that have default COMPLETION event triggers`() {
         val transition = transitionPrototype.build(vertices)
-        assertAll(
-                Executable { assertThat(transition.triggers.size).isEqualTo(1) },
-                Executable { assertThat(transition.triggers.first().name).isEqualTo(COMPLETION_EVENT_NAME) }
-        )
+
+        assertSoftly {
+            transition.triggers shouldHaveSize 1
+            transition.triggers.first().name shouldBe COMPLETION_EVENT_NAME
+        }
     }
 
-    @Test fun `builds transitions with triggers`() {
+    @Test
+    fun `builds transitions with triggers`() {
         val transition = transitionPrototype
-                .triggeredBy(aTriggerCalled("TRIGGER1"), aTriggerCalled("TRIGGER2"))
-                .build(vertices)
-        assertThat(transition.triggers.size).isEqualTo(2)
-        assertAll(
-                Executable { assertThat(transition.triggers.sortedBy { it.name }.first().name).isEqualTo("TRIGGER1") },
-                Executable { assertThat(transition.triggers.sortedBy { it.name }.last().name).isEqualTo("TRIGGER2") }
-        )
+            .triggeredBy(aTriggerCalled("TRIGGER1"), aTriggerCalled("TRIGGER2"))
+            .build(vertices)
+
+        assertSoftly {
+            transition.triggers shouldHaveSize 2
+            transition.triggers.sortedBy { it.name }.first().name shouldBe "TRIGGER1"
+            transition.triggers.sortedBy { it.name }.last().name shouldBe "TRIGGER2"
+        }
     }
 
-    @Test fun `default builds transitions with empty guard constrains`() {
-        val transition = transitionPrototype.build(vertices)
-        assertThat(transition.guard is EmptyGuardConstraint)
-    }
-
-    @Test fun `builds transitions with guard constraints`() {
+    @Test
+    fun `builds transitions with effects`() {
         val transition = transitionPrototype
-                .guardedBy { true }
-                .build(vertices)
-        assertThat(transition.guard is SimpleGuardConstraint)
-    }
+            .withEffects(aBehaviorCalled("BEHAVIOR1").withAction { log.debug(it.toString()) })
+            .build(vertices)
 
-    @Test fun `builds transitions with effects`() {
-        val transition = transitionPrototype
-                .withEffects(aBehaviorCalled("BEHAVIOR1").withAction { log.debug(it.toString()) })
-                .build(vertices)
-        assertAll(
-                Executable { assertThat(transition.effects.size).isEqualTo(1) },
-                Executable { assertThat(transition.effects.first().name).isEqualTo("BEHAVIOR1") }
-        )
+        assertSoftly {
+            transition.effects shouldHaveSize 1
+            transition.effects.first().name shouldBe "BEHAVIOR1"
+        }
     }
 
 }

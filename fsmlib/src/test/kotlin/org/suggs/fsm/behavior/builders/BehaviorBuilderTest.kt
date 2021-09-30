@@ -10,7 +10,8 @@ import org.suggs.fsm.execution.BusinessObjectReference
 
 class BehaviorBuilderTest {
 
-    @Test fun `builds behaviors that have functions associated with them`() {
+    @Test
+    fun `builds behaviors that have functions associated with them`() {
         val behavior = aBehaviorCalled("TestBehavior").withAction { throw IllegalStateException() }.build()
         // this may look weird, I want to show that the behavior is executed
         assertThatExceptionOfType(IllegalStateException::class.java).isThrownBy {
@@ -18,7 +19,8 @@ class BehaviorBuilderTest {
         }
     }
 
-    @Test fun `builds empty behaviors that have no side effects`() {
+    @Test
+    fun `builds empty behaviors that have no side effects`() {
         val empty = anEmptyBehavior().build()
         empty.execute(BusinessEvent("", BusinessObjectReference("", "", 0)))
     }
