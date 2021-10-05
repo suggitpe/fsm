@@ -3,7 +3,6 @@ package org.suggs.fsm.behavior
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldEndWith
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
@@ -80,7 +79,7 @@ class StateTest {
     @Test
     fun `returns null when no events match the `() {
         val state = simpleRegionOfStatesAndTransitions.findStateCalled("S0")
-        assertThat(state.findEventsThatFireTransitionsFrom(setOf(Event("foo"), Event("bar"), Event("baz")))).isEmpty()
+        state.findEventsThatFireTransitionsFrom(setOf(Event("foo"), Event("bar"), Event("baz"))) shouldBe setOf()
     }
 
     private fun aStubEventFor(name: String): BusinessEvent {

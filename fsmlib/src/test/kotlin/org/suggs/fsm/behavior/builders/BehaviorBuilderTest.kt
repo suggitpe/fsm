@@ -1,6 +1,6 @@
 package org.suggs.fsm.behavior.builders
 
-import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import io.kotest.assertions.throwables.shouldThrow
 import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.BehaviorBuilder.Companion.aBehaviorCalled
 import org.suggs.fsm.behavior.builders.EmptyBehaviourBuilder.Companion.anEmptyBehavior
@@ -14,7 +14,7 @@ class BehaviorBuilderTest {
     fun `builds behaviors that have functions associated with them`() {
         val behavior = aBehaviorCalled("TestBehavior").withAction { throw IllegalStateException() }.build()
         // this may look weird, I want to show that the behavior is executed
-        assertThatExceptionOfType(IllegalStateException::class.java).isThrownBy {
+        shouldThrow<IllegalStateException> {
             behavior.execute(BusinessEvent("", BusinessObjectReference("", "", 0)))
         }
     }
