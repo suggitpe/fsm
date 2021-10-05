@@ -1,5 +1,6 @@
 package org.suggs.fsm.behavior
 
+import io.kotest.matchers.shouldBe
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -60,12 +61,12 @@ class TransitionTest {
 
     @Test fun `can tell you if they are fireable for an event`() {
         val transition = testRegion.findTransitionCalled("transition")
-        assertThat(transition.isFireableFor(aBusinessEventCalled("event"))).isTrue()
+        transition.isFireableFor(aBusinessEventCalled("event")) shouldBe true
     }
 
     @Test fun `can tell you if they are not firable for an event`() {
         val transition = testRegion.findTransitionCalled("transition")
-        assertThat(transition.isFireableFor(aBusinessEventCalled("irrelevantEvent"))).isFalse()
+        transition.isFireableFor(aBusinessEventCalled("irrelevantEvent")) shouldBe false
     }
 
     private fun aBusinessEventCalled(name: String): BusinessEvent {
