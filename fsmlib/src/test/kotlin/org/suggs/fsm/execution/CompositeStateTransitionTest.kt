@@ -1,6 +1,6 @@
 package org.suggs.fsm.execution
 
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.string.shouldEndWith
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
@@ -23,38 +23,42 @@ class CompositeStateTransitionTest {
     private lateinit var executionEnvironment: FsmExecutionEnvironment
     private val domainObject = StubDomainObject(false)
 
-    @BeforeEach fun `set up`() {
+    @BeforeEach
+    fun `set up`() {
         executionEnvironment = createAStateMachineContextWithCompositeStates()
     }
 
-    @Test fun `handles composite events to transition to new state and records transitions`() {
+    @Test
+    fun `handles composite events to transition to new state and records transitions`() {
         executionEnvironment.handleEvent(aBusinessEventCalled("event1"))
 
         stateManager.printAudits()
 
-        assertThat(theResultingState()).endsWith("region1::internalState")
+        theResultingState() shouldEndWith "region1::internalState"
     }
 
-    @Test fun `handles composite events to transition to final state`() {
+    @Test
+    fun `handles composite events to transition to final state`() {
         domainObject.complete = false
         executionEnvironment.handleEvent(aBusinessEventCalled("event1"))
-        assertThat(theResultingState()).endsWith("region1::internalState")
+        theResultingState() shouldEndWith "region1::internalState"
 
         domainObject.complete = true
         executionEnvironment.handleEvent(aBusinessEventCalled("event2"))
 
         stateManager.printAudits()
 
-        assertThat(theResultingState()).endsWith("region0::final")
+        theResultingState() shouldEndWith "region0::final"
     }
 
-    @Test fun `transitions away from composite states if no guard conditions`() {
+    @Test
+    fun `transitions away from composite states if no guard conditions`() {
         domainObject.complete = true
         executionEnvironment.handleEvent(aBusinessEventCalled("event1"))
 
         stateManager.printAudits()
 
-        assertThat(theResultingState()).endsWith("region0::final")
+        theResultingState() shouldEndWith "region0::final"
     }
 
     private fun createAStateMachineContextWithCompositeStates() = FsmExecutionEnvironment(simpleNestedStatemachineProtoType { domainObject.areYouComplete() }.build(), fsmExecutionContext)
@@ -62,30 +66,30 @@ class CompositeStateTransitionTest {
 
     companion object {
         fun simpleNestedStatemachineProtoType(finalTransitionGuard: (BusinessEvent) -> Boolean) =
-                aStateMachineCalled("context").withRegion(
-                        aRegionCalled("region0")
+            aStateMachineCalled("context").withRegion(
+                aRegionCalled("region0")
+                    .withVertices(
+                        anInitialPseudoStateCalled("initial"),
+                        aSimpleStateCalled("simpleState"),
+                        aCompositeStateCalled("compositeState").withRegion(
+                            aRegionCalled("region1")
                                 .withVertices(
-                                        anInitialPseudoStateCalled("initial"),
-                                        aSimpleStateCalled("simpleState"),
-                                        aCompositeStateCalled("compositeState").withRegion(
-                                                aRegionCalled("region1")
-                                                        .withVertices(
-                                                                anInitialPseudoStateCalled("initial"),
-                                                                aSimpleStateCalled("internalState"),
-                                                                aFinalStateCalled("final")
-                                                        )
-                                                        .withTransitions(
-                                                                aTransitionCalled("transition1").startingAt("initial").endingAt("internalState"),
-                                                                aTransitionCalled("transition2").startingAt("internalState").endingAt("final").triggeredBy(anEventCalled("event2"))
-                                                        )
-                                        ),
-                                        aFinalStateCalled("final")
+                                    anInitialPseudoStateCalled("initial"),
+                                    aSimpleStateCalled("internalState"),
+                                    aFinalStateCalled("final")
                                 )
                                 .withTransitions(
-                                        aTransitionCalled("transition1").startingAt("initial").endingAt("simpleState"),
-                                        aTransitionCalled("transition2").startingAt("simpleState").endingAt("compositeState").triggeredBy(anEventCalled("event1")),
-                                        aTransitionCalled("transition3").startingAt("compositeState").endingAt("final").guardedBy(finalTransitionGuard)
+                                    aTransitionCalled("transition1").startingAt("initial").endingAt("internalState"),
+                                    aTransitionCalled("transition2").startingAt("internalState").endingAt("final").triggeredBy(anEventCalled("event2"))
                                 )
-                )
+                        ),
+                        aFinalStateCalled("final")
+                    )
+                    .withTransitions(
+                        aTransitionCalled("transition1").startingAt("initial").endingAt("simpleState"),
+                        aTransitionCalled("transition2").startingAt("simpleState").endingAt("compositeState").triggeredBy(anEventCalled("event1")),
+                        aTransitionCalled("transition3").startingAt("compositeState").endingAt("final").guardedBy(finalTransitionGuard)
+                    )
+            )
     }
 }

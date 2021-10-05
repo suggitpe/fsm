@@ -1,7 +1,6 @@
 package org.suggs.fsm.behavior
 
 import io.kotest.matchers.shouldBe
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
@@ -24,47 +23,54 @@ class TransitionTest {
 
     private lateinit var testRegion: Region
 
-    @Mock private lateinit var sourceState: State
-    @Mock private lateinit var targetState: State
+    @Mock
+    private lateinit var sourceState: State
+    @Mock
+    private lateinit var targetState: State
     private var event = aBusinessEventCalled("testEvent")
     private var fsmStateManager = StubFsmStateManager()
     private var fsmExecutionContext = FsmExecutionContext(fsmStateManager)
 
-    @BeforeEach fun `initialise region`() {
+    @BeforeEach
+    fun `initialise region`() {
         initMocks(this)
         testRegion = aRegionCalled("region")
-                .withVertices(
-                        aSimpleStateCalled("state1"),
-                        aSimpleStateCalled("state2")
+            .withVertices(
+                aSimpleStateCalled("state1"),
+                aSimpleStateCalled("state2")
+            )
+            .withTransitions(
+                aTransitionCalled("transition").startingAt("state1").endingAt("state2").triggeredBy(
+                    aTriggerCalled("trigger").firedWith(anEventCalled("event"))
                 )
-                .withTransitions(
-                        aTransitionCalled("transition").startingAt("state1").endingAt("state2").triggeredBy(
-                                aTriggerCalled("trigger").firedWith(anEventCalled("event"))
-                        )
-                )
-                .build(aRegionContainerStub())
+            )
+            .build(aRegionContainerStub())
     }
 
-    @Test fun `external transitions fire exit and entry behaviours`() {
+    @Test
+    fun `external transitions fire exit and entry behaviours`() {
         val externalTransition = Transition("T1", EXTERNAL, sourceState, targetState)
         externalTransition.fire(event, fsmExecutionContext)
         verify(sourceState, times(1)).doExitAction(event, fsmExecutionContext)
         verify(targetState, times(1)).doEntryAction(event, fsmExecutionContext)
     }
 
-    @Test fun `internal transitions do not fire exit and entry behaviors`() {
+    @Test
+    fun `internal transitions do not fire exit and entry behaviors`() {
         val internalTransition = Transition("T1", INTERNAL, sourceState, targetState)
         internalTransition.fire(event, fsmExecutionContext)
         verify(sourceState, never()).doExitAction(event, fsmExecutionContext)
         verify(targetState, never()).doEntryAction(event, fsmExecutionContext)
     }
 
-    @Test fun `can tell you if they are fireable for an event`() {
+    @Test
+    fun `can tell you if they are fireable for an event`() {
         val transition = testRegion.findTransitionCalled("transition")
         transition.isFireableFor(aBusinessEventCalled("event")) shouldBe true
     }
 
-    @Test fun `can tell you if they are not firable for an event`() {
+    @Test
+    fun `can tell you if they are not firable for an event`() {
         val transition = testRegion.findTransitionCalled("transition")
         transition.isFireableFor(aBusinessEventCalled("irrelevantEvent")) shouldBe false
     }

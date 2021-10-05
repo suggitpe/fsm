@@ -33,7 +33,7 @@ subprojects{
                 libs.slf4j
 
         testImplementation libs.test.junitApi,
-                libs.test.assertj,
+//                libs.test.assertj,
                 libs.test.kotestAssertions,
                 libs.test.mockito
 

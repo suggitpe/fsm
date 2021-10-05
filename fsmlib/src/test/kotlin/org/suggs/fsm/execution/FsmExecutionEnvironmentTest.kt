@@ -1,6 +1,6 @@
 package org.suggs.fsm.execution
 
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.string.shouldEndWith
 import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
@@ -18,10 +18,11 @@ class FsmExecutionEnvironmentTest {
     private val stateManager: StubFsmStateManager = StubFsmStateManager()
     private val fsmExecutionContext: FsmExecutionContext = FsmExecutionContext(stateManager)
 
-    @Test fun `handles simple events to transition to new state and records transitions`() {
+    @Test
+    fun `handles simple events to transition to new state and records transitions`() {
         val executionEnvironment = createAStateMachineContextWithSimpleStates()
         executionEnvironment.handleEvent(aBusinessEventCalled("realEvent"))
-        assertThat(theResultingState()).endsWith("FINAL")
+        theResultingState() shouldEndWith "FINAL"
 
         stateManager.printAudits()
     }
@@ -31,18 +32,19 @@ class FsmExecutionEnvironmentTest {
 
     companion object {
         fun simpleFsmPrototype() =
-                aStateMachineCalled("context").withRegion(
-                        aRegionCalled("region0")
-                                .withVertices(
-                                        anInitialPseudoState(),
-                                        aSimpleStateCalled("state1"),
-                                        aSimpleStateCalled("state2"),
-                                        aFinalState())
-                                .withTransitions(
-                                        aTransitionCalled("_trigger1").startingAtInitialState().endingAt("state1"),
-                                        aTransitionCalled("_trigger2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("realEvent")),
-                                        aTransitionCalled("_trigger3").startingAt("state2").endingAtFinalState()
-                                )
-                )
+            aStateMachineCalled("context").withRegion(
+                aRegionCalled("region0")
+                    .withVertices(
+                        anInitialPseudoState(),
+                        aSimpleStateCalled("state1"),
+                        aSimpleStateCalled("state2"),
+                        aFinalState()
+                    )
+                    .withTransitions(
+                        aTransitionCalled("_trigger1").startingAtInitialState().endingAt("state1"),
+                        aTransitionCalled("_trigger2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("realEvent")),
+                        aTransitionCalled("_trigger3").startingAt("state2").endingAtFinalState()
+                    )
+            )
     }
 }

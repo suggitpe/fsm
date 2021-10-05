@@ -1,8 +1,8 @@
 package org.suggs.fsm.uml
 
 import org.junit.jupiter.api.Test
-import org.suggs.fsm.behavior.builders.FsmPrototypes.fsmWithEntryAndExitBehaviorsPrototype
-import org.suggs.fsm.behavior.builders.FsmPrototypes.nestedStateStateMachinePrototype
+import org.suggs.fsm.behavior.FsmPrototypes.fsmWithEntryAndExitBehaviorsPrototype
+import org.suggs.fsm.behavior.FsmPrototypes.nestedStateStateMachinePrototype
 import org.suggs.fsm.execution.CompositeStateTransitionTest.Companion.simpleNestedStatemachineProtoType
 import org.suggs.fsm.execution.CompositeStateUsingGuardActionToExit.Companion.nestedStateStateMachineWithGuardExitPrototype
 import org.suggs.fsm.execution.DeferredEventsTest.Companion.fsmWithDeferredAndAutomatedTransitionsPrototype

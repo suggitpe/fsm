@@ -1,6 +1,6 @@
 package org.suggs.fsm.execution
 
-import org.assertj.core.api.Assertions.assertThat
+import io.kotest.matchers.string.shouldEndWith
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.suggs.fsm.behavior.builders.ConstraintBuilder.Companion.aConstraintCalled
@@ -12,7 +12,6 @@ import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aCompositeStateCa
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aFinalState
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.aSimpleStateCalled
 import org.suggs.fsm.behavior.builders.VertexBuilder.Companion.anInitialPseudoState
-import org.suggs.fsm.stubs.BusinessEventStub
 import org.suggs.fsm.stubs.BusinessEventStub.Companion.aBusinessEventCalled
 import org.suggs.fsm.stubs.BusinessObjectReferenceStub.Companion.aBOReferenceForTest
 import org.suggs.fsm.stubs.StubDomainObject
@@ -25,19 +24,22 @@ class CompositeStateUsingGuardActionToExit {
     private lateinit var executionEnvironment: FsmExecutionEnvironment
     private val domainObject = StubDomainObject(false)
 
-    @BeforeEach fun `set up`() {
+    @BeforeEach
+    fun `set up`() {
         executionEnvironment = createANestedStateStateMachineWithGuardExit()
     }
 
-    @Test fun `transitions to internal processing state from initial event`() {
+    @Test
+    fun `transitions to internal processing state from initial event`() {
         executionEnvironment.handleEvent(aBusinessEventCalled("event1"))
 
         stateManager.printAudits()
 
-        assertThat(theResultingState()).endsWith("region1::processing")
+        theResultingState() shouldEndWith "region1::processing"
     }
 
-    @Test fun `remains in processing state when guard condition not met`() {
+    @Test
+    fun `remains in processing state when guard condition not met`() {
         executionEnvironment.handleEvent(aBusinessEventCalled("event1"))
         executionEnvironment.handleEvent(aBusinessEventCalled("process"))
         executionEnvironment.handleEvent(aBusinessEventCalled("process"))
@@ -46,10 +48,11 @@ class CompositeStateUsingGuardActionToExit {
 
         stateManager.printAudits()
 
-        assertThat(theResultingState()).endsWith("region1::processing")
+        theResultingState() shouldEndWith "region1::processing"
     }
 
-    @Test fun `remains in processing state until guard condition is met`() {
+    @Test
+    fun `remains in processing state until guard condition is met`() {
         executionEnvironment.handleEvent(aBusinessEventCalled("event1"))
         executionEnvironment.handleEvent(aBusinessEventCalled("process"))
         executionEnvironment.handleEvent(aBusinessEventCalled("process"))
@@ -58,7 +61,7 @@ class CompositeStateUsingGuardActionToExit {
 
         stateManager.printAudits()
 
-        assertThat(theResultingState()).endsWith("region0::FINAL")
+        theResultingState() shouldEndWith "region0::FINAL"
     }
 
     private fun createANestedStateStateMachineWithGuardExit() = FsmExecutionEnvironment(nestedStateStateMachineWithGuardExitPrototype { domainObject.areYouComplete() }.build(), fsmExecutionContext)
@@ -66,30 +69,30 @@ class CompositeStateUsingGuardActionToExit {
 
     companion object {
         fun nestedStateStateMachineWithGuardExitPrototype(finalTransitionGuard: (BusinessEvent) -> Boolean) =
-                aStateMachineCalled("context").withRegion(
-                        aRegionCalled("region0")
+            aStateMachineCalled("context").withRegion(
+                aRegionCalled("region0")
+                    .withVertices(
+                        anInitialPseudoState(),
+                        aSimpleStateCalled("state1"),
+                        aCompositeStateCalled("state2").withRegion(
+                            aRegionCalled("region1")
                                 .withVertices(
-                                        anInitialPseudoState(),
-                                        aSimpleStateCalled("state1"),
-                                        aCompositeStateCalled("state2").withRegion(
-                                                aRegionCalled("region1")
-                                                        .withVertices(
-                                                                anInitialPseudoState(),
-                                                                aSimpleStateCalled("processing")
-                                                        )
-                                                        .withTransitions(
-                                                                aTransitionCalled("trans1").startingAtInitialState().endingAt("processing"),
-                                                                aTransitionCalled("trans2").startingAt("processing").endingAt("processing").triggeredBy(anEventCalled("process"))
-                                                        )
-                                        ),
-                                        aFinalState()
+                                    anInitialPseudoState(),
+                                    aSimpleStateCalled("processing")
                                 )
                                 .withTransitions(
-                                        aTransitionCalled("trans1").startingAtInitialState().endingAt("state1"),
-                                        aTransitionCalled("trans2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("event1")),
-                                        aTransitionCalled("trans3").startingAt("state2").endingAtFinalState().guardedBy(aConstraintCalled("completed").withGuardCondition(finalTransitionGuard))
+                                    aTransitionCalled("trans1").startingAtInitialState().endingAt("processing"),
+                                    aTransitionCalled("trans2").startingAt("processing").endingAt("processing").triggeredBy(anEventCalled("process"))
                                 )
-                )
+                        ),
+                        aFinalState()
+                    )
+                    .withTransitions(
+                        aTransitionCalled("trans1").startingAtInitialState().endingAt("state1"),
+                        aTransitionCalled("trans2").startingAt("state1").endingAt("state2").triggeredBy(anEventCalled("event1")),
+                        aTransitionCalled("trans3").startingAt("state2").endingAtFinalState().guardedBy(aConstraintCalled("completed").withGuardCondition(finalTransitionGuard))
+                    )
+            )
 
     }
 }

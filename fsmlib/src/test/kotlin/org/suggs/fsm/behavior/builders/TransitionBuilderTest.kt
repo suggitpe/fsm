@@ -3,15 +3,10 @@ package org.suggs.fsm.behavior.builders
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.function.Executable
 import org.slf4j.LoggerFactory.getLogger
-import org.suggs.fsm.behavior.EmptyGuardConstraint
 import org.suggs.fsm.behavior.Event.Companion.COMPLETION_EVENT_NAME
-import org.suggs.fsm.behavior.SimpleGuardConstraint
 import org.suggs.fsm.behavior.Vertex
 import org.suggs.fsm.behavior.builders.BehaviorBuilder.Companion.aBehaviorCalled
 import org.suggs.fsm.behavior.builders.RegionBuilder.Companion.aRegionCalled
