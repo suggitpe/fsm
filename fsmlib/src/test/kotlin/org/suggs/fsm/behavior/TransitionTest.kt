@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.MockitoAnnotations.initMocks
+import org.mockito.MockitoAnnotations.openMocks
 import org.suggs.fsm.behavior.TransitionKind.EXTERNAL
 import org.suggs.fsm.behavior.TransitionKind.INTERNAL
 import org.suggs.fsm.behavior.builders.EventBuilder.Companion.anEventCalled
@@ -25,6 +25,7 @@ class TransitionTest {
 
     @Mock
     private lateinit var sourceState: State
+
     @Mock
     private lateinit var targetState: State
     private var event = aBusinessEventCalled("testEvent")
@@ -33,7 +34,7 @@ class TransitionTest {
 
     @BeforeEach
     fun `initialise region`() {
-        initMocks(this)
+        openMocks(this)
         testRegion = aRegionCalled("region")
             .withVertices(
                 aSimpleStateCalled("state1"),

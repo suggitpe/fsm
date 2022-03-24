@@ -3,7 +3,7 @@ buildscript {
         kotlinVersion = '1.5.21'
     }
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
@@ -23,8 +23,7 @@ subprojects{
     group = 'org.suggs.fsm'
 
     repositories {
-        clear()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
