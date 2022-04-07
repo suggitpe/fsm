@@ -1,6 +1,5 @@
 ext {
-
-    kotlinVersion = '1.6.10'
+    kotlinVersion = '1.6.20'
 
     libs = [
 
@@ -16,5 +15,9 @@ ext {
                     mockito    : 'org.mockito:mockito-core:4.4.0',
                     kotestAssertions: 'io.kotest:kotest-assertions-core:5.2.1'
             ]
+    ]
+
+    gradlePlugins = [
+            kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
     ]
 }
