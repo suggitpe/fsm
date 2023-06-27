@@ -53,16 +53,16 @@ subprojects{
         useJUnitPlatform()
     }
 
-    compileKotlin {
-        kotlinOptions {
-            freeCompilerArgs = ["-Xjsr305=strict"]
-            jvmTarget = "17"
-        }
-    }
-    compileTestKotlin {
-        kotlinOptions {
-            freeCompilerArgs = ["-Xjsr305=strict"]
-            jvmTarget = "17"
-        }
-    }
+//    compileKotlin {
+//        kotlinOptions {
+//            freeCompilerArgs = ["-Xjsr305=strict"]
+//            jvmTarget = "17"
+//        }
+//    }
+//    compileTestKotlin {
+//        kotlinOptions {
+//            freeCompilerArgs = ["-Xjsr305=strict"]
+//            jvmTarget = "17"
+//        }
+//    }
 }
