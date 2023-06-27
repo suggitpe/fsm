@@ -56,13 +56,13 @@ subprojects{
     compileKotlin {
         kotlinOptions {
             freeCompilerArgs = ["-Xjsr305=strict"]
-            jvmTarget = "14"
+            jvmTarget = "17"
         }
     }
     compileTestKotlin {
         kotlinOptions {
             freeCompilerArgs = ["-Xjsr305=strict"]
-            jvmTarget = "14"
+            jvmTarget = "17"
         }
     }
 }
