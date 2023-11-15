@@ -1,0 +1,4 @@
+tasks.jar{
+    archiveBaseName = "fsm-lib"
+    archiveVersion = "0.0.1"
+}
