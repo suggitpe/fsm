@@ -1,1 +1,2 @@
-include "fsmlib"
+rootProject.name="Finite State Machine"
+include(":fsmlib")

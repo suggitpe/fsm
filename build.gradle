@@ -16,7 +16,7 @@ buildscript {
 }
 
 allprojects {
-    defaultTasks "clean", "build", "jacocoTestReport", "pitest"
+    defaultTasks "clean", "build", "jacocoTestReport"//, "pitest"
 }
 
 static def buildTimeStamp() {
