@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 buildscript {
     apply from: "${project.rootDir}/dependencies.gradle"
 
@@ -40,16 +43,24 @@ subprojects{
     }
 
     java {
-        withJavadocJar()
-        withSourcesJar()
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
+    }
 
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+    compileKotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_19
+        }
+    }
 
-        compileJava.options.encoding = 'UTF-8'
+    compileTestKotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_19
+        }
     }
 
     test {
         useJUnitPlatform()
     }
+
 }
