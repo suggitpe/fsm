@@ -1,5 +1,5 @@
 ext {
-    kotlinVersion = '1.9.25'
+    kotlinVersion = '2.1.0'
     libs = [
 
             kotlin       : "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
