@@ -1,5 +1,6 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+import java.text.SimpleDateFormat
 
 buildscript {
     apply from: "${project.rootDir}/dependencies.gradle"
@@ -9,24 +10,34 @@ buildscript {
     }
 
     dependencies {
-        classpath gradlePlugins.kotlin
+        classpath gradlePlugins.kotlin,
+                gradlePlugins.pitest
     }
 }
 
-allprojects{
-    defaultTasks 'clean', 'build', 'jacocoTestReport'
+allprojects {
+    defaultTasks "clean", "build", "jacocoTestReport", "pitest"
 }
 
-subprojects{
+static def buildTimeStamp() {
+    return new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date())
+}
+
+subprojects {
 
     apply from: "${project.rootDir}/dependencies.gradle"
-    apply plugin: 'kotlin'
-    apply plugin: 'jacoco'
+    apply plugin: "kotlin"
+    apply plugin: "jacoco"
+    apply plugin: "info.solidsoft.pitest"
 
-    group = 'org.suggs.fsm'
+    group = "org.suggs.fsm"
 
     repositories {
         mavenCentral()
+    }
+
+    jar {
+        archiveVersion = "${buildTimeStamp()}"
     }
 
     dependencies {
@@ -61,6 +72,30 @@ subprojects{
 
     test {
         useJUnitPlatform()
+
+        finalizedBy jacocoTestReport
+
+        testLogging {
+            afterSuite { desc, result ->
+                if (!desc.parent) {
+                    new File(layout.buildDirectory.get().asFile, "/jacoco/test-results.json").text =
+                            "{\n" +
+                                    "\"result\": \"${result.resultType}\", \n" +
+                                    "\"tests\": \"${result.testCount}\", \n" +
+                                    "\"passed\": \"${result.successfulTestCount}\", \n" +
+                                    "\"failed\": \"${result.failedTestCount}\", \n" +
+                                    "\"skipped\": \"${result.skippedTestCount}\"\n" +
+                                    "}"
+                }
+
+            }
+        }
+    }
+
+    pitest {
+        threads = 4
+        junit5PluginVersion = "1.2.1"
+        failWhenNoMutations = false
     }
 
 }

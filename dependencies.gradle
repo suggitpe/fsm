@@ -1,22 +1,23 @@
 ext {
-    kotlinVersion = '2.1.0'
+    kotlinVersion = "2.1.0"
     libs = [
 
             kotlin       : "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
             kotlinReflect: "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}",
 
-            slf4j        : 'org.slf4j:slf4j-api:2.0.16',
-            logback      : 'ch.qos.logback:logback-classic:1.5.12',
+            slf4j        : "org.slf4j:slf4j-api:2.0.16",
+            logback      : "ch.qos.logback:logback-classic:1.5.12",
 
             test         : [
-                    junitApi   : 'org.junit.jupiter:junit-jupiter-api:5.11.3',
-                    junitEngine: 'org.junit.jupiter:junit-jupiter-engine:5.11.3',
-                    mockito    : 'org.mockito:mockito-core:5.14.2',
-                    kotestAssertions: 'io.kotest:kotest-assertions-core:5.9.1'
+                    junitApi        : "org.junit.jupiter:junit-jupiter-api:5.11.3",
+                    junitEngine     : "org.junit.jupiter:junit-jupiter-engine:5.11.3",
+                    mockito         : "org.mockito:mockito-core:5.14.2",
+                    kotestAssertions: "io.kotest:kotest-assertions-core:5.9.1"
             ]
     ]
 
     gradlePlugins = [
-            kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
+            kotlin: "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}",
+            pitest: "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0"
     ]
 }

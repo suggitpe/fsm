@@ -1,4 +1,3 @@
 jar{
-    archiveBaseName = 'fsm-lib'
-    archiveVersion = '0.0.1'
+    archiveBaseName = "fsm-lib"
 }
